@@ -1,0 +1,7 @@
+0.5.3
+	added Lyapunov exponents helper functions
+0.5.2
+	added and documented implementation of bifurcation plot
+0.5.1
+	cleaned trajectories manipulation code
+0.5.0: first public release
