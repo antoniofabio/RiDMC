@@ -1,4 +1,5 @@
 0.5.3
+	added relevant example in bifurcation man page
 	added Lyapunov exponents helper functions
 0.5.2
 	added and documented implementation of bifurcation plot
