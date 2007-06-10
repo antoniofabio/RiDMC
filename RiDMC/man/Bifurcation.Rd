@@ -36,9 +36,12 @@ Antonio, Fabio Di Narzo
 }
 \examples{
 m <- Model(exModelFile('logistic'))
-bf <- Bifurcation(m, par=1, var=0.5, par.min=1.001, par.max=3.99)
+bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
 plot(bf, cex=0.5)
 
-le <- LyapunovExponents(m, par=1, var=0.5, par.min=3.0, par.max=3.5, time=100)
-#plot(le)
+par(mfrow=c(2,1))
+le <- LyapunovExponents(m, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
+plot(le)
+abline(h=0, col="gray")
+plot(bf, cex=0.15)
 }
