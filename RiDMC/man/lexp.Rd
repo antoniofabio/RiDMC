@@ -11,7 +11,7 @@ Lyapunov exponents for continuous and discrete-time dynamical systems
 lexp_ode(idmc_c_model, par, var, time, eps)
 lexp(idmc_d_model, par, var, time)
 LyapunovExponents(idmc_model, par, var, time, eps,
-	which.par.variate=1, par.min, par.max, par.howMany=100)
+	which.par.vary=1, par.min, par.max, par.howMany=100)
 \method{as.matrix}{lexp_diagram}(x, ...)
 \method{plot}{lexp_diagram}(x,y, type='l', col, lty, main, xlab, ylab, ylim, ...)
 }
@@ -23,7 +23,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
 \item{var}{model variables values}
 \item{time}{time span}
 \item{eps}{integration step}
-\item{which.par.variate}{which parameter is to be variated}
+\item{which.par.vary}{which parameter is to be varied}
 \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
  \item{x}{a \code{lexp_diagram} object}
  \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }

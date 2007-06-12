@@ -1,19 +1,19 @@
 
 Bifurcation <- function(idmc_model, which.var.store=1, par, var, 
-	which.par.variate=1, par.min, par.max, par.howMany=100, 
+	which.par.vary=1, par.min, par.max, par.howMany=100, 
 	transient=100, max.period=50) {
 	checkModelParVar(idmc_model, par, var)
 	m <- idmc_model
 	par.values <- seq(par.min, par.max, length=par.howMany)
 	values <- .Call('ridmc_bifurcation', m$model, 
 		as.integer(which.var.store-1),
-		as.double(par), as.double(var), as.integer(which.par.variate-1), 
+		as.double(par), as.double(var), as.integer(which.par.vary-1), 
 		as.double(par.values), as.integer(transient), 
 		as.integer(max.period), PACKAGE='RiDMC')
 	ans <- list()
 	ans$values <- values
 	ans$par.values <- par.values
-	ans$which.par <- getModelParNames(m)[which.par.variate]
+	ans$which.par <- getModelParNames(m)[which.par.vary]
 	ans$which.var <- getModelVarNames(m)[which.var.store]
 	ans$max.period <- max.period
 	class(ans) <- 'idmc_bifurcation'

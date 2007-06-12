@@ -16,7 +16,7 @@ lexp <- function(idmc_d_model, par, var, time) {
 }
 
 LyapunovExponents <- function(idmc_model, par, var, time, eps,
-	which.par.variate=1, par.min, par.max, par.howMany=100) {
+	which.par.vary=1, par.min, par.max, par.howMany=100) {
 	checkModelParVar(idmc_model, par, var)
 	checkPositiveScalar(time)
 	modelType <- getModelType(idmc_model)
@@ -29,14 +29,14 @@ LyapunovExponents <- function(idmc_model, par, var, time, eps,
 	val <- matrix(,np,nv)
 	if(modelType=='D') {
 		for(i in seq_along(parValues)) {
-			par[which.par.variate] <- parValues[i]
+			par[which.par.vary] <- parValues[i]
 			val[i,] <- .Call("ridmc_lexp", m$model, 
 				as.double(par), as.double(var), 
 				as.integer(time), PACKAGE='RiDMC')
 		}
 	} else if(modelType=='C'){
 		for(i in seq_along(parValues)) {
-			par[which.par.variate] <- parValues[i]
+			par[which.par.vary] <- parValues[i]
 			val[i,] <- .Call("ridmc_lexp_ode", 
 				m$model, as.double(par), as.double(var), 
 				as.double(time), as.double(eps), PACKAGE='RiDMC')
@@ -46,7 +46,7 @@ LyapunovExponents <- function(idmc_model, par, var, time, eps,
 	ans <- list()
 	ans$values <- val
 	ans$par.values <- parValues
-	ans$which.par <- getModelParNames(m)[which.par.variate]
+	ans$which.par <- getModelParNames(m)[which.par.vary]
 	class(ans) <- 'lexp_diagram'
 	return(ans)	
 }

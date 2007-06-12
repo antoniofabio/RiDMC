@@ -6,7 +6,7 @@ Bifurcation plot
 }
 \usage{
 Bifurcation(idmc_model, which.var.store=1, par, var, 
-	which.par.variate=1, par.min, par.max, par.howMany=100, 
+	which.par.vary=1, par.min, par.max, par.howMany=100, 
 	transient=100, max.period=50)
 \method{plot}{idmc_bifurcation}(x,y, type='p', pch=16, main, xlab, ylab, ...)
 }
@@ -15,7 +15,7 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{which.var.store}{which variable is to be stored?}
  \item{par}{a valid set of *all* model parameter values}
  \item{var}{starting values}
- \item{which.par.variate}{which parameter is to be variated?}
+ \item{which.par.vary}{which parameter is to be varied?}
  \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
  \item{transient}{transient length}
  \item{max.period}{max period for a cycle}
