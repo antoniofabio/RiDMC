@@ -15,7 +15,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date: 2007-04-04 14:19:45 +0200 (mer, 04 apr 2007) $
+Last modified: $Date$
 */
 #include <math.h>
 #include <stdlib.h>
@@ -25,29 +25,6 @@ Last modified: $Date: 2007-04-04 14:19:45 +0200 (mer, 04 apr 2007) $
 #include "raster.h"
 #include "model.h"
 #include "basin.h"
-
-#define getCurrPoint(p, point) \
-	do { \
-		while ( (p->currId < p->dataLength ) \
-			&& ( (RASTER(p)->data[p->currId]) ) ) \
-				p->currId++; \
-		(point)[0] = idmc_raster_I2x(RASTER(p), p->currId); \
-		(point)[1] = idmc_raster_I2y(RASTER(p), p->currId); \
-	} while(0) 
-
-#define setValue(p, point, value) \
-		idmc_raster_setxy(RASTER(p), point[0], point[1], value)
-
-#define getValue(p, point) \
-		idmc_raster_getxy(RASTER(p), point[0], point[1])
-
-#define isPointInsideBounds(p, point) \
-	idmc_raster_isxyInsideBounds(RASTER(p), point[0], point[1])
-
-#define isPointInfinite(point) \
-	((point)[0]==INFINITY || (point)[1]==INFINITY)
-
-#define isOdd(value) ( (value) == ( ((value)/2) * 2 ) )
 
 int idmc_basin_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
@@ -125,14 +102,12 @@ void idmc_basin_free(idmc_basin* p) {
 	free(p);
 }
 
-static void fillTrack(idmc_basin* p, double *startPoint, int iterations, int value);
+static void fillBasinTrack(idmc_basin* p, double *startPoint, int iterations, int value);
 
 /*
 Iterates one cell in the basin grid. Algorithm due to Daniele Pizzoni, 
 translated from the iDMC (1.9.4 and following versions) java software
 */
-/*Stopping condition:*/
-#define basin_finished(p) ((p)->currId >= ((p)->dataLength))
 /*some utility definitions:*/
 #define attractorLimit (p->attractorLimit)
 #define attractorIterations (p->attractorIterations)
@@ -158,12 +133,12 @@ int idmc_basin_step(idmc_basin* p) {
 		idmc_model_f(MODEL(p), p->parameters, currentPoint, currentPoint);
 		i++;
 		if (isPointInfinite(currentPoint)) {
-			fillTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+			fillBasinTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 			break;
 		}
 		if (!isPointInsideBounds(p, currentPoint)) {
 			if (i >= attractorLimit) {
-				fillTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+				fillBasinTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 				break;
 			}
 			else
@@ -179,7 +154,7 @@ int idmc_basin_step(idmc_basin* p) {
 		}
 		/* infinity */
 		if (state == IDMC_BASIN_INFINITY) {
-			fillTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
+			fillBasinTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
 			break;
 		}
 
@@ -224,7 +199,7 @@ int idmc_basin_step(idmc_basin* p) {
 		if (!isOdd(state) && 
 			( state != p->basinColor ) && 
 			( state != IDMC_BASIN_INFINITY ) ) {
-				fillTrack(p, startPoint, i - 1, state);
+				fillBasinTrack(p, startPoint, i - 1, state);
 			break;
 		}
 		
@@ -232,7 +207,7 @@ int idmc_basin_step(idmc_basin* p) {
 		if (isOdd(state) && 
 			(state != p->attractorColor) && 
 			(state != IDMC_BASIN_INFINITY) ) {
-				fillTrack(p, startPoint, i - 1, state+1);
+				fillBasinTrack(p, startPoint, i - 1, state+1);
 			break;
 		}
 
@@ -251,7 +226,7 @@ int idmc_basin_step(idmc_basin* p) {
 #undef color
 
 
-static void fillTrack(idmc_basin* p, double *startPoint, int iterations, int value) {
+static void fillBasinTrack(idmc_basin* p, double *startPoint, int iterations, int value) {
 	memcpy(p->work, startPoint, 2 * sizeof(double));
 	setValue(p, p->work, value);
 	for(int i=0; i<iterations; i++) {
