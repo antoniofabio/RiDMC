@@ -13,7 +13,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date: 2007-04-11 13:54:00 +0200 (mer, 11 apr 2007) $
+Last modified: $Date$
 */
 #ifndef __RASTER_H__
 #define __RASTER_H__
@@ -39,6 +39,9 @@ So, for example, 'x2X' is a macro for translating a real x coordinate to an inte
 #define idmc_raster_I2X(p, I) ( (I) - ((p)->yres - idmc_raster_I2Y(p, I) -1)*(p)->xres )
 #define idmc_raster_I2y(p, I) ( ( idmc_raster_I2Y(p, I) + 0.5 ) * (p)->yeps + (p)->ymin )
 #define idmc_raster_I2x(p, I) ( ( idmc_raster_I2X(p, I) + 0.5 ) * (p)->xeps + (p)->xmin )
+
+#define idmc_raster_XY2x(p, X, Y) idmc_raster_I2x(p, idmc_raster_XY2I(p, X, Y))
+#define idmc_raster_XY2y(p, X, Y) idmc_raster_I2y(p, idmc_raster_XY2I(p, X, Y))
 
 typedef struct {
 	void *g_data; /*currently unused*/
