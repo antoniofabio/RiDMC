@@ -1,5 +1,5 @@
 BasinSlow <- function(model, parms, xlim, xres=100, ylim, 
-	yres=100, attractorLimit, attractorIterations, ntries) {
+	yres=100, attractorLimit, attractorIterations, ntries, seed) {
 	checkModelParVar(model, parms)
 	checkPositiveScalar(xres)
 	checkPositiveScalar(yres)
@@ -23,6 +23,8 @@ BasinSlow <- function(model, parms, xlim, xres=100, ylim,
 		as.double(ylim[1]), as.double(ylim[2]), as.integer(yres),
 		as.integer(attractorLimit), as.integer(attractorIterations), 
 		as.integer(ntries), PACKAGE='RiDMC')
+	if(!missing(seed))
+		.Call("ridmc_basin_slow_setGslRngSeed", basin, as.integer(seed))
 	while(.Call("ridmc_basin_slow_finished", basin, PACKAGE='RiDMC')==0)
 		.Call("ridmc_basin_slow_step", basin, PACKAGE='RiDMC')
 	ans$data <- .Call("ridmc_basin_slow_getData", basin, PACKAGE='RiDMC')

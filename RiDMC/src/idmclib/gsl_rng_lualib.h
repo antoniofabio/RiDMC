@@ -14,7 +14,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date: 2007-04-11 13:54:00 +0200 (mer, 11 apr 2007) $
+Last modified: $Date$
 */
 #ifndef __gsl_rng_lualib__
 #define __gsl_rng_lualib__

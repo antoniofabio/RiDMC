@@ -14,7 +14,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date: 2007-04-13 14:56:09 +0200 (ven, 13 apr 2007) $
+Last modified: $Date$
 */
 #ifndef LEXP_H
 #define LEXP_H

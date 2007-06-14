@@ -63,6 +63,12 @@ SEXP ridmc_basin_slow_finished(SEXP p) {
 	return ans;
 }
 
+SEXP ridmc_basin_slow_setGslRngSeed(SEXP b, SEXP seed) {
+	idmc_model_setGslRngSeed(((idmc_basin_slow*)R_ExternalPtrAddr(b))->model, 
+		INTEGER(seed)[0]);
+	return R_NilValue;
+}
+
 SEXP ridmc_basin_slow_getData(SEXP p) {
 	SEXP ans;
 	idmc_basin_slow *bp = (idmc_basin_slow*) R_ExternalPtrAddr(p);

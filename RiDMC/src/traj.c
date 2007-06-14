@@ -14,7 +14,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date: 2007-04-04 14:19:45 +0200 (mer, 04 apr 2007) $
+Last modified: $Date$
 */
 #include <stdlib.h>
 #include <gsl/gsl_errno.h>
