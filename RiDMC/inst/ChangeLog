@@ -1,3 +1,6 @@
+0.6.0
+	added slow basins algorithm option to Basin function
+	upgraded to idmclib-0.6.0
 0.5.3
 	added relevant example in bifurcation man page
 	added Lyapunov exponents helper functions
