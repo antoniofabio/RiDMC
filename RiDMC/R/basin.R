@@ -39,7 +39,8 @@ Basin <- function(model, parms, xlim, xres=100, ylim,
 			as.integer(attractorLimit), as.integer(attractorIterations), 
 			as.integer(ntries), PACKAGE='RiDMC')
 		if(!missing(seed))
-			.Call("ridmc_basin_slow_setGslRngSeed", basin, as.integer(seed))
+			.Call("ridmc_basin_slow_setGslRngSeed", basin, 
+				as.integer(seed), PACKAGE='RiDMC')
 		while(.Call("ridmc_basin_slow_finished", basin, PACKAGE='RiDMC')==0)
 			.Call("ridmc_basin_slow_step", basin, PACKAGE='RiDMC')
 		ans$data <- .Call("ridmc_basin_slow_getData", basin, PACKAGE='RiDMC')
