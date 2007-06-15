@@ -1,14 +1,15 @@
 Basin <- function(model, parms, xlim, xres=100, ylim, 
-	yres=100, attractorLimit, attractorIterations) {
+	yres=100, attractorLimit, attractorIterations, 
+	method=c("fast", "slow"), ntries, seed) {
 	checkModelParVar(model, parms)
 	checkPositiveScalar(xres)
 	checkPositiveScalar(yres)
 	checkPositiveScalar(attractorLimit)
 	checkPositiveScalar(attractorIterations)
-	if(getModelType(model)!="D")
-		stop("'model' should be a discrete model")
+	checkModelDiscrete(model)
 	if(length(getModelVarNames(model))!=2)
 		stop("'model' should have exactly 2 variables")
+	method <- match.arg(method)
 	ans <- list()
 	ans$model <- model
 	ans$xlim <- xlim
@@ -17,14 +18,32 @@ Basin <- function(model, parms, xlim, xres=100, ylim,
 	ans$yres <- yres
 	ans$attractorLimit <- attractorLimit
 	ans$attractorIterations <- attractorIterations
-	basin <- .Call("ridmc_basin_alloc", model$model, as.double(parms),
-		as.double(xlim[1]), as.double(xlim[2]), as.integer(xres),
-		as.double(ylim[1]), as.double(ylim[2]), as.integer(yres),
-		as.integer(attractorLimit), as.integer(attractorIterations) , 
-		PACKAGE='RiDMC')
-	while(.Call("ridmc_basin_finished", basin, PACKAGE='RiDMC')==0)
-		.Call("ridmc_basin_step", basin, PACKAGE='RiDMC')
-	ans$data <- .Call("ridmc_basin_getData", basin, PACKAGE='RiDMC')
+	ans$method <- method
+	if(method=="fast") {
+		basin <- .Call("ridmc_basin_alloc", model$model, as.double(parms),
+			as.double(xlim[1]), as.double(xlim[2]), as.integer(xres),
+			as.double(ylim[1]), as.double(ylim[2]), as.integer(yres),
+			as.integer(attractorLimit), as.integer(attractorIterations) , 
+			PACKAGE='RiDMC')
+		while(.Call("ridmc_basin_finished", basin, PACKAGE='RiDMC')==0)
+			.Call("ridmc_basin_step", basin, PACKAGE='RiDMC')
+		ans$data <- .Call("ridmc_basin_getData", basin, PACKAGE='RiDMC')
+	} else {
+		if(missing(ntries))
+			stop("'ntries' is mandatory with 'slow' method")
+		checkPositiveScalar(ntries)
+		ans$ntries <- as.integer(ntries)
+		basin <- .Call("ridmc_basin_slow_alloc", model$model, as.double(parms),
+			as.double(xlim[1]), as.double(xlim[2]), as.integer(xres),
+			as.double(ylim[1]), as.double(ylim[2]), as.integer(yres),
+			as.integer(attractorLimit), as.integer(attractorIterations), 
+			as.integer(ntries), PACKAGE='RiDMC')
+		if(!missing(seed))
+			.Call("ridmc_basin_slow_setGslRngSeed", basin, as.integer(seed))
+		while(.Call("ridmc_basin_slow_finished", basin, PACKAGE='RiDMC')==0)
+			.Call("ridmc_basin_slow_step", basin, PACKAGE='RiDMC')
+		ans$data <- .Call("ridmc_basin_slow_getData", basin, PACKAGE='RiDMC')
+	}
 	class(ans) <- "idmc_basin"
 	return(ans)
 }
