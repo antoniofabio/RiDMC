@@ -64,18 +64,45 @@ print.idmc_basin <- function(x, ...){
 	cat('attractor iterations: ', x$attractorIterations, '\n')
 }
 
-plot.idmc_basin <- function(x, y, palette=rainbow, xlab, ylab, ...) {
+plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
+	color.infinity, main, xlab, ylab, ...) {
 	mat <- getBasinData(x)
-	nl <- length(unique(as.vector(mat)))
+	vals <- unique(as.vector(mat))
+	vals <- vals[vals>1]
+	attrCodes <- vals[(vals %% 2)==0]
+	mat1 <- matrix(1, NROW(mat), NCOL(mat))
+	for(i in seq_along(attrCodes)) {
+		mat1[mat==attrCodes[i]] <- (i-1)*2 + 2
+		mat1[mat==(attrCodes[i]+1)] <- (i-1)*2 + 3
+	}
+	nl <- length(vals)
+	na <- nl/2 ##number of attractors
 	nc <- NCOL(mat)
 	mdl <- getBasinModel(x)
+	default.palette <- rainbow(na*2)
+	if(missing(color.attractors))
+		color.attractors <- default.palette[seq(1, by=2, length=na)]
+	if(missing(color.basins))
+		color.basins <- default.palette[seq(2, by=2, length=na)]
+	if(missing(color.infinity))
+		color.infinity <- 'black'
+	if(length(color.attractors)<na)
+		color.attractors <- c(color.attractors, default.palette[seq(1, by=2, length=na)])
+	if(length(color.basins)<na)
+		color.attractors <- c(color.attractors, default.palette[seq(2, by=2, length=na)])
+	if(missing(main))
+		main <- getModelName(mdl)
 	if(missing(xlab))
 		xlab <- getModelVarNames(mdl)[1]
 	if(missing(ylab))
 		ylab <- getModelVarNames(mdl)[2]
+	col <- numeric(2*na+1)
+	col[1] <- color.infinity
+	col[1+seq(1, by=2, length=na)] <- color.attractors
+	col[1+seq(2, by=2, length=na)] <- color.basins
 	image(x=seq(x$xlim[1], x$xlim[2], length=x$xres),
 		y=seq(x$ylim[1], x$ylim[2], length=x$yres),
-		z=mat[,nc:1], 
-		breaks=c(1:(nl+1)-0.5) , col=palette(nl), 
-		xlab=xlab, ylab=ylab, ... )
+		z=mat1[,nc:1], 
+		breaks=c( 0:(na*2+1) + 0.5 ) , col=col, 
+		main=main, xlab=xlab, ylab=ylab, ... )
 }
