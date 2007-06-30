@@ -76,7 +76,7 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
 		mat1[mat==(attrCodes[i]+1)] <- (i-1)*2 + 3
 	}
 	nl <- length(vals)
-	na <- nl/2 ##number of attractors
+	na <- length(attrCodes) ##number of attractors
 	nc <- NCOL(mat)
 	mdl <- getBasinModel(x)
 	default.palette <- rainbow(na*2)
