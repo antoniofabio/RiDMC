@@ -1,3 +1,7 @@
+0.6.1
+	added options to basins of attraction plot method
+	upgraded to idmclib-0.6.1 (contains bug fixes)
+
 0.6.0
 	added slow basins algorithm option to Basin function
 	upgraded to idmclib-0.6.0
