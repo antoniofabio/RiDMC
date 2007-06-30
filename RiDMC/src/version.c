@@ -16,6 +16,7 @@ General Public License for more details.
 
 Last modified: $Date$
 */
+#include "version.h"
 
 int idmc_version_major() {
 	return IDMC_VERSION_MAJOR;

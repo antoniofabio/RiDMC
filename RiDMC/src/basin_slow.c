@@ -202,12 +202,11 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 
 static void fillBasinSlowTrack(idmc_basin_slow* p, double *startPoint, int iterations, int value) {
 	memcpy(p->work, startPoint, 2 * sizeof(double));
-	setValue(p, p->work, value);
 	for(int i=0; i<iterations; i++) {
-		idmc_model_f(MODEL(p), p->parameters, p->work, p->work);
 		if(!isPointInsideBounds(p, p->work))
 			continue;
 		setValue(p, p->work, value);
+		idmc_model_f(MODEL(p), p->parameters, p->work, p->work);
 	}
 }
 
@@ -233,9 +232,7 @@ int idmc_basin_slow_step(idmc_basin_slow* p) {
 	getCurrPoint(p, startPoint); /*get start point coordinates*/
 	memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
 	
-	for (i = 0; i<attractorLimit+attractorIterations; i++) {
-		STEP(currentPoint);
-		i++;
+	for (i = 1; i<attractorLimit+attractorIterations; i++) {
 		if (isPointInfinite(currentPoint)) {
 			fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 			break;
@@ -256,9 +253,10 @@ int idmc_basin_slow_step(idmc_basin_slow* p) {
 			fillBasinSlowTrack(p, startPoint, i - 1, state+1);
 			break;
 		}
+		STEP(currentPoint);
 	}
 	if(i==(attractorLimit+attractorIterations))
-		fillBasinSlowTrack(p, startPoint, i-1, IDMC_BASIN_INFINITY);
+		fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
 	return IDMC_OK;
 }
 #undef attractorLimit
