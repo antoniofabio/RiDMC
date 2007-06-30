@@ -98,8 +98,8 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
 		ylab <- getModelVarNames(mdl)[2]
 	col <- numeric(2*na+1)
 	col[1] <- color.infinity
-	col[1+seq(1, by=2, length=na)] <- color.attractors
-	col[1+seq(2, by=2, length=na)] <- color.basins
+	col[1+seq(1, by=2, length=na)] <- color.attractors[seq_len(na)]
+	col[1+seq(2, by=2, length=na)] <- color.basins[seq_len(na)]
 	image(x=seq(x$xlim[1], x$xlim[2], length=x$xres),
 		y=seq(x$ylim[1], x$ylim[2], length=x$yres),
 		z=mat1[,nc:1], 
