@@ -1,4 +1,4 @@
-AC_INIT([RiDMC], 0.5.0)
+AC_INIT([RiDMC], 0.6.1)
 
 AC_CHECK_LIB(m, main)
 AC_CHECK_LIB(gslcblas, main,, [AC_MSG_ERROR([Cannot find gslcblas library])] )
