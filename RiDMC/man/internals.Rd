@@ -1,5 +1,8 @@
 \name{internals}
 \alias{RiDMC-internals}
+\alias{buildModel}
+\alias{checkModelDiscrete}
+\alias{checkModelContinuous}
 \alias{checkModelParVar}
 \alias{checkPositiveScalar}
 \alias{getModelType}
@@ -14,9 +17,7 @@
 \alias{getBasinData}
 \alias{getTrajectoryModel}
 \alias{getTrajectoryValues}
-\alias{buildModel}
-\alias{checkModelDiscrete}
-\alias{checkModelContinuous}
+\alias{idmclibVersion}
 \title{
 RiDMC internal functions
 }
