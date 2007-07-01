@@ -1,3 +1,8 @@
+0.6.2
+	misc additions to man pages
+	improved exModelFile
+	added idmclib version number printing at startup
+
 0.6.1
 	added options to basins of attraction plot method
 	upgraded to idmclib-0.6.1 (contains bug fixes)
