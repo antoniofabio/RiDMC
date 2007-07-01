@@ -34,9 +34,10 @@ LyapunovExponents(idmc_model, par, var, time, eps,
 \description{
 Lyapunov exponents for continuous and discrete-time dynamical systems
 }
-}
 \details{
-TODO
+Computes numerically Lyapunov exponents for continuous and discrete-time dynamical systems.
+
+When not supplied, map jacobian is numerically approximated.
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -53,4 +54,3 @@ ly <- LyapunovExponents(model, c(10, 28, 2.667), c(1.0, 2.0, 1.0),
 	200.0, 0.05, which.par=2, par.min=27, par.max=29)
 plot(ly)
 }
-
