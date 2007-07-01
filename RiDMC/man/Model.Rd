@@ -20,14 +20,16 @@ Model(filename=NULL, text = readLines(filename))
 Loads a new model from its LUA description
 }
 \value{
-An \code{idmc_model} object.
+An \code{idmc_model} object, which can be printed, summarized and used as argument
+in some other package functions.
 }
 \author{
 Antonio, Fabio Di Narzo
 }
 \keyword{ misc }
 \seealso{
-\code{\link{exModelFile}}
+\code{\link{exModelFile}}, \code{\link{Basin}}, \code{\link{Bifurcation}}, \code{\link{cycles}}, 
+\code{\link{Trajectory}}, \code{\link{LyapunovExponents}}
 }
 \examples{
 model <- Model(exModelFile('logistic'))
