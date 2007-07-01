@@ -19,9 +19,11 @@ Antonio, Fabio Di Narzo
 }
 \keyword{ misc }
 \seealso{
+\code{\link{Model}}
 }
 \examples{
 exModelFile()
 exModelFile('logistic')
+exModelFile('Primer/vanderpol')
 }
 
