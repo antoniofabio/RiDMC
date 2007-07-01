@@ -5,6 +5,16 @@ cycles_find <- function(idmc_model, par, var, period, eps, max.iter=100) {
 	period <- as.integer(period)
 	if(period<1)
 		stop('\'period\' should be an integer >=1')
-	.Call("ridmc_cycles_find", idmc_model$model, as.double(par), as.double(var), 
+	ans <- .Call("ridmc_cycles_find", idmc_model$model, as.double(par), as.double(var), 
 		period, as.double(eps), as.integer(max.iter), PACKAGE='RiDMC')
+	##verify that is a real solution:
+	value <- ans$result
+	for(i in seq_len(period))
+		value <- idmc_model$f(par, value)
+	##if not, clean out results:
+	if(max(abs(value-ans$result))>eps) {
+		ans$result <- NULL
+		ans$eigvals <- NULL
+	}
+	return(ans)
 }

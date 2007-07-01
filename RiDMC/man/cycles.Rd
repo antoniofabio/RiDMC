@@ -16,11 +16,18 @@ cycles_find(idmc_model, par, var, period, eps, max.iter=100)
 \item{max.iter}{max number of iterations}
 }
 \description{
-Find periodic cycles
-}
+Find periodic cycles by Newton method
 }
 \details{
-TODO
+Find periodic cycles by Newton method.
+
+Convergence criterion is \code{eps} with max-norm.
+}
+\value{
+	A list with components:
+	\item{result}{one sample point for the (eventually found) cycle, \code{NULL} otherwise}
+	\item{eigvals}{modulus of jacobian eigenvalues associated with the (eventually) found cycle,
+		\code{NULL} otherwise}
 }
 \author{
 Antonio, Fabio Di Narzo
