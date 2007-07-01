@@ -35,7 +35,23 @@ Basin(model, parms, xlim, xres=100, ylim, yres=100,
 Computes basins of attraction for a 2-dim. discrete dynamical system
 }
 \details{
-TODO
+Computes basins of attraction for a 2-dim. discrete dynamical system.
+
+The specified rectangular domain is partitioned in a regular grid of
+\code{xres} by \code{yres} cells.
+Each cell is then coloured by iterating the model starting from that position
+and observing on which attractor the trajectory falls.
+
+In the fast algorithm, attractors are identified 'on the fly'.
+
+In the slow algorithm, there is a preliminary search of map attractors by iterating from \code{ntries} random starting positions in the grid. In some cases, this gives
+more accurate results.
+
+Note: with the slow algorithm, use the \code{seed} argument to get reproducible results.
+}
+\value{
+\code{Basin} returns a \code{idmc_basin} object, which can be subsequently plotted
+by calling \code{plot(\dots)} on it.
 }
 \author{
 Antonio, Fabio Di Narzo
