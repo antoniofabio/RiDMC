@@ -18,6 +18,8 @@
 \alias{getTrajectoryModel}
 \alias{getTrajectoryValues}
 \alias{idmclibVersion}
+\alias{print.idmc_ctrajectory}
+\alias{print.idmc_dtrajectory}
 \title{
 RiDMC internal functions
 }
