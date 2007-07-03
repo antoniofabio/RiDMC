@@ -24,7 +24,6 @@ setTrajectorySeed(idmc_trajectory, seed)
  \item{seed}{RNG seed}
  \item{eps}{integration step}
  \item{integrator}{an integer code between 0 and 8 indicating what integrator to use (see details)}
- \item{idmc_ctrajectory}{an already created \code{idmc_ctrajectory} object}
  \item{idmc_trajectory}{an already created \code{idmc_trajectory} object}
  \item{x}{an \code{idmc_trajectory} object}
  \item{vars}{variables to be plotted}
@@ -39,14 +38,15 @@ parameters (\code{par}) and starting values (\code{var}).
 \details{
 Computes continuous and discrete trajectories from given model (\code{idmc_model}),
 parameters (\code{par}) and starting values (\code{var}).
+Only these 3 arguments are mandatory in \code{Trajectory}.
 
-With \code{stepTrajectory} you can enlarge an already-existing trajectory.
+With \code{stepTrajectory} you can extend an already computed trajectory.
 
 The trajectory object can be directly plotted with the standard \code{plot} function,
 converted to a vertical numerical matrix, or converted to a regular time series object.
 
 If the \code{idmc_model} object has continuous time (ODE), you can specify the last 2 arguments:
-integration the step \code{eps} and the ODE numerical integrator. The following integrators are available:
+the integration step \code{eps} and the ODE numerical integrator. The following integrators are available:
 
 \tabular{rl}{
 0 \tab embedded Runge-Kutta (2, 3) method \cr
