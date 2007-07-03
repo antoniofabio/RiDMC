@@ -1,8 +1,11 @@
 0.7-0
+	added interactive file prompt to Model, typo fix to exModelFile man page
+        cleaned cycles function possible return values
 	misc fixes to man pages
 	added ODE solvers details in Trajectory man page
 	removed broken option among ODE solvers
-	unified discrete/continuous Trajectory functions
+	unified and cleaned lyap. exp. interface, added print method
+	unified and cleaned discrete/continuous Trajectory functions
 0.6-2
 	misc additions to man pages
 	improved exModelFile
