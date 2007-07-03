@@ -1,6 +1,14 @@
 
 Model <- function(filename=NULL, text = readLines(filename)) {
 	ans <- list()
+	if(missing(filename) && missing(text)) {
+		if((!interactive()) || (!require('tcltk')))
+			stop('you must supply model filename or model text')
+		modDir <- system.file('models', package='RiDMC')
+		filename <- tclvalue(tkgetOpenFile(initialdir=modDir))
+		if(filename=='')
+			stop('you must supply model filename or model text')
+	}
 	text1 <- paste(text, collapse="\n")
 	pointer <- .Call("ridmc_model_alloc", text1, PACKAGE='RiDMC')
 	ans <- buildModel(pointer, text)

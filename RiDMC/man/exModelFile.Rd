@@ -7,7 +7,7 @@ Example model file
 exModelFile(modelName)
 }
 \arguments{
-\item{modelName}{Model name (without '.lua' extension}
+\item{modelName}{Model name (without '.lua' extension)}
 }
 \description{
 Gives full path to an example lua model file.
@@ -26,4 +26,3 @@ exModelFile()
 exModelFile('logistic')
 exModelFile('Primer/vanderpol')
 }
-
