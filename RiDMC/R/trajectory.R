@@ -1,5 +1,5 @@
-Trajectory <- function(idmc_model, par, var, eps, 
-	integrator=0, time=1, transient=0, seed) {
+Trajectory <- function(idmc_model, par, var, time=1, transient=0, 
+	seed, eps, integrator=2) {
 	m <- idmc_model
 	checkModelParVar(m, par, var)
 	ans <- list()
@@ -10,8 +10,8 @@ Trajectory <- function(idmc_model, par, var, eps,
 	ans$model <- m
 	if(getModelType(m)=='C') { ##Continuous model
 		integrator <- as.integer(integrator)
-		if((integrator<0)||(integrator>9)) 
-			stop('\'integrator\' should be an integer code between 0 and 9')
+		if((integrator<0)||(integrator>8)) 
+			stop('\'integrator\' should be an integer code between 0 and 8')
 		if(missing(eps)) {
 			eps <- getOption("ts.eps")
 			message('using eps = ', eps)

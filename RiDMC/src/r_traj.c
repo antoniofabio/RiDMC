@@ -39,9 +39,8 @@ SEXP ridmc_ctrajectory_alloc(SEXP m, SEXP pars, SEXP vars, SEXP step_size, SEXP 
 	step_funs[4] = gsl_odeiv_step_rk8pd;
 	step_funs[5] = gsl_odeiv_step_rk2imp;
 	step_funs[6] = gsl_odeiv_step_rk4imp;
-	step_funs[7] = gsl_odeiv_step_bsimp;
-	step_funs[8] = gsl_odeiv_step_gear1;
-	step_funs[9] = gsl_odeiv_step_gear2;
+	step_funs[7] = gsl_odeiv_step_gear1;
+	step_funs[8] = gsl_odeiv_step_gear2;
 	int istep_fun = INTEGER(step_function_code)[0];
 	int ians = idmc_traj_ctrajectory_alloc(
 		R_ExternalPtrAddr(m), 

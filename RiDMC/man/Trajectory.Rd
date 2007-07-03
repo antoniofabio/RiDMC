@@ -9,7 +9,7 @@
 Model trajectories
 }
 \usage{
-Trajectory(idmc_model, par, var, eps, integrator=0, time=1, transient=0, seed)
+Trajectory(idmc_model, par, var, time=1, transient=0, seed, eps, integrator=2)
 stepTrajectory(idmc_trajectory, time=1)
 setTrajectorySeed(idmc_trajectory, seed)
 \method{as.matrix}{idmc_trajectory}(x, ...)
@@ -18,14 +18,14 @@ setTrajectorySeed(idmc_trajectory, seed)
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
- \item{idmc_ctrajectory}{an already created \code{idmc_ctrajectory} object}
- \item{idmc_trajectory}{an already created \code{idmc_trajectory} object}
- \item{seed}{RNG seed}
  \item{par, var}{model parameters values and starting point value}
- \item{eps}{integration step}
- \item{integrator}{an integer code between 0 and 9 indicating what integrator to use}
  \item{time}{time span (after transient)}
  \item{transient}{transient length (in time units)}
+ \item{seed}{RNG seed}
+ \item{eps}{integration step}
+ \item{integrator}{an integer code between 0 and 8 indicating what integrator to use (see details)}
+ \item{idmc_ctrajectory}{an already created \code{idmc_ctrajectory} object}
+ \item{idmc_trajectory}{an already created \code{idmc_trajectory} object}
  \item{x}{an \code{idmc_trajectory} object}
  \item{vars}{variables to be plotted}
  \item{type, main, xlab, ylab}{usual plot options}
@@ -44,6 +44,24 @@ With \code{stepTrajectory} you can enlarge an already-existing trajectory.
 
 The trajectory object can be directly plotted with the standard \code{plot} function,
 converted to a vertical numerical matrix, or converted to a regular time series object.
+
+If the \code{idmc_model} object has continuous time (ODE), you can specify the last 2 arguments:
+integration the step \code{eps} and the ODE numerical integrator. The following integrators are available:
+
+\tabular{rl}{
+0 \tab embedded Runge-Kutta (2, 3) method \cr
+1 \tab 4th order (classical) Runge-Kutta \cr
+2 \tab embedded Runge-Kutta-Fehlberg (4, 5) method \cr
+3 \tab embedded Runge-Kutta Cash-Karp (4, 5) method \cr
+4 \tab embedded Runge-Kutta Prince-Dormand (8,9) method \cr
+5 \tab implicit 2nd order Runge-Kutta at Gaussian points \cr
+6 \tab implicit 4th order Runge-Kutta at Gaussian points \cr
+7 \tab M=1 implicit Gear method \cr
+8 \tab M=2 implicit Gear method
+}
+
+Note: if you don't specify the integration step \code{eps}, 
+the value \code{getOption("ts.eps")} is taken as default.
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -57,8 +75,8 @@ Antonio, Fabio Di Narzo
 model <- Model(exModelFile('lorenz'))
 ##Compute trajectory:
 trajectory <- Trajectory(model, 
-	c(10, 28, 2.667), c(1.0, 2.0, 1.0), 
-	0.005, 0, time=200, transient=100 )
+	par=c(10, 28, 2.667), var=c(1.0, 2.0, 1.0), 
+	time=200, transient=100, eps=0.005 )
 ##See basic informations:
 trajectory
 ##Plot it:

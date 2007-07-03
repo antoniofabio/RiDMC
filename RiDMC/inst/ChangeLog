@@ -1,20 +1,25 @@
-0.6.2
+0.6-3
+	added ODE solvers details in Trajectory man page
+	removed broken option among ODE solvers
+	unified discrete/continuous Trajectory functions
+0.6-2
 	misc additions to man pages
 	improved exModelFile
 	added idmclib version number printing at startup
 
-0.6.1
+0.6-1
 	added options to basins of attraction plot method
 	upgraded to idmclib-0.6.1 (contains bug fixes)
 
-0.6.0
+0.6-0
 	added slow basins algorithm option to Basin function
 	upgraded to idmclib-0.6.0
-0.5.3
+0.5-3
 	added relevant example in bifurcation man page
 	added Lyapunov exponents helper functions
-0.5.2
+0.5-2
 	added and documented implementation of bifurcation plot
-0.5.1
+0.5-1
 	cleaned trajectories manipulation code
-0.5.0: first public release
+0.5-0	
+	first public release
