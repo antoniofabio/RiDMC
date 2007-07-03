@@ -90,7 +90,7 @@ stepTrajectory <- function(idmc_trajectory, time=1) {
 print.idmc_ctrajectory <- function(x, ...) {
 	modelInfo <- x$model$infos
 	cat('= iDMC model continuous trajectory =\n')
-	cat('model: ', modelInfo[[1]]['name'], '\n')
+	cat('model: ', getModelName(getTrajectoryModel(x)), '\n')
 	cat('parameter values: ', paste(x$par, sep=','), '\n')
 	cat('starting point: ', paste(x$var, sep=','),'\n')
 	cat('transient length: ', x$transient, '\n')
@@ -99,9 +99,8 @@ print.idmc_ctrajectory <- function(x, ...) {
 	cat('step function: ', x$integrator, '\n')
 }
 print.idmc_dtrajectory <- function(x, ...) {
-	modelInfo <- x$model$infos
 	cat('= iDMC model discrete trajectory =\n')
-	cat('model: ', modelInfo[[1]]['name'], '\n')
+	cat('model: ', getModelName(getTrajectoryModel(x)), '\n')
 	cat('parameter values: ', paste(x$par, sep=','), '\n')
 	cat('starting point: ', paste(x$var, sep=','),'\n')
 	cat('transient length: ', x$transient, '\n')

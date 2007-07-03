@@ -1,18 +1,20 @@
-lexp_ode <- function(idmc_c_model, par, var, time, eps) {
-	checkModelContinuous(idmc_c_model)
-	checkModelParVar(idmc_c_model, par, var)
+lexp <- function(idmc_model, par, var, time, eps) {
+	m <- idmc_model
+	checkModelParVar(m, par, var)
 	checkPositiveScalar(time)
-	checkPositiveScalar(eps)
-	.Call("ridmc_lexp_ode", idmc_c_model$model, as.double(par), as.double(var), 
-		as.double(time), as.double(eps), PACKAGE='RiDMC')
-}
-
-lexp <- function(idmc_d_model, par, var, time) {
-	checkModelDiscrete(idmc_d_model)
-	checkModelParVar(idmc_d_model, par, var)
-	checkPositiveScalar(time)
-	.Call("ridmc_lexp", idmc_d_model$model, 
-		as.double(par), as.double(var), as.integer(time), PACKAGE='RiDMC')
+	if(getModelType(m)=='C') {
+		if(missing(eps)) {
+			eps <- getOption('ts.eps')
+			message('using eps = ', eps)
+		}
+		checkPositiveScalar(eps)
+		ans <- .Call("ridmc_lexp_ode", m$model, as.double(par), as.double(var), 
+			as.double(time), as.double(eps), PACKAGE='RiDMC')
+	} else {
+		ans <- .Call("ridmc_lexp", m$model, 
+			as.double(par), as.double(var), as.integer(time), PACKAGE='RiDMC')
+	}
+	return(ans)
 }
 
 LyapunovExponents <- function(idmc_model, par, var, time, eps,
@@ -20,8 +22,13 @@ LyapunovExponents <- function(idmc_model, par, var, time, eps,
 	checkModelParVar(idmc_model, par, var)
 	checkPositiveScalar(time)
 	modelType <- getModelType(idmc_model)
-	if(modelType=='C')
+	if(modelType=='C') {
+		if(missing(eps)) {
+			eps <- getOption('ts.eps')
+			message('using eps = ', eps)
+		}
 		checkPositiveScalar(eps)
+	}
 	m <- idmc_model
 	np <- par.howMany
 	nv <- length(var)
@@ -44,16 +51,35 @@ LyapunovExponents <- function(idmc_model, par, var, time, eps,
 	} else 
 		stop('invalid model type')
 	ans <- list()
+	ans$model <- idmc_model
+	ans$var <- var
+	ans$par <- par
 	ans$values <- val
 	ans$par.values <- parValues
 	ans$which.par <- getModelParNames(m)[which.par.vary]
-	class(ans) <- 'lexp_diagram'
+	class(ans) <- 'idmc_lexp_diagram'
 	return(ans)	
 }
-as.matrix.lexp_diagram <- function(x, ...)
+as.matrix.idmc_lexp_diagram <- function(x, ...)
 	x$values
 
-plot.lexp_diagram  <- function(x,y, type='l', col, lty, main, xlab, ylab, ylim, ...) {
+print.idmc_lexp_diagram <- function(x, ...) {
+	m <- x$model
+	cat('=iDMC Lyapunov exponents diagram=\n')
+	cat('Model: ', getModelName(m), '\n')
+	cat('Starting point: ')
+		tmp <- getModelVarNames(m)
+		cat(paste(tmp, x$var, sep=' = ', collapse=', '), '\n')
+	cat('Parameter values: ')
+		tmp <- getModelParNames(m)
+		cat(paste(tmp, x$par, sep=' = ', collapse=', '), '\n')
+	cat('Varying par.: ', x$which.par, '\n')
+	cat('Varying par. range: [', paste(range(x$par.values), collapse=', '), ']\n')
+	mle <- range(apply(x$values, 1, max, na.rm=TRUE), na.rm=TRUE)
+	cat('MLE range: [', paste(format(mle, digits=4), collapse=', '), ']\n')
+}
+
+plot.idmc_lexp_diagram  <- function(x,y, type='l', col, lty, main, xlab, ylab, ylim, ...) {
 	y <- x$values
 	x1 <- x$par.values
 	nc <- NCOL(y)
