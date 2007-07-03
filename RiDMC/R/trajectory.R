@@ -35,7 +35,7 @@ Trajectory <- function(idmc_model, par, var, time=1, transient=0,
 	} else { ##Discrete model
 		eps <- 1
 		trajectory <- .Call("ridmc_dtrajectory_alloc", 
-			idmc_model$model, as.double(par), as.double(var), PACKAGE='RiDMC')
+			m$model, as.double(par), as.double(var), PACKAGE='RiDMC')
 		ans$eps <- eps
 		ans$trajectory <- trajectory
 		ans$step <- function()
@@ -44,7 +44,7 @@ Trajectory <- function(idmc_model, par, var, time=1, transient=0,
 			.Call("ridmc_dtrajectory_getValue", trajectory, PACKAGE='RiDMC')
 		ans$getModel <- function() {
 			pp <- .Call("ridmc_dtrajectory_getModel", trajectory, PACKAGE='RiDMC')
-			buildModel(pp, model$text)
+			buildModel(pp, m$text)
 		}
 		class(ans) <- c("idmc_dtrajectory","idmc_trajectory")
 	}

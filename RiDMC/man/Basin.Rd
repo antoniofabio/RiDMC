@@ -81,7 +81,7 @@ plot(b2)
 plot(b1, color.attractors='blue', color.basins='green')
 
 #A more complex case with many attractors
-color.attractors <- rgb(1:50/50, 0, 0)
-color.basins <- rgb(0, 50:1/50, 0)
+color.attractors <- rgb(1:60/60, 0, 0)
+color.basins <- rgb(0, 60:1/60, 0)
 plot(b2, color.attractors=color.attractors, color.basins=color.basins)
 }
