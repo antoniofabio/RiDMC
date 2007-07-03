@@ -1,4 +1,4 @@
-\name{Periodic cycles}
+\name{cycles}
 \alias{cycles}
 \alias{cycles_find}
 \title{
@@ -24,10 +24,10 @@ Find periodic cycles by Newton method.
 Convergence criterion is \code{eps} with max-norm.
 }
 \value{
-	A list with components:
-	\item{result}{one sample point for the (eventually found) cycle, \code{NULL} otherwise}
-	\item{eigvals}{modulus of jacobian eigenvalues associated with the (eventually) found cycle,
-		\code{NULL} otherwise}
+	If a valid cycle is found, a list with components:
+	\item{result}{one sample cycle point}
+	\item{eigvals}{modulus of jacobian eigenvalues associated with the cycle},
+	\code{NULL} otherwise.
 }
 \author{
 Antonio, Fabio Di Narzo

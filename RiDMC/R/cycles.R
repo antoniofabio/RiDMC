@@ -12,9 +12,7 @@ cycles_find <- function(idmc_model, par, var, period, eps, max.iter=100) {
 	for(i in seq_len(period))
 		value <- idmc_model$f(par, value)
 	##if not, clean out results:
-	if(max(abs(value-ans$result))>eps) {
-		ans$result <- NULL
-		ans$eigvals <- NULL
-	}
+	if(max(abs(value-ans$result))>eps)
+		ans <- NULL
 	return(ans)
 }
