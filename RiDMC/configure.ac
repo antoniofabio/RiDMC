@@ -6,6 +6,7 @@ AC_CHECK_LIB(gsl, main,,  [AC_MSG_ERROR([Cannot find gsl library])] )
 
 AC_CHECK_LIB(lua50, lua_open,,[AC_MSG_ERROR([Cannot find lua50 library])])
 AC_CHECK_LIB(lualib50, main,, [AC_MSG_ERROR([Cannot find lualib50 library])] )
+AC_CHECK_HEADER(lua50/lua.h, , [AC_MSG_ERROR([Cannot find lua headers])])
 
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LIBS)

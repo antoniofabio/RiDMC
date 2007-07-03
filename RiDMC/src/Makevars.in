@@ -1,2 +1,2 @@
 PKG_LIBS=@LIBS@ $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
-PKG_CPPFLAGS=@CPPFLAGS@ -I./idmclib -I.
+PKG_CPPFLAGS=@CPPFLAGS@ -I../winbin/include/lua50 -I../winbin/include -I./idmclib -I.
