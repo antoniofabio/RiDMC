@@ -72,8 +72,8 @@ plot(b1)
 m <- Model(exModelFile('cremona'))
 system.time(
 	b2 <- Basin(m, 1.33, c(-1.2, 1.2), 300, 
-	c(-1.2, 1.2), 300, 1000, 1000, method='slow', ntries=100, seed=123)
-)##This takes 5.5sec on my Turion-1800MHz
+	c(-1.2, 1.2), 300, 1000, 1000, method='slow', ntries=1000, seed=123)
+)##This takes about 8sec on my Turion-1800MHz
 plot(b2)
 
 ##Customizing palette
