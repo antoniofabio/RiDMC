@@ -1,4 +1,5 @@
-0.6-3
+0.7-0
+	misc fixes to man pages
 	added ODE solvers details in Trajectory man page
 	removed broken option among ODE solvers
 	unified discrete/continuous Trajectory functions
