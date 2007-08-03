@@ -1,3 +1,4 @@
+	improved documentation
 0.7-0
 	added interactive file prompt to Model, typo fix to exModelFile man page
         cleaned cycles function possible return values
