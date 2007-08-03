@@ -26,8 +26,9 @@ Convergence criterion is \code{eps} with max-norm.
 \value{
 	If a valid cycle is found, a list with components:
 	\item{result}{one sample cycle point}
-	\item{eigvals}{modulus of jacobian eigenvalues associated with the cycle},
-	\code{NULL} otherwise.
+	\item{eigvals}{modulus of jacobian eigenvalues associated with the cycle}
+
+  If a valid cycle isn't found, returns \code{NULL}.
 }
 \author{
 Antonio, Fabio Di Narzo
