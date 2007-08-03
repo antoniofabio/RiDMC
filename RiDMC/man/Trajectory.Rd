@@ -81,8 +81,12 @@ trajectory <- Trajectory(model,
 trajectory
 ##Plot it:
 plot(trajectory)
-##Re-plot as regular multivariate time series:
-plot(as.ts(trajectory))
+##A trajectory object can be converted into a regular time series:
+trajectory.ts <- as.ts(trajectory)
+plot(trajectory.ts)
+##or into a 'vertical' matrix:
+trajectory.matrix <- as.matrix(trajectory)
+dim(trajectory.matrix)
 
 ##Now a bi-variate random walk:
 text <- readLines(textConnection(
