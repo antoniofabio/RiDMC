@@ -24,25 +24,25 @@ checkModelParVar <- function(model, par, var) {
 }
 
 checkModelDiscrete <- function(model){
-	txt <- sQuote(deparse(substitute(model)))
-	if(!inherits(model, "idmc_model"))
-		stop(txt,"should be an idmc_model object")
-	if(getModelType(model)!='D')
-		stop(txt,"should be a discrete idmc_model object")
+  txt <- sQuote(deparse(substitute(model)))
+  if(!inherits(model, "idmc_model"))
+    stop(txt,"should be an idmc_model object")
+  if(getModelType(model)!='D')
+    stop(txt,"should be a discrete idmc_model object")
 }
 checkModelContinuous <- function(model){
-	txt <- sQuote(deparse(substitute(model)))
-	if(!inherits(model, "idmc_model"))
-		stop(txt,"should be an idmc_model object")
-	if(getModelType(model)!='C')
-		stop(txt,"should be a continuous idmc_model object")
+  txt <- sQuote(deparse(substitute(model)))
+  if(!inherits(model, "idmc_model"))
+    stop(txt,"should be an idmc_model object")
+  if(getModelType(model)!='C')
+    stop(txt,"should be a continuous idmc_model object")
 }
 
 
 checkPositiveScalar <- function(arg) {
-	txt <- sQuote(deparse(substitute(arg)))
-	if((!is.numeric(arg))||(length(arg)>1))
-		stop(txt, 'should be a numeric scalar')
-	if(arg<=0)
-		stop(txt, 'should be a positive numeric scalar')
+  txt <- sQuote(deparse(substitute(arg)))
+  if((!is.numeric(arg))||(length(arg)>1))
+    stop(txt, 'should be a numeric scalar')
+  if(arg<=0)
+    stop(txt, 'should be a positive numeric scalar')
 }
