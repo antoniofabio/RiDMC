@@ -20,6 +20,7 @@
 \alias{idmclibVersion}
 \alias{print.idmc_ctrajectory}
 \alias{print.idmc_dtrajectory}
+\alias{print.idmc_bifurcation}
 \title{
 RiDMC internal functions
 }
