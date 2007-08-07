@@ -23,7 +23,7 @@ Maintainer: Antonio, Fabio Di Narzo <antonio.fabio@gmail.com>
 \code{\link{LyapunovExponents}}, \code{\link{Bifurcation}}, \code{\link{cycles_find}}
 }
 \examples{
-##There are many example models to start with
+##There are many sample models to start with
 exModelFile()
 
 ##Load and init an univariate discrete time model
