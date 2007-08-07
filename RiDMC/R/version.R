@@ -1,3 +1,3 @@
 idmclibVersion <- function()
-	.Call("ridmc_version", PACKAGE='RiDMC')
+  .Call("ridmc_version", PACKAGE='RiDMC')
 
