@@ -1,3 +1,4 @@
+	added detailed print method for bifurcation objects
 	improved documentation
 0.7-0
 	added interactive file prompt to Model, typo fix to exModelFile man page
