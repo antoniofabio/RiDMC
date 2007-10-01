@@ -29,7 +29,7 @@ SEXP ridmc_model_alloc(SEXP in_buf) {
 	int buflen, ians;
 	idmc_model *model;
 	PROTECT( sxp_buf = coerceVector( in_buf, STRSXP ) );
-	buf = CHAR( STRING_ELT(sxp_buf,0) );
+	buf = (char*) CHAR( STRING_ELT(sxp_buf,0) );
 	buflen = strlen(buf);
 	UNPROTECT(1);
 	ians = idmc_model_alloc(buf, buflen, &model);
