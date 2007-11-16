@@ -31,9 +31,10 @@ SEXP ridmc_cycles_find(SEXP m, SEXP parms, SEXP start_point, SEXP power, SEXP ep
 		INTEGER(power)[0], REAL(epsilon)[0], 
 		INTEGER(max_iterations)[0], 
 		REAL(result), REAL(eigvals));
-	UNPROTECT(2);
-	if(ians!=IDMC_OK)
+	if(ians!=IDMC_OK) {
+		UNPROTECT(2);
 		RIDMC_ERROR(ians);
+	}
 	PROTECT(ans = allocVector(VECSXP, 2));
 	SET_VECTOR_ELT(ans, 0, result);
 	SET_VECTOR_ELT(ans, 1, eigvals);
@@ -41,6 +42,6 @@ SEXP ridmc_cycles_find(SEXP m, SEXP parms, SEXP start_point, SEXP power, SEXP ep
 	SET_VECTOR_ELT(dimnames, 0, mkChar("result"));
 	SET_VECTOR_ELT(dimnames, 1, mkChar("eigvals"));
 	setAttrib(ans, R_NamesSymbol, dimnames);
-	UNPROTECT(2);
+	UNPROTECT(4);
 	return ans;
 }
