@@ -1,3 +1,8 @@
+0.8-0
+	updated to idmclib-0.8.0
+	fixed potential bug in cycles routine
+	fixed compatibility with R-2.6.0
+
 0.7-1
 	added detailed print method for bifurcation objects
 	improved documentation
