@@ -19,18 +19,12 @@ Last modified: $Date$
 #include <math.h>
 #include <string.h>
 #include <gsl/gsl_vector.h>
+#include <gsl/gsl_vector_complex.h>
+#include <gsl/gsl_matrix.h>
 #include <gsl/gsl_multiroots.h>
+#include <gsl/gsl_eigen.h>
 #include "model.h"
 #include "cycles.h"
-
-/*external LAPACK routine*/
-/* DGEEV - compute for an N-by-N real nonsymmetric matrix A, the */
-/* eigenvalues and, optionally, the left and/or right eigenvectors */
-extern void dgeev_(const char* jobvl, const char* jobvr,
-		const int* n, double* a, const int* lda,
-		double* wr, double* wi, double* vl, const int* ldvl,
-		double* vr, const int* ldvr,
-		double* work, const int* lwork, int* info);
 
 struct root_function_data {
 	idmc_model *model;
@@ -111,54 +105,27 @@ int idmc_cycles_powNumJac(idmc_model *model, int pow, double* par, double* var, 
 	return IDMC_OK;
 }
 
-/*Eigenvalues modulus computation for a given matrix*/
-/*Adapted from R project sources: R_2.4.0/src/modules/lapack/Lapack.c
-Antonio, Fabio Di Narzo
-05/11/2006
-*/
-int idmc_cycles_eigval(double *mat, int dim, double *ans) 
-{
-	int locDim = dim;
-	int lwork, info, i;
-	double *tmpJac, *wR, *wI, *left, *right, *work;
-	double tmp;
-	char jobVL[1], jobVR[1];
-	
-	tmpJac = (double *) malloc(dim * dim * sizeof(double));
-	memcpy(tmpJac, mat, dim * dim * sizeof(double));
-	wR = (double *) calloc(dim, sizeof(double));
-	wI = (double *) calloc(dim, sizeof(double));
-	left = right = (double *) 0;
-	jobVL[0] = jobVR[0] = 'N';
-	lwork=-1;
-	dgeev_(jobVL, jobVR, &locDim, tmpJac, &locDim, wR, wI,
-		   left, &locDim, right, &locDim, &tmp, &lwork, &info);	
-	if (info != 0) {
-		/*printf("Lapack error code: %d\n", info);*/
-		free(wI);
-		free(wR);
-		free(tmpJac);
-		return IDMC_EMATH;
-	}
-	lwork = (int) tmp;
-	work = (double *) calloc(lwork, sizeof(double));
-	dgeev_(jobVL, jobVR, &locDim, tmpJac, &locDim, wR, wI, left, &locDim, right, &locDim, work, &lwork, &info);
-	if (info != 0) {
-		/*printf("Lapack error code: %d\n", info);*/
-		free(work);
-		free(wI);
-		free(wR);
-		free(tmpJac);
-		return IDMC_EMATH;
-	}
-	for(i=0; i<dim; i++)
-		ans[i] = sqrt(wR[i]*wR[i] + wI[i]*wI[i]);
-
-	free(work);
-	free(wI);
-	free(wR);
-	free(tmpJac);
-	return IDMC_OK;
+int idmc_cycles_eigval(double *mat, int dim, double *ans) {
+  gsl_eigen_nonsymm_workspace *ws;
+  gsl_matrix_view A;
+  gsl_vector_complex *eval;
+  int res;
+  eval = gsl_vector_complex_alloc(dim);
+  if(eval==NULL)
+    return IDMC_EMEM;
+  A = gsl_matrix_view_array(mat, dim, dim);
+  ws = gsl_eigen_nonsymm_alloc(dim);
+  if(ws==NULL)
+    return IDMC_EMEM;
+  gsl_eigen_nonsymm_params(/*full Shur comp.*/0, /*balance matrix*/1, ws);
+  res = gsl_eigen_nonsymm (&A.matrix, eval, ws);
+  gsl_vector_view vr = gsl_vector_complex_real (eval);
+  gsl_vector_view vi = gsl_vector_complex_imag (eval);
+  for(int i=0; i<dim; i++)
+    ans[i] = sqrt( gsl_vector_get(&vr.vector, i) * gsl_vector_get(&vi.vector, i) );
+  gsl_eigen_nonsymm_free(ws);
+  gsl_vector_complex_free(eval);
+  return IDMC_OK;
 }
 
 int idmc_cycles_find(idmc_model* model, double *parameters, double *start_point, int power, 
