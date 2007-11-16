@@ -122,7 +122,7 @@ int idmc_cycles_eigval(double *mat, int dim, double *ans) {
   gsl_vector_view vr = gsl_vector_complex_real (eval);
   gsl_vector_view vi = gsl_vector_complex_imag (eval);
   for(int i=0; i<dim; i++)
-    ans[i] = sqrt( gsl_vector_get(&vr.vector, i) * gsl_vector_get(&vi.vector, i) );
+    ans[i] = sqrt( pow(gsl_vector_get(&vr.vector, i),2) + pow(gsl_vector_get(&vi.vector, i),2) );
   gsl_eigen_nonsymm_free(ws);
   gsl_vector_complex_free(eval);
   return IDMC_OK;
