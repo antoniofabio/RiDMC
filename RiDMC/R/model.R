@@ -54,15 +54,6 @@ getModelHasJacobian <- function(obj, ...)
   obj$infos[[2]]["has_jacobian"]
 
 print.idmc_model <- function(x, ...){
-  cat('= iDMC model text =\n')
-  cat(getModelText(x), sep='\n')
-  cat('\n')
-}
-
-summary.idmc_model <- function(object, ...)
-  structure(object, class='summary.idmc_model')
-
-print.summary.idmc_model <- function(x, ...) {
   cat('= iDMC model =\n')
   cat('Name: ', getModelName(x),'\n')
   cat('Description: ', getModelDescription(x),'\n')
@@ -74,4 +65,14 @@ print.summary.idmc_model <- function(x, ...) {
   cat('Variables: ', paste(getModelVarNames(x), collapse=", "),'\n')
   cat('Has inverse: ', getModelHasInverse(x)!=0,'\n')
   cat('Has jacobian: ', getModelHasJacobian(x)!=0,'\n')
+}
+
+summary.idmc_model <- function(object, ...)
+  structure(object, class='summary.idmc_model')
+
+print.summary.idmc_model <- function(x, ...) {
+  print.idmc_model(x, ...)
+  cat('\n= iDMC model text =\n')
+  cat(getModelText(x), sep='\n')
+  cat('\n')
 }
