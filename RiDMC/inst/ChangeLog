@@ -1,4 +1,5 @@
 0.8-0
+	swapped print and summary methods for model objects
 	updated to idmclib-0.8.0
 	fixed potential bug in cycles routine
 	fixed compatibility with R-2.6.0
