@@ -62,3 +62,27 @@ imageGrob <- function(values, breaks, colors, xlim=0:1, ylim=0:1, name=NULL, gp=
 }
 grid.imageGrob <- function(...)
   grid.draw(imageGrob(...))
+
+mkMainAndAxesVp <- function(xlim, ylim) {
+  ly <- grid.layout(3,3, 
+    widths = unit(c(2,1,1), c('lines','null','lines')), heights = unit(c(1,1,2), c('lines','null', 'lines')),
+      respect=TRUE)
+  vpStack(
+    viewport(layout=ly, name='layVp'),
+    viewport(layout.pos.col=2, layout.pos.row=2, name='mainVp', xscale=xlim, yscale=ylim))
+}
+imagePlotGrob <- function(values, breaks, colors, xlim=0:1, ylim=0:1, 
+  xAxGrob, yAxGrob, name=NULL, gp=NULL, vp=NULL) {
+  if(missing(xAxGrob)) {
+    xAxGrob <- xaxisGrob(at=pretty(xlim, n=10), label=TRUE, vp=vpPath('layVp','mainVp'))
+  }
+  if(missing(yAxGrob)) {
+    yAxGrob <- yaxisGrob(at=pretty(ylim, n=10), label=TRUE, vp=vpPath('layVp','mainVp'))
+  }
+  ig <- imageGrob(values, breaks, colors, xlim, ylim, name, gp, vp=vpPath('layVp','mainVp'))
+  gTree(values=values, breaks=breaks, colors = colors, children=gList(ig, xAxGrob, yAxGrob),
+    childrenvp = mkMainAndAxesVp(xlim, ylim), 
+    gp=gp, name=name, vp=vp, cl='imagePlotGrob')
+}
+grid.imagePlotGrob <- function(...)
+  grid.draw(imagePlotGrob(...))
