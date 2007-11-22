@@ -84,3 +84,38 @@ imageMapGrob <- function(values, breaks, cols, xlim=0:1, ylim=0:1, axes=TRUE, le
 }
 grid.imageMap <- function(...)
   grid.draw(imageMapGrob(...))
+
+#######################
+##Discrete image map###
+#######################
+
+imageDiscreteGrob <- function(values, cols, xlim=0:1, ylim=0:1, name=NULL, gp=NULL, vp=NULL) {
+  od <- dim(values)
+  values <- as.numeric(factor(values))
+  dim(values) <- od
+  nr <- NROW(values)
+  nc <- NCOL(values)
+  img <- mkImageRect(nr, nc, colors=cols[values], vp=vpPath('isoLay', 'isoVp'))
+  gTree(values=values, colors = colors, children=gList(img, rectGrob(vp=vpPath('isoLay','isoVp'))),
+    childrenvp = mkIsoViewPort(xlim, ylim),
+    gp=gp, name=name, vp=vp, cl='imageDiscreteGrob')
+}
+
+grid.imageDiscrete <- function(...)
+  grid.draw(imageDiscreteGrob(...))
+
+imageDiscretePlotGrob <- function(values, colors, xlim=0:1, ylim=0:1, 
+  xAxGrob=NULL, yAxGrob=NULL, name=NULL, gp=NULL, vp=NULL) {
+  if(is.null(xAxGrob)) {
+    xAxGrob <- xaxisGrob(at=pretty(xlim, n=10), label=TRUE, vp=vpPath('layVp','mainVp'))
+  }
+  if(is.null(yAxGrob)) {
+    yAxGrob <- yaxisGrob(at=pretty(ylim, n=10), label=TRUE, vp=vpPath('layVp','mainVp'))
+  }
+  ig <- imageDiscreteGrob(values, colors, xlim, ylim, name, gp, vp=vpPath('layVp','mainVp'))
+  gTree(values=values, colors = colors, children=gList(ig, xAxGrob, yAxGrob),
+    childrenvp = mkMainAndAxesVp(xlim, ylim), 
+    gp=gp, name=name, vp=vp, cl='imagePlotGrob')
+}
+grid.imageDiscretePlotGrob <- function(...)
+  grid.draw(imageDiscretePlotGrob(...))
