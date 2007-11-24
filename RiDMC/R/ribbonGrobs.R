@@ -34,3 +34,20 @@ ribbonLegend <- function(breaks, cols, n=10, margin=unit(0.5, 'lines'), gp=NULL,
 
 widthDetails.ribbonLegend <- function(x)
   sum(layout.widths(viewport.layout(x$childrenvp[[1]])))
+
+###########################
+##Discrete ribbon legend ##
+###########################
+discreteRibbonGrob <- function(colors, labels, name=NULL, gp=NULL, vp=NULL) {
+  nv <- length(colors)
+  if(missing(labels))
+    labels <- as.character(seq_along(colors))
+  ys <- unit(1 - seq_len(nv)/(nv+1), 'npc')
+  xs <- unit(0.5, 'npc') + unit(1, 'lines')
+  rg <- rectGrob(y=ys, width=unit(0.6, 'lines'), height=unit(0.6, 'lines'), just=c('right','bottom'), gp=gpar(fill=colors))
+  lg <- textGrob(labels, x=xs, y=ys, just=c('left','bottom'))
+  gTree(colors=colors, labels=labels, name=name, gp=gp, vp=vp, children=gList(rg, lg), cl='discreteRibbonGrob')
+}
+grid.discreteRibbonGrob <- function(...){
+  grid.draw(discreteRibbonGrob(...))
+}
