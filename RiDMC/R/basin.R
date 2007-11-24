@@ -64,23 +64,12 @@ print.idmc_basin <- function(x, ...){
   cat('attractor iterations: ', x$attractorIterations, '\n')
 }
 
-grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins, 
-  color.infinity, axes=TRUE, ...) {
-  mat <- getBasinData(x)
-  vals <- unique(as.vector(mat))
-  vals <- vals[vals>1]
-  attrCodes <- vals[(vals %% 2)==0]
-  mat1 <- matrix(1, NROW(mat), NCOL(mat))
-  for(i in seq_along(attrCodes)) {
-    mat1[mat==attrCodes[i]] <- (i-1)*2 + 2
-    mat1[mat==(attrCodes[i]+1)] <- (i-1)*2 + 3
-  }
-  nl <- length(vals)
+makeBasinsPalette <- function(values, color.attractors, color.basins, color.infinity, default.palette=rainbow) {
+  values <- unique(values)
+  attrCodes <- values[(values %% 2)==0] ##attractor codes
+  nl <- length(values) ##number of levels
   na <- length(attrCodes) ##number of attractors
-  nc <- NCOL(mat)
-  mat1 <- t(mat1[,nc:1])
-  mdl <- getBasinModel(x)
-  default.palette <- rainbow(na*2)
+  default.palette <- default.palette(na*2)
   if(missing(color.attractors))
     color.attractors <- default.palette[seq(1, by=2, length=na)]
   if(missing(color.basins))
@@ -95,7 +84,24 @@ grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins,
   col[1] <- color.infinity
   col[1+seq(1, by=2, length=na)] <- color.attractors[seq_len(na)]
   col[1+seq(2, by=2, length=na)] <- color.basins[seq_len(na)]
-  imG <- imageDiscretePlotGrob(mat1, col, xlim=x$xlim, ylim=x$ylim, axes=axes,
+  col
+}
+
+grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins, 
+  color.infinity, axes=TRUE, ...) {
+  mat <- getBasinData(x)
+  vals <- unique(as.vector(mat))
+  vals <- vals[vals>1]
+  attrCodes <- vals[(vals %% 2)==0]
+  mat1 <- matrix(1, NROW(mat), NCOL(mat))
+  for(i in seq_along(attrCodes)) {
+    mat1[mat==attrCodes[i]] <- (i-1)*2 + 2
+    mat1[mat==(attrCodes[i]+1)] <- (i-1)*2 + 3
+  }
+  nc <- NCOL(mat)
+  mat1 <- t(mat1[,nc:1])
+  col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
+  imG <- imagePlotGrob(mat1, col, xlim=x$xlim, ylim=x$ylim, axes=axes,
     name='image', gp=NULL, vp=NULL)
   grid.draw(imG)
 }
