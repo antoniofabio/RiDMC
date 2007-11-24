@@ -64,6 +64,42 @@ print.idmc_basin <- function(x, ...){
   cat('attractor iterations: ', x$attractorIterations, '\n')
 }
 
+grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins, 
+  color.infinity, axes=TRUE, ...) {
+  mat <- getBasinData(x)
+  vals <- unique(as.vector(mat))
+  vals <- vals[vals>1]
+  attrCodes <- vals[(vals %% 2)==0]
+  mat1 <- matrix(1, NROW(mat), NCOL(mat))
+  for(i in seq_along(attrCodes)) {
+    mat1[mat==attrCodes[i]] <- (i-1)*2 + 2
+    mat1[mat==(attrCodes[i]+1)] <- (i-1)*2 + 3
+  }
+  nl <- length(vals)
+  na <- length(attrCodes) ##number of attractors
+  nc <- NCOL(mat)
+  mat1 <- t(mat1[,nc:1])
+  mdl <- getBasinModel(x)
+  default.palette <- rainbow(na*2)
+  if(missing(color.attractors))
+    color.attractors <- default.palette[seq(1, by=2, length=na)]
+  if(missing(color.basins))
+    color.basins <- default.palette[seq(2, by=2, length=na)]
+  if(missing(color.infinity))
+    color.infinity <- 'black'
+  if(length(color.attractors)<na)
+    color.attractors <- c(color.attractors, default.palette[seq(1, by=2, length=na)])
+  if(length(color.basins)<na)
+    color.attractors <- c(color.attractors, default.palette[seq(2, by=2, length=na)])
+  col <- numeric(2*na+1)
+  col[1] <- color.infinity
+  col[1+seq(1, by=2, length=na)] <- color.attractors[seq_len(na)]
+  col[1+seq(2, by=2, length=na)] <- color.basins[seq_len(na)]
+  imG <- imageDiscretePlotGrob(mat1, col, xlim=x$xlim, ylim=x$ylim, axes=axes,
+    name='image', gp=NULL, vp=NULL)
+  grid.draw(imG)
+}
+
 plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
   color.infinity, main, xlab, ylab, ...) {
   mat <- getBasinData(x)
