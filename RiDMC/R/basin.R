@@ -121,27 +121,13 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   na <- length(attrCodes) ##number of attractors
   nc <- NCOL(mat)
   mdl <- getBasinModel(x)
-  default.palette <- rainbow(na*2)
-  if(missing(color.attractors))
-    color.attractors <- default.palette[seq(1, by=2, length=na)]
-  if(missing(color.basins))
-    color.basins <- default.palette[seq(2, by=2, length=na)]
-  if(missing(color.infinity))
-    color.infinity <- 'black'
-  if(length(color.attractors)<na)
-    color.attractors <- c(color.attractors, default.palette[seq(1, by=2, length=na)])
-  if(length(color.basins)<na)
-    color.attractors <- c(color.attractors, default.palette[seq(2, by=2, length=na)])
   if(missing(main))
     main <- getModelName(mdl)
   if(missing(xlab))
     xlab <- getModelVarNames(mdl)[1]
   if(missing(ylab))
     ylab <- getModelVarNames(mdl)[2]
-  col <- numeric(2*na+1)
-  col[1] <- color.infinity
-  col[1+seq(1, by=2, length=na)] <- color.attractors[seq_len(na)]
-  col[1+seq(2, by=2, length=na)] <- color.basins[seq_len(na)]
+  col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
   image(x=seq(x$xlim[1], x$xlim[2], length=x$xres),
     y=seq(x$ylim[1], x$ylim[2], length=x$yres),
     z=mat1[,nc:1], 
