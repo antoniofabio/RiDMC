@@ -45,16 +45,31 @@ colorLegendGrob <- function(colors, labels, x=unit(0,'npc'), y=unit(0, 'npc'), n
   ys <- unit(1, 'npc') - unit(seq_len(nv) + 1, 'lines')
   xs0 <- unit(0.5, 'lines')
   xs1 <- unit(2, 'lines')
-  rg <- rectGrob(x=xs0+x, y=ys-y, width=unit(0.6, 'lines'), height=unit(0.6, 'lines'), just=c('left','bottom'), gp=gpar(fill=colors))
-  lg <- textGrob(labels, x=xs1+x, y=ys-y, just=c('left','bottom'))
+  rg <- rectGrob(x=xs0+x, y=ys-y, width=unit(0.6, 'lines'), height=unit(0.6, 'lines'), just=c('left','bottom'), 
+    gp=gpar(fill=colors), name='rect')
+  lg <- textGrob(labels, x=xs1+x, y=ys-y, just=c('left','bottom'), name='text')
   gTree(colors=colors, labels=labels, x=x, y=y, name=name, gp=gp, vp=vp, children=gList(rg, lg), cl='colorLegendGrob')
 }
 grid.colorLegend <- function(...){
   grid.draw(colorLegendGrob(...))
 }
+editDetails.colorLegendGrob <- function(x, specs) {
+  if(any(c('x','y') %in% names(specs))) {
+    x <- colorLegendGrob(x$colors, x$labels, 
+      if(!is.null(specs$x)) specs$x else x$x,
+      if(!is.null(specs$y)) specs$y else x$y)
+  }
+  if('colors' %in% names(specs)) {
+    x <- editGrob(x, 'rect', gp=gpar(fill=specs$colors))
+  }
+  if('labels' %in% names(specs)) {
+    x <- editGrob(x, 'text', label=specs$labels)
+  }
+  x
+}
 
 widthDetails.colorLegendGrob <- function(x) {
-  max(stringWidth(x$labels))
+  max(stringWidth(x$labels)) + unit(2, 'lines')
 }
 heightDetails.colorLegendGrob <- function(x) {
   unit(length(x$colors), 'lines')
