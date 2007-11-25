@@ -88,7 +88,7 @@ makeBasinsPalette <- function(values, color.attractors, color.basins, color.infi
 }
 
 grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins, 
-  color.infinity, axes=TRUE, ...) {
+  color.infinity, axes=TRUE, legend = NULL, ...) {
   mat <- getBasinData(x)
   vals <- unique(as.vector(mat))
   vals <- vals[vals>1]
@@ -103,7 +103,43 @@ grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins,
   col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
   imG <- imagePlotGrob(mat1, col, xlim=x$xlim, ylim=x$ylim, axes=axes,
     name='image', gp=NULL, vp=NULL)
-  grid.draw(imG)
+  if(!is.null(legend)) {
+    na <- length(attrCodes)
+    if(is.null(legend$attr))
+      an <- paste('attractor', seq_len(na))
+    else
+      an <- legend$attr[seq_len(na)]
+    if(is.null(legend$bas))
+      bn <- paste('basin', seq_len(na))
+    else
+      bn <- legend$bas[seq_len(na)]
+    if(is.null(legend$inf))
+      iN <- 'infinity'
+    else
+      iN <- legend$inf[1]
+    labels <- character(na*2+1)
+    labels[1] <- iN
+    labels[1+seq(1, by=2, length=na)] <- an
+    labels[1+seq(2, by=2, length=na)] <- bn
+    labels
+    if(is.null(legend$y))
+      yl <- unit(0, 'npc')
+    else yl <- legend$y
+    if(is.null(legend$x))
+      xl <- unit(0, 'npc')
+    else xl <- legend$x
+    clg <- colorLegendGrob(col, labels, y=yl, x=xl, name='legend')
+    layout <- grid.layout(1, 2, widths=unit.c(unit(1,'null'), widthDetails(clg)))
+    pushViewport(viewport(layout=layout))
+    pushViewport(viewport(layout.pos.col=1))
+    grid.draw(imG)
+    popViewport()
+    pushViewport(viewport(layout.pos.col=2))
+    grid.draw(clg)
+    popViewport(2)
+  } else {
+    grid.draw(imG)
+  }
 }
 
 plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
