@@ -44,8 +44,13 @@ imagePlotGrob <- function(values, colors, xlim=0:1, ylim=0:1, axes=TRUE,
   ig <- imageGrob(values, colors, xlim, ylim, axes=axes, name=name, gp=gp, vp=vpPath('plotVp','dataVp'))
   children <- gList(ig)
   if(axes) {
-    childrenvp <- vpStack(plotViewport(margins=c(2,2,0,0), name='plotVp'), 
-      dataViewport(xscale=xlim, yscale=ylim, name='dataVp'))
+    yLabels <- ig$children[[4]]$children[[3]]$label
+    ylabWidth <- max(stringWidth(yLabels))
+    layout <- grid.layout(3, 3, 
+      widths=unit.c(ylabWidth + unit(1,'lines'), unit(1,'null'), unit(1,'lines')), 
+      heights=unit(c(1,1,2), c('lines','null','lines')))
+    childrenvp <- vpStack(viewport(layout=layout, name='plotVp'), 
+      dataViewport(layout.pos.col=2, layout.pos.row=2, xscale=xlim, yscale=ylim, name='dataVp'))
   } else {
     childrenvp <- vpStack(plotViewport(margins=c(0,0,0,0), name='plotVp'), 
       dataViewport(xscale=xlim, yscale=ylim, name='dataVp'))
