@@ -67,7 +67,7 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
       vpList(
         viewport(layout.pos.col=2, layout.pos.row=2, name='axesArea', xscale=xlim, yscale=ylim, clip=FALSE),
         viewport(layout.pos.col=2, layout.pos.row=2, name='plotArea', xscale=xlim, yscale=ylim, clip=TRUE),
-        viewport(layout.pos.row=1, name='titleArea'),
+        viewport(layout.pos.row=1, name='titleArea', gp=gpar(cex=par('cex.main'))),
         viewport(layout.pos.col=2, layout.pos.row=3, name='xlabArea'),
         viewport(layout.pos.col=1, layout.pos.row=2, name='ylabArea')))
 }
@@ -85,7 +85,7 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   if(!is.null(main)) { ##reserve title space
     if(null.mar)
       mar[3] <- 4
-    childs <- append(childs, textGrob(main, name='title', y=unit(3.5,'lines'), just=c('center','top'),
+    childs <- append(childs, textGrob(main, name='title', y=unit(3,'lines'), just=c('center','top'),
       vp=vpPath('plotLayout', 'rootArea', 'titleArea')))
   }
   if(!is.null(xlab)) { ##reserve xlab space
@@ -102,12 +102,12 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   }
   if(axes) { ##add axes to main area
     if(null.mar) {
+      mar[1] <- max(2, mar[1])
       mar[2] <- max(2, mar[2])
-      mar[3] <- max(2, mar[3])
-      mar[4] <- 2
+      mar[4] <- max(2, mar[4])
     }
     childs <- append(childs, xaxisGrob(name='xaxis', vp=vpPath('plotLayout','rootArea','axesArea')))
-    childs <- append(childs, yaxisGrob(name='yaxis', 
+    childs <- append(childs, yaxisGrob(name='yaxis',
       edits=gEdit('labels', rot=90, just=c('center','bottom')),
       vp=vpPath('plotLayout', 'rootArea', 'axesArea')))
   }
