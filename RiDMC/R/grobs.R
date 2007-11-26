@@ -1,6 +1,93 @@
 ##
+##Helper functions for simulating inheritance
+## (strongly inspired by the R.oo package)
+##
+extend <- function(baseObj, className, ..., warningOnOverlap=TRUE)
+  UseMethod('extend')
+extend.list <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
+  ans <- baseObj
+  attr.new <- list(...)
+  nms <- names(attr.new)
+  ovl <- intersect(nms, names(ans))
+  if(warningOnOverlap && (length(ovl) > 0))
+    warning('Attributes already in', class(baseObj)[1], 'object: ', paste(ovl, collapse=', '))
+  for(nm in nms)
+    ans[[nm]] <- attr.new[[nm]]
+  class(ans) <- c(className, class(ans))
+  ans
+}
+
+##Get field from specified object
+##Warns if field isn't found
+getField <- function(obj, fieldName, warningOnNotFount=TRUE)
+  UseMethod('getFrom')
+getField.list <- function(obj, fieldName, warningOnNotFound=TRUE) {
+  if(warningOnNotFound && (!(fieldName %in% names(obj))))
+    stop('cannot find field ', fieldName, 'in ', deparse(substitute(obj)))
+  return(obj[[fieldName]])
+}
+
+##
 ##Generic grob classes
 ##
+plotGrob <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
+  xlim=0:1, ylim=0:1, axes=FALSE, name=NULL, gp=NULL, vp=NULL) {
+  cv <- mkPlotChildsAndViewports(contents, main, xlab, ylab, xlim, ylim, axes)
+  gTree(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, 
+    children = cv$children, childrenvp = cv$viewports,
+    name=name, gp=gp, vp=vp, cl='plotGrob')
+}
+editDetails.plotGrob <- function(x, specs) {
+  do.call(plotGrob, specs)
+}
+
+makePlotGrobViewports <- function(xlim, ylim, mar=c(4,4,4,2)) {
+  ws <- unit(c(mar[2], 1, mar[4]), c('lines','null','lines'))
+  hs <- unit(c(mar[3], 1, mar[1]), c('lines','null','lines'))
+  ly <- grid.layout(3, 3, widths=ws, heights=hs)
+  vpStack(viewport(layout=ly, name='plotLayout'),
+    vpList(
+      viewport(layout.pos.col=2, layout.pos.row=2, name='axesArea', xscale=xlim, yscale=ylim, clip=FALSE),
+      viewport(layout.pos.col=2, layout.pos.row=2, name='plotArea', xscale=xlim, yscale=ylim, clip=TRUE),
+      viewport(layout.pos.row=1, name='titleArea'),
+      viewport(layout.pos.col=2:3, layout.pos.row=3, name='xlabArea'),
+      viewport(layout.pos.col=1, layout.pos.row=2:3, name='ylabArea')
+    ))
+}
+
+mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
+  xlim=0:1, ylim=0:1, axes=FALSE) {
+  mar <- c(0,0,0,0)
+  childs <- list()
+  append <- function(lst, elt) {
+    lst[[length(lst)+1]] <- elt
+    lst
+  }
+  if(!is.null(main)) { ##reserve title space
+    mar[3] <- 4
+    childs <- append(childs, textGrob(main, name='title', y=unit(3.5,'lines'), just=c('center','top'), vp=vpPath('plotLayout','titleArea')))
+  }
+  if(!is.null(xlab)) { ##reserve xlab space
+    mar[1] <- 4
+    mar[4] <- 2
+    childs <- append(childs, textGrob(xlab, y=unit(0.5, 'lines'), name='xlab', just=c('center', 'bottom'), vp=vpPath('plotLayout','xlabArea')))
+  }
+  if(!is.null(ylab)) { ##reserve ylab space
+    mar[2] <- 4
+    childs <- append(childs, textGrob(ylab, x=unit(0.5, 'lines'), rot=90, name='ylab', vp=vpPath('plotLayout','ylabArea')))
+  }
+  if(axes) { ##add axes to main area
+    childs <- append(childs, xaxisGrob(name='xaxis', vp=vpPath('plotLayout','axesArea')))
+    childs <- append(childs, yaxisGrob(name='yaxis', edits=gEdit('labels', rot=90), vp=vpPath('plotLayout','axesArea')))
+  }
+  if(!is.null(contents)) {
+    contents$vp <- vpPath('plotLayout','plotArea')
+    childs <- append(childs, contents)
+  }
+  children <- do.call(gList, childs)
+  viewports <- makePlotGrobViewports(xlim, ylim, mar=mar)
+  list(children=children, viewports=viewports)
+}
 
 ##x/y graph
 xyGrob <- function(x, y, type='l', name=NULL, gp=NULL, vp=NULL) {
