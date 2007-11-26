@@ -102,8 +102,9 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   }
   if(axes) { ##add axes to main area
     if(null.mar) {
-      mar[4] <- 2
+      mar[2] <- max(2, mar[2])
       mar[3] <- max(2, mar[3])
+      mar[4] <- 2
     }
     childs <- append(childs, xaxisGrob(name='xaxis', vp=vpPath('plotLayout','rootArea','axesArea')))
     childs <- append(childs, yaxisGrob(name='yaxis', 
