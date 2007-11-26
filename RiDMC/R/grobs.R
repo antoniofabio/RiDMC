@@ -53,9 +53,9 @@ getField.grob <- function(obj, fieldName, warningOnNotFound=TRUE) {
 ##Generic grob classes
 ##
 plotGrob <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=0:1, ylim=0:1, axes=FALSE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
+  xlim=0:1, ylim=0:1, axes=FALSE, bty=TRUE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
   cv <- mkPlotChildsAndViewports(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-    axes=axes, respect = respect, mar=mar)
+    axes=axes, bty=bty, respect = respect, mar=mar)
   gTree(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, mar=mar, 
     children = cv$children, childrenvp = cv$viewports,
     name=name, gp=gp, vp=vp, cl='plotGrob')
@@ -80,7 +80,7 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
 }
 
 mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=NULL, ylim=NULL, respect=NULL, axes=FALSE, mar=NULL) {
+  xlim=NULL, ylim=NULL, respect=NULL, axes=FALSE, bty=TRUE, mar=NULL) {
   null.mar <- is.null(mar)
   if(null.mar)
     mar <- c(0,0,0,0)
@@ -121,6 +121,9 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   if(!is.null(contents)) {
     contents$vp <- vpPath('plotLayout','rootArea','plotArea')
     childs <- append(childs, contents)
+  }
+  if(bty) {
+    childs <- append(childs, rectGrob(name='box', vp=vpPath('plotLayout','rootArea','plotArea')))
   }
   children <- do.call(gList, childs)
   if(is.null(xlim)) xlim <- getXlim(contents)
