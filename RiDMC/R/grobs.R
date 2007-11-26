@@ -31,9 +31,9 @@ getField.list <- function(obj, fieldName, warningOnNotFound=TRUE) {
 ##Generic grob classes
 ##
 plotGrob <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=0:1, ylim=0:1, axes=FALSE, name=NULL, gp=NULL, vp=NULL) {
-  cv <- mkPlotChildsAndViewports(contents, main, xlab, ylab, xlim, ylim, axes)
-  gTree(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, 
+  xlim=0:1, ylim=0:1, axes=FALSE, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
+  cv <- mkPlotChildsAndViewports(contents, main, xlab, ylab, xlim, ylim, axes, mar)
+  gTree(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, mar=mar, 
     children = cv$children, childrenvp = cv$viewports,
     name=name, gp=gp, vp=vp, cl='plotGrob')
 }
@@ -50,35 +50,45 @@ makePlotGrobViewports <- function(xlim, ylim, mar=c(4,4,4,2)) {
       viewport(layout.pos.col=2, layout.pos.row=2, name='axesArea', xscale=xlim, yscale=ylim, clip=FALSE),
       viewport(layout.pos.col=2, layout.pos.row=2, name='plotArea', xscale=xlim, yscale=ylim, clip=TRUE),
       viewport(layout.pos.row=1, name='titleArea'),
-      viewport(layout.pos.col=2:3, layout.pos.row=3, name='xlabArea'),
-      viewport(layout.pos.col=1, layout.pos.row=2:3, name='ylabArea')
+      viewport(layout.pos.col=2, layout.pos.row=3, name='xlabArea'),
+      viewport(layout.pos.col=1, layout.pos.row=2, name='ylabArea')
     ))
 }
 
 mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=0:1, ylim=0:1, axes=FALSE) {
-  mar <- c(0,0,0,0)
+  xlim=0:1, ylim=0:1, axes=FALSE, mar=NULL) {
+  null.mar <- is.null(mar)
+  if(null.mar)
+    mar <- c(0,0,0,0)
   childs <- list()
   append <- function(lst, elt) {
     lst[[length(lst)+1]] <- elt
     lst
   }
   if(!is.null(main)) { ##reserve title space
-    mar[3] <- 4
+    if(null.mar)
+      mar[3] <- 4
     childs <- append(childs, textGrob(main, name='title', y=unit(3.5,'lines'), just=c('center','top'), vp=vpPath('plotLayout','titleArea')))
   }
   if(!is.null(xlab)) { ##reserve xlab space
-    mar[1] <- 4
-    mar[4] <- 2
-    childs <- append(childs, textGrob(xlab, y=unit(0.5, 'lines'), name='xlab', just=c('center', 'bottom'), vp=vpPath('plotLayout','xlabArea')))
+    if(null.mar)
+      mar[1] <- 4
+    childs <- append(childs, textGrob(xlab, y=unit(1, 'lines'), name='xlab', just=c('center', 'bottom'), vp=vpPath('plotLayout','xlabArea')))
   }
   if(!is.null(ylab)) { ##reserve ylab space
-    mar[2] <- 4
-    childs <- append(childs, textGrob(ylab, x=unit(0.5, 'lines'), rot=90, name='ylab', vp=vpPath('plotLayout','ylabArea')))
+    if(null.mar)
+      mar[2] <- 4
+    childs <- append(childs, textGrob(ylab, x=unit(1, 'lines'), rot=90, name='ylab', vp=vpPath('plotLayout','ylabArea')))
   }
   if(axes) { ##add axes to main area
+    if(null.mar) {
+      mar[4] <- 2
+      mar[3] <- max(2, mar[3])
+    }
     childs <- append(childs, xaxisGrob(name='xaxis', vp=vpPath('plotLayout','axesArea')))
-    childs <- append(childs, yaxisGrob(name='yaxis', edits=gEdit('labels', rot=90), vp=vpPath('plotLayout','axesArea')))
+    childs <- append(childs, yaxisGrob(name='yaxis', 
+      edits=gEdit('labels', rot=90, just=c('center','bottom')),
+      vp=vpPath('plotLayout','axesArea')))
   }
   if(!is.null(contents)) {
     contents$vp <- vpPath('plotLayout','plotArea')
