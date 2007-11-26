@@ -1,7 +1,7 @@
 #############
 ##Image map #
 #############
-imageGrob <- function(colors, name=NULL, gp=NULL, vp=NULL) {
+imageGrob <- function(colors, xlim=0:1, ylim=0:1, respect = TRUE, name=NULL, gp=NULL, vp=NULL) {
   nc <- NCOL(colors)
   nr <- NROW(colors)
   xx <- seq_len(nc)/nc
@@ -10,16 +10,15 @@ imageGrob <- function(colors, name=NULL, gp=NULL, vp=NULL) {
   top <- rep(yy, nc)
   if(is.null(gp))
     gp <- gpar(col=NA, fill=as.vector(colors))
-  ans <- extend(rectGrob(x=right, y=top, width=1/nc, height=1/nr, just=c('right','top'),
-    gp=gp, name=name, vp=vp), 'image', colors=colors)
+  cg <- contentsGrob(rectGrob(x=right, y=top, width=1/nc, height=1/nr, just=c('right','top'),
+    gp=gp, name=name, vp=vp), xlim=xlim, ylim=ylim, respect=respect)
+  ans <- extend(cg, 'image', colors=colors)
   return(ans)
 }
 editDetails.image <- function(x, specs){
   x <- imageGrob(specs$colors)
   update(x, specs)
 }
-imageContentsGrob <- function(colors, xlim=0:1, ylim=0:1, respect = TRUE, name = NULL, gp=NULL, vp=NULL)
-  contentsGrob(imageGrob(colors, name=name, gp=gp, vp=vp), xlim=xlim, ylim=ylim, respect=respect)
 
 imageScaleGrob <- function(values, breaks, palette, name=NULL, gp=NULL, vp=NULL) {
   colors <- array(palette[as.numeric(cut(values, breaks=breaks))], dim(values))
@@ -40,8 +39,6 @@ editDetails.imageScale <- function(x, specs){
   }
   update(x, specs)
 }
-imageScaleContentsGrob <- function(..., xlim=0:1, ylim=0:1, respect=TRUE, name=NULL, gp=NULL, vp=NULL)
-  contentsGrob(imageScaleGrob(..., name=name, gp=gp, vp=vp), xlim=xlim, ylim=ylim, respect=respect)
 
 ###########################
 ##Complete image map grob##
