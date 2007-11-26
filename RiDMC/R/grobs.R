@@ -4,7 +4,7 @@
 ##
 extend <- function(baseObj, className, ..., warningOnOverlap=TRUE)
   UseMethod('extend')
-extend.list <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
+extend.grob <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
   ans <- baseObj
   attr.new <- list(...)
   nms <- names(attr.new)
@@ -17,11 +17,18 @@ extend.list <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
   ans
 }
 
+update <- function(x, specs) UseMethod('update')
+update.grob <- function(x, specs) {
+  for(nm in names(specs))
+    x[[nm]] <- specs[[nm]]
+  x
+}
+
 ###############################
 ##Abstract contentsGrob class##
 ###############################
-contentsGrob <- function(xlim, ylim, respect=FALSE, name=NULL, gp=gpar(), vp=NULL)
-  extend(grob(name=name, gp=gp, vp=vp), 'contents', xlim=xlim, ylim=ylim, respect=respect)
+contentsGrob <- function(baseGrob, xlim, ylim, respect=FALSE)
+  extend(baseGrob, 'contents', xlim=xlim, ylim=ylim, respect=respect)
 getXlim <- function(x) UseMethod('getXlim')
 getXlim.grob <- function(x) 0:1
 getXlim.contents <- function(x) getField(x, 'xlim')
@@ -35,8 +42,8 @@ getRespect.contents <- function(x) getField(x, 'respect')
 ##Get field from specified object
 ##Warns if field isn't found
 getField <- function(obj, fieldName, warningOnNotFount=TRUE)
-  UseMethod('getFrom')
-getField.list <- function(obj, fieldName, warningOnNotFound=TRUE) {
+  UseMethod('getField')
+getField.grob <- function(obj, fieldName, warningOnNotFound=TRUE) {
   if(warningOnNotFound && (!(fieldName %in% names(obj))))
     stop('cannot find field ', fieldName, 'in ', deparse(substitute(obj)))
   return(obj[[fieldName]])
