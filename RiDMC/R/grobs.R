@@ -98,13 +98,13 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   if(!is.null(xlab)) { ##reserve xlab space
     if(null.mar)
       mar[1] <- 4
-    childs <- append(childs, textGrob(xlab, y=unit(1, 'lines'), name='xlab', just=c('center', 'bottom'),
+    childs <- append(childs, textGrob(xlab, y=unit(1, 'npc') - unit(3, 'lines'), name='xlab', just=c('center', 'bottom'),
       vp=vpPath('plotLayout', 'rootArea', 'xlabArea')))
   }
   if(!is.null(ylab)) { ##reserve ylab space
     if(null.mar)
       mar[2] <- 4
-    childs <- append(childs, textGrob(ylab, x=unit(1, 'lines'), rot=90, name='ylab',
+    childs <- append(childs, textGrob(ylab, x=unit(1, 'npc') - unit(3, 'lines'), rot=90, name='ylab',
       vp=vpPath('plotLayout', 'rootArea', 'ylabArea')))
   }
   if(axes) { ##add axes to main area
