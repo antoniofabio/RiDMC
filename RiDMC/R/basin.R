@@ -88,7 +88,11 @@ makeBasinsPalette <- function(values, color.attractors, color.basins, color.infi
 }
 
 grid.idmc_basin <- function(x, color.attractors, color.basins, 
-  color.infinity, labels.attr, labels.bas, label.infty='infinity', axes=TRUE, legend=FALSE, ...) {
+  color.infinity, labels.attr, labels.bas, label.infty='infinity',
+  main = getModelName(getBasinModel(x)),
+  xlab = getModelVarNames(getBasinModel(x))[1],
+  ylab = getModelVarNames(getBasinModel(x))[2],
+  axes=TRUE, legend=FALSE, ...) {
   mat <- getBasinData(x)
   vals <- unique(as.vector(mat))
   vals <- vals[vals>1]
@@ -119,14 +123,10 @@ grid.idmc_basin <- function(x, color.attractors, color.basins,
     xl <- unit(0, 'npc')
     clg <- colorLegendGrob(col, labels, y=yl, x=xl, name='legend')
     rightMargin <- convertWidth(widthDetails(clg), 'lines')
+    mar <- c(4,4,4,rightMargin)
   } else
-    rightMargin <- 2
-  m <- getBasinModel(x)
-  xylabs <- getModelVarNames(m)
-  pG <- plotGrob(imG, axes=TRUE,
-    main=getModelName(m),
-    xlab=xylabs[1], ylab=xylabs[2],
-    mar=c(4,4,4,rightMargin))
+    mar <- NULL
+  pG <- plotGrob(imG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
   grid.draw(pG)
   if(legend) {
     downViewport('rightMarginArea')
