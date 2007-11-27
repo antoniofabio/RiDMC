@@ -76,7 +76,8 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
         viewport(layout.pos.col=2, layout.pos.row=2, name='plotArea', xscale=xlim, yscale=ylim, clip=TRUE),
         viewport(layout.pos.row=1, name='titleArea', gp=gpar(cex=par('cex.main'))),
         viewport(layout.pos.col=2, layout.pos.row=3, name='xlabArea'),
-        viewport(layout.pos.col=1, layout.pos.row=2, name='ylabArea')))
+        viewport(layout.pos.col=1, layout.pos.row=2, name='ylabArea'),
+        viewport(layout.pos.col=3, layout.pos.row=2, name='rightMarginArea')))
 }
 
 mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
