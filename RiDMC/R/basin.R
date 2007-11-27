@@ -87,12 +87,13 @@ makeBasinsPalette <- function(values, color.attractors, color.basins, color.infi
   col
 }
 
-grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins, 
-  color.infinity, axes=TRUE, legend = NULL, ...) {
+grid.idmc_basin <- function(x, color.attractors, color.basins, 
+  color.infinity, labels.attr, labels.bas, label.infty='infinity', axes=TRUE, legend=FALSE, ...) {
   mat <- getBasinData(x)
   vals <- unique(as.vector(mat))
   vals <- vals[vals>1]
   attrCodes <- vals[(vals %% 2)==0]
+  na <- length(attrCodes)
   mat1 <- matrix(1, NROW(mat), NCOL(mat))
   for(i in seq_along(attrCodes)) {
     mat1[mat==attrCodes[i]] <- (i-1)*2 + 2
@@ -101,72 +102,35 @@ grid.draw.idmc_basin <- function(x, y, color.attractors, color.basins,
   nc <- NCOL(mat)
   mat1 <- t(mat1[,nc:1])
   col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
-  imG <- imagePlotGrob(mat1, col, xlim=x$xlim, ylim=x$ylim, axes=axes,
-    name='image', gp=NULL, vp=NULL)
-  if(!is.null(legend)) {
-    na <- length(attrCodes)
-    if(is.null(legend$attr))
-      an <- paste('attractor', seq_len(na))
-    else
-      an <- legend$attr[seq_len(na)]
-    if(is.null(legend$bas))
-      bn <- paste('basin', seq_len(na))
-    else
-      bn <- legend$bas[seq_len(na)]
-    if(is.null(legend$inf))
-      iN <- 'infinity'
-    else
-      iN <- legend$inf[1]
+  imG <- imageGrob(matrix(col[as.vector(mat1)], NROW(mat), NCOL(mat)),
+    xlim=x$xlim, ylim=x$ylim, respect = TRUE, name='image')
+  if(legend) {
+    if(missing(labels.attr))
+      labels.attr <- paste('attractor', seq_len(na))
+    if(missing(labels.bas))
+      labels.bas <- paste('basin', seq_len(na))
+    if(length(labels.attr)<na || length(labels.bas) < na)
+      stop('there are ', na, 'attractors/basins pairs to plot: not enough labels provided')
     labels <- character(na*2+1)
-    labels[1] <- iN
-    labels[1+seq(1, by=2, length=na)] <- an
-    labels[1+seq(2, by=2, length=na)] <- bn
-    labels
-    if(is.null(legend$y))
-      yl <- unit(0, 'npc')
-    else yl <- legend$y
-    if(is.null(legend$x))
-      xl <- unit(0, 'npc')
-    else xl <- legend$x
+    labels[1] <- label.infty
+    labels[1+seq(1, by=2, length=na)] <- labels.attr
+    labels[1+seq(2, by=2, length=na)] <- labels.bas
+    yl <- unit(0, 'npc')
+    xl <- unit(0, 'npc')
     clg <- colorLegendGrob(col, labels, y=yl, x=xl, name='legend')
-    layout <- grid.layout(1, 2, widths=unit.c(unit(1,'null'), widthDetails(clg)))
-    pushViewport(viewport(layout=layout))
-    pushViewport(viewport(layout.pos.col=1))
-    grid.draw(imG)
-    popViewport()
-    pushViewport(viewport(layout.pos.col=2))
+    rightMargin <- convertWidth(widthDetails(clg), 'lines')
+  } else
+    rightMargin <- 2
+  m <- getBasinModel(x)
+  xylabs <- getModelVarNames(m)
+  pG <- plotGrob(imG, axes=TRUE,
+    main=getModelName(m),
+    xlab=xylabs[1], ylab=xylabs[2],
+    mar=c(4,4,4,rightMargin))
+  grid.draw(pG)
+  if(legend) {
+    downViewport('rightMarginArea')
     grid.draw(clg)
-    popViewport(2)
-  } else {
-    grid.draw(imG)
+    upViewport(0)
   }
-}
-
-plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
-  color.infinity, main, xlab, ylab, ...) {
-  mat <- getBasinData(x)
-  vals <- unique(as.vector(mat))
-  vals <- vals[vals>1]
-  attrCodes <- vals[(vals %% 2)==0]
-  mat1 <- matrix(1, NROW(mat), NCOL(mat))
-  for(i in seq_along(attrCodes)) {
-    mat1[mat==attrCodes[i]] <- (i-1)*2 + 2
-    mat1[mat==(attrCodes[i]+1)] <- (i-1)*2 + 3
-  }
-  nl <- length(vals)
-  na <- length(attrCodes) ##number of attractors
-  nc <- NCOL(mat)
-  mdl <- getBasinModel(x)
-  if(missing(main))
-    main <- getModelName(mdl)
-  if(missing(xlab))
-    xlab <- getModelVarNames(mdl)[1]
-  if(missing(ylab))
-    ylab <- getModelVarNames(mdl)[2]
-  col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
-  image(x=seq(x$xlim[1], x$xlim[2], length=x$xres),
-    y=seq(x$ylim[1], x$ylim[2], length=x$yres),
-    z=mat1[,nc:1], 
-    breaks=c( 0:(na*2+1) + 0.5 ) , col=col, 
-    main=main, xlab=xlab, ylab=ylab, ... )
 }

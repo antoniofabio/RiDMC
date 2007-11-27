@@ -53,7 +53,7 @@ getField.grob <- function(obj, fieldName, warningOnNotFound=TRUE) {
 ##Generic grob classes
 ##
 plotGrob <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=0:1, ylim=0:1, axes=FALSE, bty=TRUE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
+  xlim=NULL, ylim=NULL, axes=FALSE, bty=TRUE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
   cv <- mkPlotChildsAndViewports(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
     axes=axes, bty=bty, respect = respect, mar=mar)
   gTree(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, mar=mar, 
