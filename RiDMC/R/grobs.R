@@ -17,8 +17,8 @@ extend.grob <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
   ans
 }
 
-update <- function(x, specs) UseMethod('update')
-update.grob <- function(x, specs) {
+upgrade <- function(x, specs) UseMethod('upgrade')
+upgrade.grob <- function(x, specs) {
   for(nm in names(specs))
     x[[nm]] <- specs[[nm]]
   x
