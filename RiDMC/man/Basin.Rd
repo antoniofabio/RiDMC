@@ -1,7 +1,6 @@
 \name{Basin}
 \alias{Basin}
 \alias{print.idmc_basin}
-\alias{plot.idmc_basin}
 \title{
 Computes basins of attraction for a 2-dim. discrete dynamical system
 }
@@ -10,8 +9,6 @@ Basin(model, parms, xlim, xres=100, ylim, yres=100,
 	attractorLimit, attractorIterations, 
 	method=c('fast', 'slow'), ntries, seed)
 \method{print}{idmc_basin}(x, ...)
-\method{plot}{idmc_basin}(x, y, color.attractors, color.basins, 
-	color.infinity, main, xlab, ylab, ...)
 }
 \arguments{
  \item{model,x}{iDMC model object}
@@ -23,12 +20,6 @@ Basin(model, parms, xlim, xres=100, ylim, yres=100,
  \item{method}{algorithm type}
  \item{ntries}{number of tries for finding attractors (only for 'slow' method)}
  \item{seed}{RNG seed (only for 'slow' method)}
- \item{y}{unused}
- \item{color.attractors}{vector of attractor colors}
- \item{color.basins}{vector of basin colors}
- \item{color.infinity}{color for basin of infinity}
- \item{main}{plot title}
- \item{xlab, ylab}{x and y axes labels}
  \item{...}{arguments to and from other methods}
 }
 \description{
@@ -66,7 +57,7 @@ m <- Model(exModelFile('henon'))
 system.time(
 	b1 <- Basin(m, c(1.42,0.3), c(-2,2), 200, c(-2, 2), 200, 1000, 1000)
 )
-plot(b1)
+plot(b1, legend=TRUE)
 
 ##Using the slow algorithm for a more complex model:
 m <- Model(exModelFile('cremona'))
@@ -75,6 +66,8 @@ system.time(
 	c(-1.2, 1.2), 300, 1000, 1000, method='slow', ntries=1000, seed=123)
 )##This takes about 8sec on my Turion-1800MHz
 plot(b2)
+##A plot with no annotations:
+plot(b2, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
 
 ##Customizing palette
 #A simple case with just 1 attractor:

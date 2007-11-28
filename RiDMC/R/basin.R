@@ -87,7 +87,7 @@ makeBasinsPalette <- function(values, color.attractors, color.basins, color.infi
   col
 }
 
-grid.idmc_basin <- function(x, color.attractors, color.basins, 
+plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
   color.infinity, labels.attr, labels.bas, label.infty='infinity',
   main = getModelName(getBasinModel(x)),
   xlab = getModelVarNames(getBasinModel(x))[1],
