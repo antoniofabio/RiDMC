@@ -41,7 +41,7 @@ getRespect.contents <- function(x) getField(x, 'respect')
 
 ##Get field from specified object
 ##Warns if field isn't found
-getField <- function(obj, fieldName, warningOnNotFount=TRUE)
+getField <- function(obj, fieldName, warningOnNotFound=TRUE)
   UseMethod('getField')
 getField.grob <- function(obj, fieldName, warningOnNotFound=TRUE) {
   if(warningOnNotFound && (!(fieldName %in% names(obj))))
