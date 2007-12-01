@@ -79,24 +79,31 @@ print.idmc_lexp_diagram <- function(x, ...) {
   cat('MLE range: [', paste(format(mle, digits=4), collapse=', '), ']\n')
 }
 
-plot.idmc_lexp_diagram  <- function(x,y, type='l', col, lty, main, xlab, ylab, ylim, ...) {
+plot.idmc_lexp_diagram <- function(x, y, col, lty,
+  main = getModelName(x$model),
+  xlab = x$which.par,
+  ylab = 'Lyapunov exponent',
+  ylim = NULL,
+  mar = NULL,
+  axes=TRUE,
+  bty=TRUE,
+  ...) {
   y <- x$values
   x1 <- x$par.values
   nc <- NCOL(y)
   if(missing(col))
-    col <- 1:nc
+    col <- seq_len(nc)
   if(missing(lty))
     lty <- rep(1,nc)
-  if(missing(main))
-    main <- "Lyapunov exponents"
-  if(missing(xlab))
-    xlab <- x$which.par
-  if(missing(ylab))
-    ylab <- "value"
-  if(missing(ylim))
+  xlim <- range(x1)
+  if(is.null(ylim))
     ylim <- range(as.vector(y))
-  plot(x1, y[,1], type='n', ylim=ylim,
-    main=main, xlab=xlab, ylab=ylab, ...)
-  for(j in 1:nc)
-    lines(x1, y[,j], col=col[j], lty=lty[j], ...)
+  lines <- list()
+  for(j in seq_len(nc))
+    lines[[j]] <- linesGrob(x1, y[,j], gp=gpar(col=col[j], lty=lty[j], ...), default.units = "native")
+  lines <- do.call(gList, lines)
+  cG <- gTree(children=lines, name='lines')
+  cG <- contentsGrob(cG, xlim=xlim, ylim=ylim)
+  pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
+  grid.draw(pG)
 }

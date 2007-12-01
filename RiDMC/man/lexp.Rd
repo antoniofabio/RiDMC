@@ -13,7 +13,15 @@ LyapunovExponents(idmc_model, par, var, time, eps,
 	which.par.vary=1, par.min, par.max, par.howMany=100)
 \method{as.matrix}{idmc_lexp_diagram}(x, ...)
 \method{print}{idmc_lexp_diagram}(x, ...)
-\method{plot}{idmc_lexp_diagram}(x,y, type='l', col, lty, main, xlab, ylab, ylim, ...)
+\method{plot}{idmc_lexp_diagram}(x, y, col, lty,
+  main = getModelName(x$model),
+  xlab = x$which.par,
+  ylab = 'Lyapunov exponent',
+  ylim = NULL,
+  mar = NULL,
+  axes=TRUE,
+  bty=TRUE,
+  ...)
 }
 \arguments{
 \item{idmc_model}{idmc\_model object as returned by \code{\link{Model}}}
@@ -24,10 +32,11 @@ LyapunovExponents(idmc_model, par, var, time, eps,
 \item{which.par.vary}{which parameter is to be varied}
 \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
  \item{x}{a \code{idmc_lexp_diagram} object}
- \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }
- \item{type, main, xlab, ylab, ylim}{usual plot options}
  \item{y}{currently unused}
- \item{...}{arguments to and from other methods}
+ \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }
+ \item{main, xlab, ylab, ylim}{usual plot options}
+ \item{axes, bty}{see \code{\link{plotGrob}}}
+ \item{...}{further \code{\link{gpar}} lines options}
 }
 \description{
 Lyapunov exponents for continuous and discrete-time dynamical systems
