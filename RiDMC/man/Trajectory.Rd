@@ -14,7 +14,9 @@ stepTrajectory(idmc_trajectory, time=1)
 setTrajectorySeed(idmc_trajectory, seed)
 \method{as.matrix}{idmc_trajectory}(x, ...)
 \method{as.ts}{idmc_trajectory}(x, ...)
-\method{plot}{idmc_trajectory}(x, y, vars=1:2, type='l', main, xlab, ylab, ...)
+\method{plot}{idmc_trajectory}(x, y, vars=1:2, type='l',
+  main = getModelName(getTrajectoryModel(x)), xlab, ylab,
+  mar = NULL, axes=TRUE, bty=TRUE, ...)
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
@@ -26,9 +28,10 @@ setTrajectorySeed(idmc_trajectory, seed)
  \item{integrator}{an integer code between 0 and 8 indicating what integrator to use (see details)}
  \item{idmc_trajectory}{an already created \code{idmc_trajectory} object}
  \item{x}{an \code{idmc_trajectory} object}
+ \item{y}{currently unused}
  \item{vars}{variables to be plotted}
  \item{type, main, xlab, ylab}{usual plot options}
- \item{y}{currently unused}
+ \item{mar, axes, bty}{see \code{\link{plotGrob}}}
  \item{...}{arguments to and from other methods}
 }
 \description{

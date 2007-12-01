@@ -107,14 +107,14 @@ print.idmc_dtrajectory <- function(x, ...) {
   cat('time span: ', x$time, '\n')
 }
 
-plot.idmc_trajectory <- function(x, y, vars=1:2, type='l', main, xlab, ylab, ...){
+plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
+  main = getModelName(getTrajectoryModel(x)), xlab, ylab,
+  mar = NULL, axes=TRUE, bty=TRUE, ...) {
   mdl <- getTrajectoryModel(x)
   varNames <- getModelVarNames(mdl)
   names(varNames) <- varNames
   vars <- vars[1:2]
   vars <- varNames[vars]
-  if(missing(main))
-    main <- getModelName(mdl)
   if(missing(xlab))
     xlab <- vars[1]
   if(missing(ylab))
@@ -124,5 +124,7 @@ plot.idmc_trajectory <- function(x, y, vars=1:2, type='l', main, xlab, ylab, ...
     return(invisible(NULL))
   }
   xx <- as.matrix(x)[,vars]
-  plot(xx, type=type, main=main, xlab=xlab, ylab=ylab, ...)
+  cG <- xyGrob(xx[,1], xx[,2], type=type, name='xy', gp=NULL)
+  pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar, bty=bty)
+  grid.draw(pG)
 }
