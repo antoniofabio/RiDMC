@@ -13,7 +13,7 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
   main = getModelName(x$model),
   xlab = x$which.par,
   ylab = x$which.var,
-  axes=TRUE, bty=TRUE, mar=NULL, ...)}
+  axes=TRUE, bty=TRUE, mar=NULL, ...)
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
