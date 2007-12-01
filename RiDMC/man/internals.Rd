@@ -47,7 +47,6 @@
 \alias{makeBasinsPalette}
 \alias{makePlotGrobViewports}
 \alias{mkPlotChildsAndViewports}
-\alias{plotGrob}
 \alias{ribbonKids}
 \alias{ribbonLegend}
 \alias{ribbonVps}
