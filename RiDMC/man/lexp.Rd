@@ -35,7 +35,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
  \item{y}{currently unused}
  \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }
  \item{main, xlab, ylab, ylim}{usual plot options}
- \item{axes, bty}{see \code{\link{plotGrob}}}
+ \item{mar, axes, bty}{see \code{\link{plotGrob}}}
  \item{...}{further \code{\link{gpar}} lines options}
 }
 \description{
