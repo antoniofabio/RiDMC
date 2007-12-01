@@ -155,5 +155,5 @@ xyGrob <- function(x, y, type='l', xlim, ylim, name=NULL, gp=NULL) {
 
 tsGrob <- function(x, name=NULL, gp=NULL, vp=NULL) {
   x <- ts(x)
-  xyGrob(time(x), x, type='l', name=name, gp=gp, vp=vp)
+  xyGrob(time(x), x, type='l', name=name, gp=gp)
 }
