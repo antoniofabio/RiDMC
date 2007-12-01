@@ -8,7 +8,12 @@ Bifurcation plot
 Bifurcation(idmc_model, which.var.store=1, par, var, 
 	which.par.vary=1, par.min, par.max, par.howMany=100, 
 	transient=100, max.period=50)
-\method{plot}{idmc_bifurcation}(x,y, type='p', pch=16, main, xlab, ylab, ...)
+\method{plot}{idmc_bifurcation}(x, y, pch=16, cex=0.2,
+  size = unit(cex, 'char'),
+  main = getModelName(x$model),
+  xlab = x$which.par,
+  ylab = x$which.var,
+  axes=TRUE, bty=TRUE, mar=NULL, ...)}
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
@@ -20,9 +25,11 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{transient}{transient length}
  \item{max.period}{max period for a cycle}
  \item{x}{an \code{idmc_bifurcation} object}
- \item{type, pch, main, xlab, ylab}{usual plot options}
+ \item{main, xlab, ylab}{usual plot options (see \code{\link{plotGrob}})}
+ \item{pch, cex}{see \code{\link{par}}}
+ \item{size}{points size in an arbitrary grid \code{\link{unit}} (alternative to \code{cex})}
  \item{y}{currently unused}
- \item{...}{arguments to and from other methods}
+ \item{axes, bty, mar, ...}{see \code{\link{plotGrob}}}
 }
 \description{
 Computes bifurcation plot.
@@ -37,11 +44,13 @@ Antonio, Fabio Di Narzo
 \examples{
 m <- Model(exModelFile('logistic'))
 bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
-plot(bf, cex=0.5)
+plot(bf, cex=0.3)
 
+\dontrun{ ##to be fixed
 par(mfrow=c(2,1))
 le <- LyapunovExponents(m, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
 plot(le)
 abline(h=0, col="gray")
 plot(bf, cex=0.15)
+}
 }

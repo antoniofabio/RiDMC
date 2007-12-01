@@ -36,14 +36,16 @@ print.idmc_bifurcation <- function(x, ...) {
   cat('max period: ', x$max.period, '\n')
 }
 
-plot.idmc_bifurcation <- function(x, y, type='p', pch=16, main, xlab, ylab, ...) {
+plot.idmc_bifurcation <- function(x, y, pch=16, cex=0.2,
+  size=unit(cex, 'char'),
+  main = getModelName(x$model),
+  xlab = x$which.par,
+  ylab = x$which.var,
+  axes=TRUE, bty=TRUE, mar=NULL, ...) {
   y <- x$values
   x1 <- rep(x$par.values, each=x$max.period)
-  if(missing(main))
-    main <- "Bifurcation diagram"
-  if(missing(xlab))
-    xlab <- x$which.par
-  if(missing(ylab))
-    ylab <- x$which.var
-  plot(x1, y, type=type, pch=pch, main=main, xlab=xlab, ylab=ylab, ...)
+  pG <- pointsGrob(x1, y, pch=pch, size=size, name='points')
+  cG <- contentsGrob(pG, xlim=range(x1[is.finite(x1)]), ylim=range(y[is.finite(x1)]))
+  PG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
+  grid.draw(PG)
 }
