@@ -1,3 +1,8 @@
+0.8-1
+	redesigned basins plotting function
+	fixed configure script for *nix platforms
+	stripped debug infos from gsl win binaries
+
 0.8-0
 	swapped print and summary methods for model objects
 	updated to idmclib-0.8.0

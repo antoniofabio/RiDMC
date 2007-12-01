@@ -6,7 +6,7 @@ fi
 CC=`"${R_HOME}/bin/R" CMD config CC`
 CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`
 CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`
-AC_INIT([RiDMC], 0.8.0)
+AC_INIT([RiDMC], 0.8.1)
 
 AC_CHECK_LIB(m, main)
 AC_CHECK_LIB(gslcblas, main,, [AC_MSG_ERROR([Cannot find gslcblas library])] )
