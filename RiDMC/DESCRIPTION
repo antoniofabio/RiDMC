@@ -2,7 +2,7 @@ Package: RiDMC
 Type: Package
 Title: R interface to the idmclib library
 Version: 0.8-2
-Date: 2007-11-30
+Date: 2007-12-1
 Author: Antonio, Fabio Di Narzo
 Maintainer: Antonio Fabio Di Narzo <antonio.dinarzo@unibo.it>
 Depends: grid
