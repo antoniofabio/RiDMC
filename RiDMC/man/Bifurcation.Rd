@@ -58,7 +58,7 @@ pushViewport(viewport(layout.pos.row=1))
 ##plot Lyap.exp. diagram:
 le <- LyapunovExponents(m, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
 plot(le, main='Logistic map', xlab=NULL)
-##add horizontal line
+##add horizontal line to main plot area:
 downViewport('plotArea')
 grid.lines(c(2.5,4.0), c(0,0), default.units='native', gp=gpar(col='gray'))
 ##Go back to 'root' viewport
