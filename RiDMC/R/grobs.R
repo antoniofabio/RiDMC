@@ -90,6 +90,9 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
     lst[[length(lst)+1]] <- elt
     lst
   }
+  if(bty) {
+    childs <- append(childs, rectGrob(name='box', vp=vpPath('plotLayout','rootArea','plotArea')))
+  }
   if(!is.null(main)) { ##reserve title space
     if(null.mar)
       mar[3] <- 4
@@ -122,9 +125,6 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   if(!is.null(contents)) {
     contents$vp <- vpPath('plotLayout','rootArea','plotArea')
     childs <- append(childs, contents)
-  }
-  if(bty) {
-    childs <- append(childs, rectGrob(name='box', vp=vpPath('plotLayout','rootArea','plotArea')))
   }
   children <- do.call(gList, childs)
   if(is.null(xlim)) xlim <- getXlim(contents)
