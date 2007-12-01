@@ -40,17 +40,21 @@ model <- Model(exModelFile('cremona'))
 basin <- Basin(model, 1.33, c(-1.2, 1.2), 300, 
   c(-1.2, 1.2), 300, 1000, 1000,
   method='slow', ntries=1000, seed=123)
+grid.newpage()
 plot(basin)
 
 ##Load the logistic map
 model <- Model(exModelFile('logistic'))
 ##Draw bifurcation plot
 bifurcation <- Bifurcation(model, par=1, var=0.3, par.min=2.5, par.max=4.0)
+grid.newpage()
 plot(bifurcation, cex=0.5)
 ##Compute Lyapunov exponents
 le <- LyapunovExponents(model, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
+grid.newpage()
 plot(le, col="red")
-abline(h=0, col="gray")
+downViewport('plotArea')
+grid.lines(c(2.5, 4.0), c(0,0), def='native')
 ##Find period-2 cycles
 cycles_find(model, 3.25, 0.5, 2, 1e-6) #stable cycle (eigval modulus < 1)
 cycles_find(model, 3.68, 0.5, 2, 1e-6) #unstable cycle (eigval modulus > 1)
