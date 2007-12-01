@@ -46,11 +46,21 @@ m <- Model(exModelFile('logistic'))
 bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
 plot(bf, cex=0.3)
 
-\dontrun{ ##to be fixed
-par(mfrow=c(2,1))
+##Setup: 2 rows, 1 column:
+pushViewport(viewport(layout=grid.layout(2, 1)))
+##Go to second row:
+pushViewport(viewport(layout.pos.row=2))
+##Plot bifurcation diagram:
+plot(bf, cex=0.15, main=NULL)
+##go back to 1st row:
+popViewport()
+pushViewport(viewport(layout.pos.row=1))
+##plot Lyap.exp. diagram:
 le <- LyapunovExponents(m, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
-plot(le)
-abline(h=0, col="gray")
-plot(bf, cex=0.15)
-}
+plot(le, main='Logistic map', xlab=NULL)
+##add horizontal line
+downViewport('plotArea')
+grid.lines(c(2.5,4.0), c(0,0), default.units='native', gp=gpar(col='gray'))
+##Go back to 'root' viewport
+popViewport(0)
 }
