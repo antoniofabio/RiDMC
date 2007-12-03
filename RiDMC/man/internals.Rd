@@ -32,6 +32,7 @@
 \alias{as.grob.idmc_bifurcation}
 \alias{as.grob.idmc_lexp_diagram}
 \alias{as.grob.idmc_trajectory}
+\alias{as.grob.idmc_trajectoryList}
 \alias{getField}
 \alias{getField.grob}
 \alias{Respect}
