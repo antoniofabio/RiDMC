@@ -36,16 +36,20 @@ print.idmc_bifurcation <- function(x, ...) {
   cat('max period: ', x$max.period, '\n')
 }
 
+as.grob.idmc_bifurcation <- function(x, pch=16, cex=0.2, size=unit(cex, 'char'), ...) {
+  y <- x$values
+  x1 <- rep(x$par.values, each=x$max.period)
+  pG <- pointsGrob(x1, y, pch=pch, size=size, name='points')
+  contentsGrob(pG, xlim=range(x1[is.finite(x1)]), ylim=range(y[is.finite(x1)]))
+}
+
 plot.idmc_bifurcation <- function(x, y, pch=16, cex=0.2,
   size=unit(cex, 'char'),
   main = getModelName(x$model),
   xlab = x$which.par,
   ylab = x$which.var,
   axes=TRUE, bty=TRUE, mar=NULL, ...) {
-  y <- x$values
-  x1 <- rep(x$par.values, each=x$max.period)
-  pG <- pointsGrob(x1, y, pch=pch, size=size, name='points')
-  cG <- contentsGrob(pG, xlim=range(x1[is.finite(x1)]), ylim=range(y[is.finite(x1)]))
+  cG <- as.grob(x, pch=pch, cex=cex, size=size)
   PG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
   grid.draw(PG)
 }

@@ -29,6 +29,7 @@
 \alias{extend.grob}
 \alias{as.grob}
 \alias{as.grob.idmc_basin}
+\alias{as.grob.idmc_bifurcation}
 \alias{getField}
 \alias{getField.grob}
 \alias{Respect}
