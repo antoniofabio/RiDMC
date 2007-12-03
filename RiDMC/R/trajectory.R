@@ -1,5 +1,5 @@
-Trajectory <- function(idmc_model, par, var, time=1, transient=0, 
-  seed, eps, integrator=2) {
+Trajectory <- function(idmc_model, par, var, time=1, transient=0,
+  seed, eps=getOption("ts.eps"), integrator=2) {
   m <- idmc_model
   checkModelParVar(m, par, var)
   ans <- list()
@@ -12,10 +12,6 @@ Trajectory <- function(idmc_model, par, var, time=1, transient=0,
     integrator <- as.integer(integrator)
     if((integrator<0)||(integrator>8)) 
       stop('\'integrator\' should be an integer code between 0 and 8')
-    if(missing(eps)) {
-      eps <- getOption("ts.eps")
-      message('using eps = ', eps)
-    }
     checkPositiveScalar(eps)
     ans$eps <- eps
     ans$integrator <- integrator
@@ -141,4 +137,48 @@ plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
   cG <- as.grob(x, vars=vars, type=type, ...)
   pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar, bty=bty)
   grid.draw(pG)
+}
+
+trajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
+  seed, eps=getOption("ts.eps"), integrator=2) {
+  argList <- expandArgList(n=n, par=par, var=var, time=time, transient=transient, eps=eps, integrator=integrator)
+  argList <- lapply(argList, function(x) cons(idmc_model=idmc_model, tail=x))
+  if(!missing(seed))
+    argList <- lapply(argList, function(x) cons(seed=seed, tail=x))
+  trList <- lapply(argList, do.call, what=Trajectory)
+  class(trList) <- 'idmc_trajectoryList'
+  trList
+}
+
+as.grob.idmc_trajectoryList <- function(x, colors, ...) {
+  as.grob2 <- function(obj, color, ...)
+    as.grob(obj, gp=gpar(col=color), ...)
+  childs <- mapply(as.grob2, x, colors, ...)
+  xmin <- min(sapply(childs, function(x) min(Xlim(x))))
+  xmax <- min(sapply(childs, function(x) max(Xlim(x))))
+  ymin <- min(sapply(childs, function(x) min(Ylim(x))))
+  ymax <- min(sapply(childs, function(x) max(Ylim(x))))
+  contentsGrob(do.call(gList, childs), xlim=c(xmin, xmax), ylim=c(ymin, ymax), respect=FALSE)
+}
+
+plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
+  main = getModelName(getTrajectoryModel(x)), xlab, ylab,
+  mar = NULL, axes=TRUE, bty=TRUE, ...) {
+  if(missing(colors))
+    colors <- seq_along(x)
+  mdl <- getTrajectoryModel(x[[1]])
+  varNames <- getModelVarNames(mdl)
+  names(varNames) <- varNames
+  vars <- vars[1:2]
+  vars <- varNames[vars]
+  if(missing(xlab))
+    xlab <- vars[1]
+  if(missing(ylab))
+    ylab <- vars[2]
+  if(length(varNames)<2) {
+    ylab <- varNames
+    xlab <- 'time'
+  }
+  cG <- as.grob(x, colors=as.list(colors), vars=vars, type=type, ...)
+  plotGrob(cG, main=main, xlab)
 }
