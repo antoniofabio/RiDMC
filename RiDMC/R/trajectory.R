@@ -155,9 +155,13 @@ as.grob.idmc_trajectoryList <- function(x, colors, ...) {
     as.grob(obj, gp=gpar(col=color), ...)
   childs <- mapply(as.grob2, x, colors, ..., SIMPLIFY=FALSE)
   xmin <- min(sapply(childs, function(x) min(Xlim(x))))
-  xmax <- min(sapply(childs, function(x) max(Xlim(x))))
+  xmax <- max(sapply(childs, function(x) max(Xlim(x))))
   ymin <- min(sapply(childs, function(x) min(Ylim(x))))
-  ymax <- min(sapply(childs, function(x) max(Ylim(x))))
+  ymax <- max(sapply(childs, function(x) max(Ylim(x))))
+  childs <- mapply(function(x, nm) {x$name <- nm; x},
+    childs,
+    as.list(paste('xy', sep='.', seq_along(x))),
+    SIMPLIFY=FALSE)
   childs <- do.call(gList, childs)
   contentsGrob(gTree(children=childs), xlim=c(xmin, xmax), ylim=c(ymin, ymax), respect=FALSE)
 }
