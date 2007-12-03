@@ -49,7 +49,7 @@ m <- Model(exModelFile('Economic/solow'))
 ##A list of different starting values, fixed parameters:
 param <- c(s=0.2, alpha=0.5, n=0.01, g=0.01, delta=0.04)
 initial.value <- list(k=4, k=13)
-tr <- TrajectoryList(m, n=10, param, initial.value, time=1000, eps=0.2)
+tr <- TrajectoryList(m, n=5, param, initial.value, time=1000, eps=0.2)
 grid.newpage()
 plot(tr)
 
@@ -58,7 +58,7 @@ value <- 4
 initial.param <- c(s=0.2, alpha=0.5, n=0.01, g=0.01, delta=0.04)
 final.param <- c(s=0.2, alpha=0.5, n=0.01, g=0.01, delta=0.04)
 final.param['alpha'] <- 0.8
-tr <- TrajectoryList(m, n=10, list(initial.param, final.param), value, time=1000, eps=0.2, seed=1234)
+tr <- TrajectoryList(m, n=5, list(initial.param, final.param), value, time=1000, eps=0.2, seed=1234)
 grid.newpage()
 plot(tr)
 }
