@@ -68,6 +68,7 @@
 \alias{print.idmc_dtrajectory}
 \alias{print.idmc_bifurcation}
 \alias{expandArgList}
+\alias{.fixLim}
 \title{
 RiDMC internal functions
 }

@@ -171,6 +171,13 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   list(children=children, viewports=viewports)
 }
 
+.fixLim <- function(lim) {
+  d <- diff(lim) * 0.04
+  lim[1] <- lim[1] - d
+  lim[2] <- lim[2] + d
+  lim
+}
+
 ##x/y graph
 xyGrob <- function(x, y, type='l', xlim, ylim, name=NULL, gp=NULL, pch = 1, size = unit(1, "char"), ...) {
   pgr <- pointsGrob(x, y, name=paste(name, 'points', sep='.'), default.units='native', pch=pch, size=size, ...)
@@ -187,6 +194,8 @@ xyGrob <- function(x, y, type='l', xlim, ylim, name=NULL, gp=NULL, pch = 1, size
     ylim <- range(y[is.finite(y)])
   ans <- gTree(x=x, y=y, type=type, children=do.call(gList, comps),
     name=name, gp=gp, 'xyGrob')
+  xlim <- .fixLim(xlim)
+  ylim <- .fixLim(ylim)
   ans <- contentsGrob(ans, xlim=xlim, ylim=ylim)
 }
 
