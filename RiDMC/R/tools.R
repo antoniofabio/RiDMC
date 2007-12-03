@@ -47,6 +47,9 @@ checkPositiveScalar <- function(arg) {
     stop(txt, 'should be a positive numeric scalar')
 }
 
+cons <- function(..., tail)
+  append(list(...), tail)
+
 ##
 ##Expand arguments list to a list of (numerical) arguments
 ##
@@ -59,7 +62,7 @@ expandArgList <- function(n=2, ...) {
   args[isList] <- lapply(args[isList], "[[", 1)
   ##functions which does just 1 step
   stepList <- function(old) {
-    old[isList] <- mapply('+', old[isList], steps)
+    old[isList] <- mapply('+', old[isList], steps, SIMPLIFY=FALSE)
     old
   }
   ans <- list(args)
