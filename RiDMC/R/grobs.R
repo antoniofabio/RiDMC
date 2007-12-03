@@ -172,11 +172,9 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
 }
 
 ##x/y graph
-xyGrob <- function(x, y, type='l', xlim, ylim, name=NULL, gp=NULL, ...) {
-  if(type %in% c('l','b'))
-    lgr <- linesGrob(x, y, name=paste(name, 'lines', sep='.'), default.units='native', ...)
-  if(type %in% c('p','b'))
-    pgr <- pointsGrob(x, y, name=paste(name, 'points', sep='.'), default.units='native', ...)
+xyGrob <- function(x, y, type='l', xlim, ylim, name=NULL, gp=NULL, pch = 1, size = unit(1, "char"), ...) {
+  pgr <- pointsGrob(x, y, name=paste(name, 'points', sep='.'), default.units='native', pch=pch, size=size, ...)
+  lgr <- linesGrob(x, y, name=paste(name, 'lines', sep='.'), default.units='native', ...)
   if(type=='l')
     comps <- list(lgr)
   else if(type=='p')
