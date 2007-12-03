@@ -25,19 +25,54 @@ extend.grob <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
 }
 
 ###############################
-##Abstract contentsGrob class##
+##Auxiliary grobs attributes ##
 ###############################
-contentsGrob <- function(baseGrob, xlim, ylim, respect=FALSE)
-  extend(baseGrob, 'contents', xlim=xlim, ylim=ylim, respect=respect)
-getXlim <- function(x) UseMethod('getXlim')
-getXlim.grob <- function(x) 0:1
-getXlim.contents <- function(x) getField(x, 'xlim')
-getYlim <- function(x) UseMethod('getYlim')
-getYlim.grob <- function(x) 0:1
-getYlim.contents <- function(x) getField(x, 'ylim')
-getRespect <- function(x) UseMethod('getRespect')
-getRespect.grob <- function(x) FALSE
-getRespect.contents <- function(x) getField(x, 'respect')
+contentsGrob <- function(baseGrob, xlim, ylim, respect=FALSE) {
+  Xlim(baseGrob) <- xlim
+  Ylim(baseGrob) <- ylim
+  Respect(baseGrob) <- respect
+  baseGrob
+}
+Xlim <- function(obj, ...) UseMethod("Xlim")
+Xlim.grob <- function(obj, ...) {
+  ans <- attr(obj, 'Xlim')
+  if(is.null(ans))
+    0:1
+  else
+    ans
+}
+"Xlim<-" <- function(obj, value) UseMethod("Xlim<-")
+"Xlim<-.grob" <- function(obj, value) {
+  attr(obj, 'Xlim') <- value
+  obj
+}
+Ylim <- function(obj, ...) UseMethod("Ylim")
+Ylim.grob <- function(obj, ...) {
+  ans <- attr(obj, 'Ylim')
+  if(is.null(ans))
+    0:1
+  else
+    ans
+}
+"Ylim<-" <- function(obj, value) UseMethod("Ylim<-")
+"Ylim<-.grob" <- function(obj, value) {
+  attr(obj, 'Ylim') <- value
+  obj
+}
+
+Respect <- function(obj, ...) UseMethod("Respect")
+Respect.grob <- function(obj, ...) {
+  ans <- attr(obj, 'Respect')
+  if(is.null(ans))
+    FALSE
+  else
+    ans
+}
+"Respect<-" <- function(obj, value) UseMethod("Respect<-")
+"Respect<-.grob" <- function(obj, value) {
+  attr(obj, 'Respect') <- value
+  obj
+}
 
 ##Get field from specified object
 ##Warns if field isn't found
@@ -127,9 +162,9 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
     childs <- append(childs, contents)
   }
   children <- do.call(gList, childs)
-  if(is.null(xlim)) xlim <- getXlim(contents)
-  if(is.null(ylim)) ylim <- getYlim(contents)
-  if(is.null(respect)) respect <- getRespect(contents)
+  if(is.null(xlim)) xlim <- Xlim(contents)
+  if(is.null(ylim)) ylim <- Ylim(contents)
+  if(is.null(respect)) respect <- Respect(contents)
   viewports <- makePlotGrobViewports(xlim=xlim, ylim=ylim, respect=respect, mar=mar)
   list(children=children, viewports=viewports)
 }
