@@ -9,7 +9,7 @@ TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
   seed, eps=getOption("ts.eps"), integrator=2)
 \method{plot}{idmc_trajectoryList}(x, y, vars=1:2, type='l', colors,
   main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, ...)
+  mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, ...)
 }
 \arguments{
  \item{idmc_model, time, transient, seed, eps, integrator}{see \code{\link{Trajectory}}}
@@ -21,6 +21,8 @@ TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
  \item{type, main, xlab, ylab}{usual plot options}
  \item{colors}{vector of trajectory colors}
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
+ \item{legend}{should a legend be showed?}
+ \item{labels}{legend labels}
  \item{...}{arguments to and from other methods}
 }
 \description{

@@ -133,6 +133,7 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
     clg <- colorLegendGrob(col, labels, y=yl, x=xl, name='legend')
     rightMargin <- convertWidth(widthDetails(clg), 'lines')
     mar <- c(4,4,4,rightMargin)
+    mar[4] <- mar[4]*1.04
   } else
     mar <- NULL
   pG <- plotGrob(imG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)

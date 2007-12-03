@@ -168,7 +168,7 @@ as.grob.idmc_trajectoryList <- function(x, colors, ...) {
 
 plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
   main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, ...) {
+  mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, ...) {
   if(missing(colors))
     colors <- seq_along(x)
   mdl <- getTrajectoryModel(x[[1]])
@@ -184,6 +184,19 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
     ylab <- varNames
     xlab <- 'time'
   }
+  if(legend) {
+    if(missing(labels))
+      labels <- as.character(seq_along(x))
+    clg <- colorLegendGrob(colors, labels, y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
+    rightMargin <- convertWidth(widthDetails(clg), 'lines')
+    mar <- c(4,4,4,rightMargin)
+    mar[4] <- mar[4]*1.04
+  }
   cG <- as.grob(x, colors=as.list(colors), vars=vars, type=type, ...)
   grid.draw(plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty))
+  if(legend) {
+    downViewport('rightMarginArea')
+    grid.draw(clg)
+    upViewport(0)
+  }
 }
