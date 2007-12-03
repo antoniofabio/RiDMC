@@ -115,9 +115,9 @@ as.grob.idmc_trajectory <- function(x, vars=1:2, type='l', ...) {
   vars <- varNames[vars]
   xx <- as.matrix(x)[,vars]
   if(length(varNames)<2) {
-    xyGrob(seq_len(NROW(xx)), xx[,2], type=type, name='xy')
+    xyGrob(seq_len(NROW(xx)), xx[,2], type=type, name='xy', ...)
   } else
-    xyGrob(xx[,1], xx[,2], type=type, name='xy', gp=NULL)
+    xyGrob(xx[,1], xx[,2], type=type, name='xy', ...)
 }
 
 plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
@@ -136,7 +136,7 @@ plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
     plot(as.ts(x), main=main, ...)
     return(invisible(NULL))
   }
-  cG <- as.grob(x, type=type)
+  cG <- as.grob(x, vars=vars, type=type, ...)
   pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar, bty=bty)
   grid.draw(pG)
 }
