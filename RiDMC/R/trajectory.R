@@ -153,16 +153,17 @@ trajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
 as.grob.idmc_trajectoryList <- function(x, colors, ...) {
   as.grob2 <- function(obj, color, ...)
     as.grob(obj, gp=gpar(col=color), ...)
-  childs <- mapply(as.grob2, x, colors, ...)
+  childs <- mapply(as.grob2, x, colors, ..., SIMPLIFY=FALSE)
   xmin <- min(sapply(childs, function(x) min(Xlim(x))))
   xmax <- min(sapply(childs, function(x) max(Xlim(x))))
   ymin <- min(sapply(childs, function(x) min(Ylim(x))))
   ymax <- min(sapply(childs, function(x) max(Ylim(x))))
-  contentsGrob(do.call(gList, childs), xlim=c(xmin, xmax), ylim=c(ymin, ymax), respect=FALSE)
+  childs <- do.call(gList, childs)
+  contentsGrob(gTree(children=childs), xlim=c(xmin, xmax), ylim=c(ymin, ymax), respect=FALSE)
 }
 
 plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
-  main = getModelName(getTrajectoryModel(x)), xlab, ylab,
+  main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
   mar = NULL, axes=TRUE, bty=TRUE, ...) {
   if(missing(colors))
     colors <- seq_along(x)
@@ -180,5 +181,5 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
     xlab <- 'time'
   }
   cG <- as.grob(x, colors=as.list(colors), vars=vars, type=type, ...)
-  plotGrob(cG, main=main, xlab)
+  grid.draw(plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty))
 }
