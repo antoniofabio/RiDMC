@@ -15,7 +15,6 @@ TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
  \item{idmc_model, time, transient, seed, eps, integrator}{see \code{\link{Trajectory}}}
  \item{n}{how many different trajectories?}
  \item{par, var}{model parameters values and starting point value (see details on how to specify multiple values)}
- \item{idmc_trajectory}{an already created \code{idmc_trajectory} object}
  \item{x}{an \code{idmc_trajectoryList} object}
  \item{y}{currently unused}
  \item{vars}{variables to be plotted}

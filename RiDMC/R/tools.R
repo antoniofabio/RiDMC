@@ -47,9 +47,6 @@ checkPositiveScalar <- function(arg) {
     stop(txt, 'should be a positive numeric scalar')
 }
 
-cons <- function(..., tail)
-  append(list(...), tail)
-
 ##
 ##Expand arguments list to a list of (numerical) arguments
 ##

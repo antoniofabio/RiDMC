@@ -67,6 +67,7 @@
 \alias{print.idmc_ctrajectory}
 \alias{print.idmc_dtrajectory}
 \alias{print.idmc_bifurcation}
+\alias{expandArgList}
 \title{
 RiDMC internal functions
 }

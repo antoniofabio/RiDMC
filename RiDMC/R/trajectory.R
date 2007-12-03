@@ -142,9 +142,9 @@ plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
 TrajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
   seed, eps=getOption("ts.eps"), integrator=2) {
   argList <- expandArgList(n=n, par=par, var=var, time=time, transient=transient, eps=eps, integrator=integrator)
-  argList <- lapply(argList, function(x) cons(idmc_model=idmc_model, tail=x))
+  argList <- lapply(argList, function(x) append(list(idmc_model=idmc_model), x))
   if(!missing(seed))
-    argList <- lapply(argList, function(x) cons(seed=seed, tail=x))
+    argList <- lapply(argList, function(x) append(list(seed=seed), x))
   trList <- lapply(argList, do.call, what=Trajectory)
   class(trList) <- 'idmc_trajectoryList'
   trList
