@@ -79,15 +79,7 @@ print.idmc_lexp_diagram <- function(x, ...) {
   cat('MLE range: [', paste(format(mle, digits=4), collapse=', '), ']\n')
 }
 
-plot.idmc_lexp_diagram <- function(x, y, col, lty,
-  main = getModelName(x$model),
-  xlab = x$which.par,
-  ylab = 'Lyapunov exponent',
-  ylim = NULL,
-  mar = NULL,
-  axes=TRUE,
-  bty=TRUE,
-  ...) {
+as.grob.idmc_lexp_diagram <- function(x, col, lty, ylim = NULL, ...) {
   y <- x$values
   x1 <- x$par.values
   nc <- NCOL(y)
@@ -103,7 +95,19 @@ plot.idmc_lexp_diagram <- function(x, y, col, lty,
     lines[[j]] <- linesGrob(x1, y[,j], gp=gpar(col=col[j], lty=lty[j], ...), default.units = "native")
   lines <- do.call(gList, lines)
   cG <- gTree(children=lines, name='lines')
-  cG <- contentsGrob(cG, xlim=xlim, ylim=ylim)
+  contentsGrob(cG, xlim=xlim, ylim=ylim)
+}
+
+plot.idmc_lexp_diagram <- function(x, y, col, lty,
+  main = getModelName(x$model),
+  xlab = x$which.par,
+  ylab = 'Lyapunov exponent',
+  ylim = NULL,
+  mar = NULL,
+  axes=TRUE,
+  bty=TRUE,
+  ...) {
+  cG <- as.grob(x, col, lty, ylim = NULL, ...)
   pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
   grid.draw(pG)
 }

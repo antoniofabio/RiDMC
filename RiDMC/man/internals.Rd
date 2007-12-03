@@ -30,6 +30,7 @@
 \alias{as.grob}
 \alias{as.grob.idmc_basin}
 \alias{as.grob.idmc_bifurcation}
+\alias{as.grob.idmc_lexp_diagram}
 \alias{getField}
 \alias{getField.grob}
 \alias{Respect}
