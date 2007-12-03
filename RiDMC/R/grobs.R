@@ -24,6 +24,8 @@ extend.grob <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
   x
 }
 
+as.grob <- function(x, ...) UseMethod('as.grob')
+
 ###############################
 ##Auxiliary grobs attributes ##
 ###############################

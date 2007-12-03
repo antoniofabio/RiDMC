@@ -27,6 +27,7 @@
 \alias{editDetails.plotGrob}
 \alias{extend}
 \alias{extend.grob}
+\alias{as.grob}
 \alias{getField}
 \alias{getField.grob}
 \alias{Respect}
