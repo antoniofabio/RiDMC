@@ -46,3 +46,24 @@ checkPositiveScalar <- function(arg) {
   if(arg<=0)
     stop(txt, 'should be a positive numeric scalar')
 }
+
+##
+##Expand arguments list to a list of (numerical) arguments
+##
+##Arguments to be expanded are given as list of 2 elements: starting and ending levels
+expandArgList <- function(n=2, ...) {
+  args <- list(...)
+  ##select list arguments
+  isList <- sapply(args, is.list)
+  steps <- lapply(args[isList], function(x) (x[[2]]-x[[1]])/(n-1) )
+  args[isList] <- lapply(args[isList], "[[", 1)
+  ##functions which does just 1 step
+  stepList <- function(old) {
+    old[isList] <- mapply('+', old[isList], steps)
+    old
+  }
+  ans <- list(args)
+  for(i in c(2,1+seq_len(n-1)))
+    ans[[i]] <- stepList(ans[[i-1]])
+  ans
+}
