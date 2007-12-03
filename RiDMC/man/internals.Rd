@@ -28,6 +28,7 @@
 \alias{extend}
 \alias{extend.grob}
 \alias{as.grob}
+\alias{as.grob.idmc_basin}
 \alias{getField}
 \alias{getField.grob}
 \alias{Respect}
