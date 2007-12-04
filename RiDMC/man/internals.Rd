@@ -31,6 +31,7 @@
 \alias{as.grob.idmc_basin}
 \alias{as.grob.idmc_bifurcation}
 \alias{as.grob.idmc_lexp_diagram}
+\alias{as.grob.idmc_lexp_map}
 \alias{as.grob.idmc_trajectory}
 \alias{as.grob.idmc_trajectoryList}
 \alias{getField}
@@ -69,6 +70,7 @@
 \alias{print.idmc_bifurcation}
 \alias{expandArgList}
 \alias{.fixLim}
+\alias{enumerateExponents}
 \title{
 RiDMC internal functions
 }
