@@ -43,7 +43,7 @@ Antonio, Fabio Di Narzo
 }
 \keyword{ misc }
 \seealso{
-\code{\link{Model}}
+\code{\link{Model}}, \code{\link{Trajectory}}
 }
 \examples{
 m <- Model(exModelFile('Economic/solow'))
