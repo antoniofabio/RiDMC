@@ -119,7 +119,7 @@ as.grob.idmc_lexp_map <- function(x, colors, ...) {
 
 plot.idmc_lexp_map <- function(x, y, colors, labels,
   main = getModelName(x$model),
-  xlab, ylab, axes=TRUE, legend=FALSE, ...) {
+  xlab, ylab, axes=TRUE, mar=NULL, legend=FALSE, ...) {
   m <- x$model
   pn <- getModelParNames(m)
   if(missing(xlab))
@@ -127,12 +127,30 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
   if(missing(ylab))
     ylab <- pn[x$par.y]
   mat <- x$mat
-  levels <- unique(as.vector(mat))
+  levels <- seq_along(x$labels)
   if(missing(colors))
     colors <- seq_along(levels)
-  if(missing(labels))
-    labels <- x$labels
   cG <- as.grob(x, colors=colors)
-  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, ...)
+  if(legend) {
+    if(missing(labels))
+      labels <- x$labels
+    if(length(labels) < length(x$labels))
+      stop('there are ', length(labels), 'levels to be labelled')
+    ids <- unique(as.vector(mat))
+    cl <- colors[ids]
+    lb <- labels[ids]
+    clg <- colorLegendGrob(cl, lb, y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
+    rightMargin <- convertWidth(widthDetails(clg), 'lines')
+    mar <- c(4,4,4,rightMargin)
+    mar[4] <- mar[4]*1.04
+  } else {
+    mar <- NULL
+  }
+  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
   grid.draw(pG)
+  if(legend) {
+    downViewport('rightMarginArea')
+    grid.draw(clg)
+    upViewport(0)
+  }
 }
