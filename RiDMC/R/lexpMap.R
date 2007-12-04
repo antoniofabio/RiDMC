@@ -14,7 +14,8 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
     codes[x>0] <- 3
     codes[x<0] <- 1
     codes[abs(x)<eps.zero] <- 2
-    which(apply(lm, 1, function(x) all(x == codes)))
+    cd <- c(sum(codes==1), sum(codes==2), sum(codes==3))
+    which(apply(lm, 1, function(x) all(x == cd)))
   }
   if(modelType=='C') {
     if(missing(eps)) {
@@ -74,18 +75,22 @@ enumerateExponents <- function(nvar) {
   }
 
   ##compute all permutations:
-  ans <- combine(nvar, 1:3)
+  ans2 <- combine(nvar, 1:3)
+  ans2 <- as.matrix(ans2)
   ##set row labels:
   howManyPos <- function(x) sum(x==3)
   howManyNeg <- function(x) sum(x==1)
   howManyNull <- function(x) sum(x==2)
+  ans <- matrix(,NROW(ans2), 3)
+  ans[,1] <- apply(ans2, 1, howManyNeg)
+  ans[,2] <- apply(ans2, 1, howManyNull)
+  ans[,3] <- apply(ans2, 1, howManyPos)
+  ans <- unique(ans)
   nms <- apply(ans, 1, function(x) {
-      np <- howManyPos(x)
-      nn <- howManyNeg(x)
-      nz <- nvar - np - nn
-      paste(if(np) paste(np, "positive, ") else "", if(nn) paste(nn, 'negative, ') else "", if(nz) paste(nz, 'zero') else "")
+      paste(if(x[3]) paste(x[3], "positive, ") else "",
+        if(x[1]) paste(x[1], 'negative, ') else "",
+        if(x[2]) paste(x[2], 'zero') else "", sep="")
     })
-  ans <- as.matrix(ans)
   rownames(ans) <- nms
   return(ans)
 }
@@ -119,7 +124,7 @@ as.grob.idmc_lexp_map <- function(x, colors, ...) {
 
 plot.idmc_lexp_map <- function(x, y, colors, labels,
   main = getModelName(x$model),
-  xlab, ylab, axes=TRUE, mar=NULL, legend=FALSE, ...) {
+  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, ...) {
   m <- x$model
   pn <- getModelParNames(m)
   if(missing(xlab))
