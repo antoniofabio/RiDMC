@@ -69,3 +69,32 @@ print.idmc_lexp_map <- function(x, ...) {
   mle <- range(apply(x$values, 1, max, na.rm=TRUE), na.rm=TRUE)
   cat('MLE range: [', paste(format(mle, digits=4), collapse=', '), ']\n')
 }
+
+enumerateExponents <- function(nvar) {
+  size <- 3^nvar ##each exponent can be <0, =0, >0
+  permutations <- function(a) {
+    a <- as.matrix(a)
+    id <- rownames(a) <- seq_len(NROW(a))
+    tmp <- expand.grid(seq_along(id), 1:3)
+    cbind(a[tmp[,1],], tmp[,2])
+  }
+
+  combine <- function(nvar, current) {
+    if(nvar==1)
+      current
+    else
+      combine(nvar-1, permutations(current))
+  }
+
+  ##compute all permutations:
+  ans <- combine(nvar, 1:3)
+  ##set row labels:
+  howManyPos <- function(x) sum(x==3)
+  howManyNeg <- function(x) sum(x==1)
+  howManyNull <- function(x) sum(x==2)
+  nms <- apply(ans, 1, function(x)
+    paste(howManyPos(x), "positive,", howManyNeg(x), 'negative', howManyNull(x), 'zero')
+    )
+  rownames(ans) <- nms
+  return(ans)
+}
