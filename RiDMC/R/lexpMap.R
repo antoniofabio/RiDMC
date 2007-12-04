@@ -133,17 +133,23 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
     ylab <- pn[x$par.y]
   mat <- x$mat
   levels <- seq_along(x$labels)
+  colors.all <- seq_along(levels)
+  ids <- unique(as.vector(mat))
   if(missing(colors))
-    colors <- seq_along(levels)
-  cG <- as.grob(x, colors=colors)
+    colors <- colors.all[ids]
+  else
+    if(length(colors) < length(ids))
+      stop(length(ids), 'colors must be specified')
+  colors.all[ids] <- colors
+  cG <- as.grob(x, colors=colors.all)
   if(legend) {
+    labels.all <- x$labels
     if(missing(labels))
-      labels <- x$labels
-    if(length(labels) < length(x$labels))
-      stop('there are ', length(labels), 'levels to be labelled')
-    ids <- unique(as.vector(mat))
-    cl <- colors[ids]
-    lb <- labels[ids]
+      labels <- labels.all[ids]
+    if(length(labels) < length(ids))
+      stop('wrong number of labels. There are ', length(ids), 'levels to be labelled')
+    cl <- colors.all[ids]
+    lb <- labels
     clg <- colorLegendGrob(cl, lb, y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
     rightMargin <- convertWidth(widthDetails(clg), 'lines')
     mar <- c(4,4,4,rightMargin)
