@@ -1,7 +1,7 @@
 #############
 ##Image map #
 #############
-imageGrob <- function(colors, xlim=0:1, ylim=0:1, respect = TRUE, name=NULL, gp=NULL, vp=NULL) {
+imageGrob <- function(colors, xlim=0:1, ylim=0:1, respect = FALSE, name=NULL, gp=NULL, vp=NULL) {
   nc <- NCOL(colors)
   nr <- NROW(colors)
   xx <- seq_len(nc)/nc

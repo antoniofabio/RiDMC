@@ -119,7 +119,7 @@ as.grob.idmc_lexp_map <- function(x, colors, ...) {
   colors <- colors[as.vector(mat)]
   colors <- matrix(colors, NROW(mat))
   colors <- t(colors[,NCOL(colors):1])
-  imageGrob(colors, xlim=x$par.x.range, ylim=x$par.y.range, respect = TRUE, name='image')
+  imageGrob(colors, xlim=x$par.x.range, ylim=x$par.y.range, respect = FALSE, name='image')
 }
 
 plot.idmc_lexp_map <- function(x, y, colors, labels,

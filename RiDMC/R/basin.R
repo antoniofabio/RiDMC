@@ -103,7 +103,7 @@ as.grob.idmc_basin <- function(x, color.attractors, color.basins,
   mat1 <- t(mat1[,nc:1])
   col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
   ans <- imageGrob(matrix(col[as.vector(mat1)], NROW(mat), NCOL(mat)),
-    xlim=x$xlim, ylim=x$ylim, respect = TRUE, name='image')
+    xlim=x$xlim, ylim=x$ylim, respect = FALSE, name='image')
 }
 
 plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
