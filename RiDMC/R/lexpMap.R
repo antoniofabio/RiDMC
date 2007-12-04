@@ -107,3 +107,32 @@ print.idmc_lexp_map <- function(x, ...) {
   cat('Varying y-axis par. range: [', paste(x$par.y.range, collapse=', '), ']\n')
 }
 
+as.grob.idmc_lexp_map <- function(x, colors, ...) {
+  mat <- x$mat
+  if(missing(colors))
+    colors <- seq_len(max(as.vector(mat)))
+  colors <- colors[as.vector(mat)]
+  colors <- matrix(colors, NROW(mat))
+  colors <- t(colors[,NCOL(colors):1])
+  imageGrob(colors, xlim=x$par.x.range, ylim=x$par.y.range, respect = TRUE, name='image')
+}
+
+plot.idmc_lexp_map <- function(x, y, colors, labels,
+  main = getModelName(x$model),
+  xlab, ylab, axes=TRUE, legend=FALSE, ...) {
+  m <- x$model
+  pn <- getModelParNames(m)
+  if(missing(xlab))
+    xlab <- pn[x$par.x]
+  if(missing(ylab))
+    ylab <- pn[x$par.y]
+  mat <- x$mat
+  levels <- unique(as.vector(mat))
+  if(missing(colors))
+    colors <- seq_along(levels)
+  if(missing(labels))
+    labels <- x$labels
+  cG <- as.grob(x, colors=colors)
+  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, ...)
+  grid.draw(pG)
+}
