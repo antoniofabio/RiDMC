@@ -11,10 +11,11 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
   m <- idmc_model$model
   recodeExp <- function(x) {
     codes <- integer(nvar)
-    codes[x>0] <- 3
-    codes[x<0] <- 1
-    codes[abs(x)<eps.zero] <- 2
-    cd <- c(sum(codes==1), sum(codes==2), sum(codes==3))
+    codes[is.finite(x) & x>0] <- 3
+    codes[is.finite(x) & x<0] <- 1
+    codes[is.finite(x) & abs(x)<eps.zero] <- 2
+    codes[!is.finite(x)] <- 4
+    cd <- c(sum(codes==1), sum(codes==2), sum(codes==3), sum(codes==4))
     which(apply(lm, 1, function(x) all(x == cd)))
   }
   if(modelType=='C') {
@@ -59,15 +60,15 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
 }
 
 enumerateExponents <- function(nvar) {
-  size <- 3^nvar ##each exponent can be <0, =0, >0
+  size <- 4^nvar ##each exponent can be <0, =0, >0, non-finite
   permutations <- function(a) {
     a <- as.matrix(a)
     id <- rownames(a) <- seq_len(NROW(a))
-    tmp <- expand.grid(seq_along(id), 1:3)
+    tmp <- expand.grid(seq_along(id), 1:4)
     cbind(a[tmp[,1],], tmp[,2])
   }
 
-  combine <- function(nvar, current) {
+  combine <- function(nvar, current=1:4) {
     if(nvar==1)
       current
     else
@@ -75,21 +76,24 @@ enumerateExponents <- function(nvar) {
   }
 
   ##compute all permutations:
-  ans2 <- combine(nvar, 1:3)
+  ans2 <- combine(nvar)
   ans2 <- as.matrix(ans2)
   ##set row labels:
   howManyPos <- function(x) sum(x==3)
   howManyNeg <- function(x) sum(x==1)
   howManyNull <- function(x) sum(x==2)
-  ans <- matrix(,NROW(ans2), 3)
+  howManyDiverging <- function(x) sum(x==4)
+  ans <- matrix(,NROW(ans2), 4)
   ans[,1] <- apply(ans2, 1, howManyNeg)
   ans[,2] <- apply(ans2, 1, howManyNull)
   ans[,3] <- apply(ans2, 1, howManyPos)
+  ans[,4] <- apply(ans2, 1, howManyDiverging)
   ans <- unique(ans)
   nms <- apply(ans, 1, function(x) {
       paste(if(x[3]) paste(x[3], "positive, ") else "",
         if(x[1]) paste(x[1], 'negative, ') else "",
-        if(x[2]) paste(x[2], 'zero') else "", sep="")
+        if(x[2]) paste(x[2], 'zero') else "",
+        if(x[4]) paste(x[4], 'diverging') else "", sep="")
     })
   rownames(ans) <- nms
   return(ans)
