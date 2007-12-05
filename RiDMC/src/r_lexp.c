@@ -26,14 +26,17 @@ Last modified: $Date: 2007-05-24 16:41:18 +0200 (gio, 24 mag 2007) $
 
 SEXP ridmc_lexp(SEXP m, SEXP par, SEXP startPoint, SEXP iterations) {
 	idmc_model *pm = R_ExternalPtrAddr(m);
-	SEXP ans;
+	SEXP ans, trashStartPoint;
 	PROTECT(ans = allocVector(REALSXP, pm->var_len));
+        PROTECT(trashStartPoint = allocVector(REALSXP, pm->var_len));
+        for(int i=0; i<pm->var_len; i++)
+          REAL(trashStartPoint)[i] = REAL(startPoint)[i];
 	int ians = idmc_lexp(pm,
 		REAL(par),
-		REAL(startPoint),
+		REAL(trashStartPoint),
 		REAL(ans),
 		INTEGER(iterations)[0]);
-	UNPROTECT(1);
+	UNPROTECT(2);
 	if(ians!=IDMC_OK)
 		RIDMC_ERROR(ians);
 	return ans;
@@ -41,14 +44,17 @@ SEXP ridmc_lexp(SEXP m, SEXP par, SEXP startPoint, SEXP iterations) {
 
 SEXP ridmc_lexp_ode(SEXP m, SEXP par, SEXP startPoint, SEXP time, SEXP step) {
 	idmc_model *pm = R_ExternalPtrAddr(m);
-	SEXP ans;
+	SEXP ans, trashStartPoint;
 	PROTECT(ans = allocVector(REALSXP, pm->var_len));
+        PROTECT(trashStartPoint = allocVector(REALSXP, pm->var_len));
+        for(int i=0; i<pm->var_len; i++)
+          REAL(trashStartPoint)[i] = REAL(startPoint)[i];
 	int ians = idmc_lexp_ode(pm,
 		REAL(par),
-		REAL(startPoint),
+		REAL(trashStartPoint),
 		REAL(ans),
 		REAL(time)[0], REAL(step)[0]);
-	UNPROTECT(1);
+	UNPROTECT(2);
 	if(ians!=IDMC_OK)
 		RIDMC_ERROR(ians);
 	return ans;
