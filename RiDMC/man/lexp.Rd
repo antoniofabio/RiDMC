@@ -61,7 +61,7 @@ Antonio, Fabio Di Narzo
 }
 \keyword{ misc }
 \seealso{
-\code{\link{Model}}, \code{\link{Bifurcation}}
+\code{\link{Model}}, \code{\link{Bifurcation}}, \code{\link{LyapunovExponentsMap}}
 }
 \examples{
 model <- Model(exModelFile('lorenz'))

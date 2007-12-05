@@ -56,8 +56,35 @@ Antonio, Fabio Di Narzo
 \code{\link{Model}}, \code{\link{Bifurcation}}
 }
 \examples{
-model <- Model(exModelFile('lorenz'))
-ly <- LyapunovExponentsMap(model, c(10, 28, 2.667), c(1.0, 2.0, 1.0), 12.0, 0.1,
-  par.x = 2, par.x.range=c(27,29), par.x.howMany=10, par.y = 1, par.y.range=c(9,11), par.y.howMany=10)
+##Consider the SHED discrete time model:
+text <- readLines(txt <- textConnection('
+name = "SCED"
+description = "none"
+type = "D"
+parameters = {"phi0", "phi1"}
+variables = {"d"}
+
+function f(phi0, phi1, d)
+       a=(1-phi0)
+       b=(1-phi1)
+       if (d <= phi0) then
+               d1 = (2/phi0) * d * (1-(1/(2*phi0))*d)
+       end
+       if (d > phi0) then
+               d1 = (1/(phi0*a))*d*(1-phi0^2*b-(1-phi0*b)*d)
+       end
+       return d1
+end
+'))
+close(txt)
+m <- Model(text=text)
+
+##This may take a little while:
+ly <- LyapunovExponentsMap(m, par=c(phi0=0, phi1=0), var=0.8, time=100,
+  par.x = 1, par.x.range=c(0.01, 0.99), par.x.howMany=100, par.y = 2, par.y.range=c(0.01, 0.99), par.y.howMany=100)
+
 plot(ly)
+##change colors:
+grid.newpage()
+plot(ly, colors=c('blue', 'red', 'green'))
 }
