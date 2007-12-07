@@ -1,3 +1,7 @@
+0.8-5
+	fixed bug in plotting basins with custom colors
+	fixed bug in plotting basins with different x/y resolution
+
 0.8-4
 	fixed orientation in LyapunovExponentsMap plotting
 	fixed bug in C sources affecting lexp and related functions
