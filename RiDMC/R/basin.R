@@ -1,5 +1,5 @@
-Basin <- function(model, parms, xlim, xres=100, ylim, 
-  yres=100, attractorLimit, attractorIterations, 
+Basin <- function(model, parms, xlim, xres=100, ylim,
+  yres=100, attractorLimit, attractorIterations,
   method=c("fast", "slow"), ntries, seed) {
   checkModelParVar(model, parms)
   checkPositiveScalar(xres)
@@ -102,7 +102,7 @@ as.grob.idmc_basin <- function(x, color.attractors, color.basins,
   nc <- NCOL(mat)
   mat1 <- t(mat1[,nc:1])
   col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
-  ans <- imageGrob(matrix(col[as.vector(mat1)], NROW(mat), NCOL(mat)),
+  ans <- imageGrob(matrix(col[as.vector(mat1)], NROW(mat1), NCOL(mat1)),
     xlim=x$xlim, ylim=x$ylim, respect = FALSE, name='image')
 }
 
