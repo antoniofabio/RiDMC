@@ -106,13 +106,13 @@ as.grob.idmc_basin <- function(x, color.attractors, color.basins,
     xlim=x$xlim, ylim=x$ylim, respect = FALSE, name='image')
 }
 
-plot.idmc_basin <- function(x, y, color.attractors, color.basins, 
+plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   color.infinity, labels.attr, labels.bas, label.infty='infinity',
   main = getModelName(getBasinModel(x)),
   xlab = getModelVarNames(getBasinModel(x))[1],
   ylab = getModelVarNames(getBasinModel(x))[2],
   axes=TRUE, legend=FALSE, ...) {
-  imG <- as.grob(x)
+  imG <- as.grob(x, color.attractors=color.attractors, color.basins=color.basins, color.infinity=color.infinity)
   if(legend) {
     vals <- unique(as.vector(getBasinData(x)))
     vals <- vals[vals>1]
