@@ -1,4 +1,5 @@
 0.8-5
+	added attractors trajectories option to basin plot
 	fixed bug in plotting basins with custom colors
 	fixed bug in plotting basins with different x/y resolution
 
