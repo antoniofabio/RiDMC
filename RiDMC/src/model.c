@@ -295,7 +295,7 @@ static int get_labels(lua_State* L, const char *name, char ***labels)
 	if (mem == NULL) {
 		lua_pop(L, 1); // pop table
 		free(*labels);
-		return IDMC_EMEM;     
+		return IDMC_EMEM;
 	}
 
 	for(int i = 1; i <= n; i++) {
@@ -314,7 +314,7 @@ static int get_labels(lua_State* L, const char *name, char ***labels)
 static int get_variable(idmc_model *model, const char *name, char **result) {
 	lua_State* L = model->L;
 	char* tmp;
-    
+
 	lua_pushstring(L, name);
 	lua_gettable(L, LUA_GLOBALSINDEX);
 
@@ -359,7 +359,7 @@ int idmc_model_g(idmc_model *model,
  * with the specified values (var) and parameters (par).
  * return the result in f.
  *
- * On error condition (DLUA_E*) the top of the stack contains the
+ * On error condition (IDMC_E*) the top of the stack contains the
  * lua error message string.
  * 
  * Note that var and f can point to the same array
@@ -379,12 +379,10 @@ static int eval_function(
 	lua_pushstring(L, name);   /* function name */
 	lua_gettable(L, LUA_GLOBALSINDEX);
 
-	for (int i = 0; i < model->par_len; i++) {
+	for (int i = 0; i < model->par_len; i++)
 		lua_pushnumber(L, par[i]);
-	}
-	for (int i = 0; i < model->var_len; i++) {
+	for (int i = 0; i < model->var_len; i++)
 		lua_pushnumber(L, var[i]);
-	}
 
 	int err;
 	err = lua_pcall(L, 
@@ -392,7 +390,11 @@ static int eval_function(
 		model->var_len,                  // returns
 		0);
 	if (err != 0) {
-		sprintf(model->errorMessage, "%s", lua_tostring(L, -1)+12);
+		if(lua_strlen(L, -1)>12)
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 12);
+		else
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 0);
+		lua_pop(L, 1);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
@@ -408,7 +410,7 @@ static int eval_function(
 	for (int i = model->var_len - 1; i > -1; i--) {
 		if (!lua_isnumber(L, -1)) {
 			lua_pop(L, i+1);
-			sprintf(model->errorMessage, "bad function result");
+			sprintf(model->errorMessage, "non numeric function result");
 			return IDMC_ERUN;
 		}
 		f[i] = lua_tonumber(L, -1);
@@ -422,8 +424,7 @@ static int eval_function(
  * evaluate the model jacobian
  */
 int idmc_model_Jf(idmc_model *model,
-			const double par[], const double var[], double Jf[])
-{
+			const double par[], const double var[], double Jf[]) {
 	return eval_matrix(IDMC_IDENT_JACOBIAN, model, par, var, Jf);
 }
 
@@ -431,8 +432,7 @@ int idmc_model_Jf(idmc_model *model,
  * evaluate the inverse jacobian
  */
 int idmc_model_Jg(idmc_model *model,
-			const double par[], const double var[], double Jg[])
-{
+			const double par[], const double var[], double Jg[]) {
 	return eval_matrix(IDMC_IDENT_INVERSE_JACOBIAN, model, par, var, Jg);
 }
 
@@ -440,8 +440,7 @@ int idmc_model_Jg(idmc_model *model,
  * evaluate the model jacobian numerically
  */
 int idmc_model_NumJf(idmc_model *model,
-			   const double par[],const double var[], double Jf[], double util[], double util2[], double util3[])
-{
+			   const double par[],const double var[], double Jf[], double util[], double util2[], double util3[]) {
 	int i,i1,j, tmp;
 	int p1 = model->var_len;
 	double eps;
@@ -449,7 +448,7 @@ int idmc_model_NumJf(idmc_model *model,
 	if(tmp!=IDMC_OK)
 		return tmp;
 	for(i=0; i<p1; i++) { //for each variable
-		memcpy(util2, var, p1); /*store x0*/
+		memcpy(util2, var, p1 * sizeof(double)); /*store x0*/
 		eps = ((var[i] < 1) ? 1: var[i]) * IDMC_EPS_VALUE;
 		util2[i] = var[i]+eps;
 		tmp = idmc_model_f(model,  par, util2, util3);
@@ -464,7 +463,7 @@ int idmc_model_NumJf(idmc_model *model,
 /*
  * calculate the "name" matrix in the specified point (var) and
  * parameters (par) returning the result in f.
- * On error condition (DLUA_E*) the top of the stack contains the
+ * On error condition (IDMC_E*) the top of the stack contains the
  * lua error message string.
  */
 static int eval_matrix(
@@ -495,7 +494,11 @@ static int eval_matrix(
 			model->var_len * model->var_len, // returns
 			0);
 	if (err != 0) {
-		sprintf(model->errorMessage, "%s", lua_tostring(L, -1)+12);
+		if(lua_strlen(L, -1)>12)
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 12);
+		else
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 0);
+		lua_pop(L, 1);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
@@ -512,7 +515,7 @@ static int eval_matrix(
 	for (int i = model->var_len * model->var_len - 1; i > -1; i--) {
 		if (!lua_isnumber(L, -1)) {
 			lua_pop(L, i+1);
-			sprintf(model->errorMessage, "bad matrix result");
+			sprintf(model->errorMessage, "non numeric matrix result");
 			return IDMC_ERUN;
 		}
 		Jf[i] = lua_tonumber(L, -1);
@@ -522,8 +525,7 @@ static int eval_matrix(
 	return IDMC_OK;
 }
 
-static inline int create_table(lua_State* L, const int length, char **keys, const double values[])
-{
+static inline int create_table(lua_State* L, const int length, char **keys, const double values[]) {
 	lua_newtable(L);
 
 	for (int i = 0; i < length; i++) {
