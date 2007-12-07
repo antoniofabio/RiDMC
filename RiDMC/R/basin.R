@@ -111,12 +111,16 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   main = getModelName(getBasinModel(x)),
   xlab = getModelVarNames(getBasinModel(x))[1],
   ylab = getModelVarNames(getBasinModel(x))[2],
-  axes=TRUE, legend=FALSE, ...) {
+  axes=TRUE, legend=FALSE, attractorPoints=FALSE,
+  pch=16, cex=0.2, ...) {
   imG <- as.grob(x, color.attractors=color.attractors, color.basins=color.basins, color.infinity=color.infinity)
+  data <- getBasinData(x)
+  vals <- unique(as.vector(data))
+  vals <- vals[vals>1]
+  attrCodes <- vals[(vals %% 2) == 0]
+  na <- length(attrCodes)
+  col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
   if(legend) {
-    vals <- unique(as.vector(getBasinData(x)))
-    vals <- vals[vals>1]
-    na <- sum((vals %% 2)==0)
     if(missing(labels.attr))
       labels.attr <- paste('attractor', seq_len(na))
     if(missing(labels.bas))
@@ -127,7 +131,6 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
     labels[1] <- label.infty
     labels[1+seq(1, by=2, length=na)] <- labels.attr
     labels[1+seq(2, by=2, length=na)] <- labels.bas
-    col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
     yl <- unit(0, 'npc')
     xl <- unit(0, 'npc')
     clg <- colorLegendGrob(col, labels, y=yl, x=xl, name='legend')
@@ -143,4 +146,16 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
     grid.draw(clg)
     upViewport(0)
   }
+  if(attractorPoints) {
+    downViewport('plotArea')
+    for(i in seq_along(attrCodes)) { ##for each attractor
+      acd <- attrCodes[i]
+      ids <- which(data==acd, arr.ind=TRUE)
+      grid.points(ids[,1]/NCOL(data), 1-ids[,2]/NROW(data),
+        pch=pch, size=unit(cex, 'char'), 
+        default.unit='npc', gp=gpar(col=col[i*2]))
+    }
+    upViewport(0)
+  }
+  invisible(NULL)
 }

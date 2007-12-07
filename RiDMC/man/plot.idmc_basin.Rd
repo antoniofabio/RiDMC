@@ -9,7 +9,8 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
   main = getModelName(getBasinModel(x)),
   xlab = getModelVarNames(getBasinModel(x))[1],
   ylab = getModelVarNames(getBasinModel(x))[2],
-  axes=TRUE, legend=FALSE, ...)
+  axes=TRUE, legend=FALSE, attractorPoints=FALSE,
+  pch=16, cex=0.2, ...)
 }
 \arguments{
  \item{x}{iDMC model object}
@@ -22,6 +23,8 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
  \item{labels.attr, labels.bas, label.infty}{labels for attractors, basins and infinity (only used in legend)}
  \item{axes}{should axes be showed? (TRUE or FALSE)}
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
+ \item{attractorPoints}{should attractor trajectories be superposed on plot?}
+ \item{pch, cex}{attractor trajectories point type and relative size. Ignored if \code{attractorPoints==FALSE}}
  \item{...}{arguments to and from other methods}
 }
 \description{
@@ -30,7 +33,8 @@ Plots basins of attraction of 2-dim. discrete dynamical system
 \details{
 Plots basins of attraction of 2-dim. discrete dynamical system.
 
-You can optionally add a colors legend (\code{legend=TRUE}).
+You can optionally add a colors legend (\code{legend=TRUE}) and superpose attractors trajectories
+(attractorPoints=TRUE).
 }
 \value{
 none. As a side effect, a (grid) plot is produced on current graphical device
