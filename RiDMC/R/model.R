@@ -22,15 +22,16 @@ buildModel <- function(pointer, text) {
   names(infos[[1]]) <- c("name","description","type")
   names(infos[[2]]) <- c("has_inverse","has_jacobian")
   names(infos[[3]]) <- c("n.pars","n.vars")
+	n.vars <- infos[[3]]['n.vars']
   ans$infos <- infos
   ans$f <- function(par, var)
     .Call("ridmc_model_f", model, as.double(par), as.double(var), PACKAGE='RiDMC')
   ans$g <- function(par, var)
     .Call("ridmc_model_g", model, as.double(par), as.double(var), PACKAGE='RiDMC')
   ans$Jf <- function(par, var)
-    .Call("ridmc_model_Jf", model, as.double(par), as.double(var), PACKAGE='RiDMC')
+    matrix(.Call("ridmc_model_Jf", model, as.double(par), as.double(var), PACKAGE='RiDMC'), n.vars)
   ans$NumJf <- function(par, var)
-    .Call("ridmc_model_NumJf", model, as.double(par), as.double(var), PACKAGE='RiDMC')
+    matrix(.Call("ridmc_model_NumJf", model, as.double(par), as.double(var), PACKAGE='RiDMC'), n.vars)
   ans$set.seed <- function(seed)
     invisible(.Call("ridmc_model_setGslRngSeed", model, as.integer(seed), PACKAGE='RiDMC'))
   class(ans) <- "idmc_model"
