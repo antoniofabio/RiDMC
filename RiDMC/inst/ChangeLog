@@ -1,4 +1,6 @@
 0.8-5
+	upgraded idmclib to version 0.8.1
+	Jf and NumJf model methods returns matrices instead of vectors
 	added attractors trajectories option to basin plot
 	fixed bug in plotting basins with custom colors
 	fixed bug in plotting basins with different x/y resolution
