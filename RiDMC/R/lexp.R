@@ -1,6 +1,6 @@
 lexp <- function(idmc_model, par, var, time, eps) {
   m <- idmc_model
-  checkModelParVar(m, par, var)
+  checkModelParVar(m, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   if(getModelType(m)=='C') {
     if(missing(eps)) {
@@ -19,7 +19,7 @@ lexp <- function(idmc_model, par, var, time, eps) {
 
 LyapunovExponents <- function(idmc_model, par, var, time, eps,
   which.par.vary=1, par.min, par.max, par.howMany=100) {
-  checkModelParVar(idmc_model, par, var)
+  checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
   if(modelType=='C') {

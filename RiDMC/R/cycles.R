@@ -1,5 +1,5 @@
 cycles_find <- function(idmc_model, par, var, period, eps, max.iter=100) {
-  checkModelParVar(idmc_model, par, var)
+  checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(eps)
   checkPositiveScalar(max.iter)
   period <- as.integer(period)

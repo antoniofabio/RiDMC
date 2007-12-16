@@ -1,6 +1,7 @@
 \name{internals}
 \alias{RiDMC-internals}
 \alias{buildModel}
+\alias{checkModel}
 \alias{checkModelDiscrete}
 \alias{checkModelContinuous}
 \alias{checkModelParVar}

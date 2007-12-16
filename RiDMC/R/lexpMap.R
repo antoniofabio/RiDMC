@@ -1,7 +1,7 @@
 LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
   par.x = 1, par.x.range, par.x.howMany=100, par.y = 2, par.y.range, par.y.howMany=100,
   eps.zero=sqrt(.Machine$double.eps)) {
-  checkModelParVar(idmc_model, par, var)
+  checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
   var <- as.double(var)

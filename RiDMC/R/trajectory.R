@@ -1,7 +1,7 @@
 Trajectory <- function(idmc_model, par, var, time=1, transient=0,
   seed, eps=getOption("ts.eps"), integrator=2) {
   m <- idmc_model
-  checkModelParVar(m, par, var)
+  checkModelParVar(m, par, var, deparse(substitute(idmc_model)))
   ans <- list()
   ans$transient <- transient
   ans$time <- time

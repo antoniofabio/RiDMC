@@ -12,39 +12,37 @@ exModelFile <- function(modelName) {
 	return(fname)
 }
 
-checkModelParVar <- function(model, par, var) {
-	txt <- sQuote(deparse(substitute(model)))
+checkModel <- function(model, txt=deparse(substitute(model))) {
 	if(!inherits(model, "idmc_model"))
-		stop(txt,"should be an idmc_model object")
+		stop(sQuote(txt)," should be an idmc_model object")
+}
+
+checkModelParVar <- function(model, par, var, txt=deparse(substitute(model))) {
+	checkModel(model, txt=txt)
 	npnv <- model$infos[[3]]
 	if((!missing(par))&&(length(par)!=npnv[1]))
-		stop('model has exactly', npnv[1], 'parameters')
+		stop('model has exactly ', npnv[1], ' parameters')
 	if((!missing(var))&&(length(var)!=npnv[2]))
-		stop('model has exactly', npnv[1], 'variables')
+		stop('model has exactly ', npnv[1], ' variables')
 }
 
-checkModelDiscrete <- function(model){
-  txt <- sQuote(deparse(substitute(model)))
-  if(!inherits(model, "idmc_model"))
-    stop(txt,"should be an idmc_model object")
+checkModelDiscrete <- function(model, txt=deparse(substitute(model))){
+	checkModel(model, txt=txt)
   if(getModelType(model)!='D')
-    stop(txt,"should be a discrete idmc_model object")
+    stop(sQuote(txt)," should be a discrete idmc_model object")
 }
-checkModelContinuous <- function(model){
-  txt <- sQuote(deparse(substitute(model)))
-  if(!inherits(model, "idmc_model"))
-    stop(txt,"should be an idmc_model object")
+checkModelContinuous <- function(model, txt=deparse(substitute(model))){
+	checkModel(model, txt)
   if(getModelType(model)!='C')
-    stop(txt,"should be a continuous idmc_model object")
+    stop(sQuote(txt)," should be a continuous idmc_model object")
 }
 
 
-checkPositiveScalar <- function(arg) {
-  txt <- sQuote(deparse(substitute(arg)))
+checkPositiveScalar <- function(arg, txt=deparse(substitute(arg))) {
   if((!is.numeric(arg))||(length(arg)>1))
-    stop(txt, 'should be a numeric scalar')
+    stop(sQuote(txt), ' should be a numeric scalar')
   if(arg<=0)
-    stop(txt, 'should be a positive numeric scalar')
+    stop(sQuote(txt), ' should be a positive numeric scalar')
 }
 
 ##

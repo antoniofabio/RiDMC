@@ -1,12 +1,12 @@
 Basin <- function(model, parms, xlim, xres=100, ylim,
   yres=100, attractorLimit, attractorIterations,
   method=c("fast", "slow"), ntries, seed) {
-  checkModelParVar(model, parms)
+  checkModelParVar(model, parms, txt=deparse(substitute(model)))
   checkPositiveScalar(xres)
   checkPositiveScalar(yres)
   checkPositiveScalar(attractorLimit)
   checkPositiveScalar(attractorIterations)
-  checkModelDiscrete(model)
+  checkModelDiscrete(model, deparse(substitute(model)))
   if(length(getModelVarNames(model))!=2)
     stop("'model' should have exactly 2 variables")
   method <- match.arg(method)

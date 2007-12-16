@@ -2,7 +2,7 @@
 Bifurcation <- function(idmc_model, which.var.store=1, par, var, 
   which.par.vary=1, par.min, par.max, par.howMany=100, 
   transient=100, max.period=50) {
-  checkModelParVar(idmc_model, par, var)
+  checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
   m <- idmc_model
   par.values <- seq(par.min, par.max, length=par.howMany)
   values <- .Call('ridmc_bifurcation', m$model, 
