@@ -27,7 +27,7 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{x}{an \code{idmc_bifurcation} object}
  \item{main, xlab, ylab}{usual plot options (see \code{\link{plotGrob}})}
  \item{pch, cex}{see \code{\link{par}}}
- \item{size}{points size in an arbitrary grid \code{\link{unit}} (alternative to \code{cex})}
+ \item{size}{points size in an arbitrary grid \code{\link[grid]{unit}} (alternative to \code{cex})}
  \item{y}{currently unused}
  \item{axes, bty, mar, ...}{see \code{\link{plotGrob}}}
 }

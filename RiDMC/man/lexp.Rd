@@ -36,7 +36,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
  \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }
  \item{main, xlab, ylab, ylim}{usual plot options}
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
- \item{...}{further \code{\link{gpar}} lines options}
+ \item{...}{further \code{\link[grid]{gpar}} lines options}
 }
 \description{
 Lyapunov exponents for continuous and discrete-time dynamical systems

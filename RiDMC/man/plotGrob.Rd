@@ -16,7 +16,7 @@ plotGrob(contents=NULL, main=NULL, xlab=NULL, ylab=NULL,
  \item{bty}{draw box around plot contents}
  \item{respect}{should aspect ratio be respected?}
  \item{mar}{plot margins in 'number of lines' (see \code{\link{par}})}
- \item{name, gp, vp}{see \code{\link{grob}}}
+ \item{name, gp, vp}{see \code{\link[grid]{grob}}}
 }
 \description{
 Stadard annotated plot graphical object
