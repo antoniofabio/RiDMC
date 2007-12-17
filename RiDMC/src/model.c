@@ -46,6 +46,7 @@ static int get_labels(lua_State* state, const char *name, char ***labels);
 static inline int create_table(lua_State* L, const int length, char **keys, const  double values[]);
 static int eval_function(char *name, idmc_model *model, const double par[], const double var[], double f[]);
 static int eval_matrix(char *name, idmc_model *model, const double par[], const double var[], double Jf[]);
+static void storeErrorMessage(idmc_model *model);
 
 int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
     idmc_model *model;
@@ -57,6 +58,12 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 		return IDMC_EMEM; 
 	}
 	model = *s;
+	model->errorMessage = (char*) malloc(IDMC_MAXSTRLEN * sizeof(char));
+	if(model->errorMessage==NULL) {
+		free(model);
+		model = NULL;
+		return IDMC_EMEM;
+	}
 
 	L = lua_open();
 	model->L = L;
@@ -93,6 +100,7 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 
 	if (status != 0) {
 		if (status == LUA_ERRSYNTAX) {
+			storeErrorMessage(model);
 			return IDMC_ELUASYNTAX; // lua syntax error
 		}
 		else if (status == LUA_ERRMEM) {
@@ -103,9 +111,6 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 		else {
 			return IDMC_EERROR;
 		}
-
-		assert(1); // not reached
-		return IDMC_EERROR;
 	}
 
 	status = get_labels(L, IDMC_IDENT_PARAMETERS, &(model->par));
@@ -177,18 +182,11 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 	
 	model->interrupt=0;
 
-	model->errorMessage = (char*) malloc(IDMC_MAXSTRLEN * sizeof(char));
-	if(model->errorMessage==NULL) {
-		free(model);
-		lua_close(L);
-		model = NULL;
-		return IDMC_EMEM;
-	}
-
 	return IDMC_OK;
 }
 
 void idmc_model_free(idmc_model *model) {
+	if(model!=NULL) {
 	if (model->var != NULL) {
 		if (model->var[0] != NULL)
 			free(model->var[0]);
@@ -223,6 +221,7 @@ void idmc_model_free(idmc_model *model) {
 	free(model->type);
 
 	free(model);
+	}
 }
 
 idmc_model* idmc_model_clone(idmc_model *s) {
@@ -240,6 +239,17 @@ static int idmc_panic (lua_State *L) {
 
 	assert(1);
 	return 0; // not reached
+}
+
+/*
+Pops last error message from lua stack and stores it in model errorMessage buffer
+*/
+static void storeErrorMessage(idmc_model *model) {
+	if(lua_strlen(model->L, -1)>12)
+		sprintf(model->errorMessage, "%s", lua_tostring(model->L, -1) + 12);
+	else
+		sprintf(model->errorMessage, "%s", lua_tostring(model->L, -1) + 0);
+	lua_pop(model->L, 1);
 }
 
 /*
@@ -390,11 +400,7 @@ static int eval_function(
 		model->var_len,                  // returns
 		0);
 	if (err != 0) {
-		if(lua_strlen(L, -1)>12)
-			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 12);
-		else
-			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 0);
-		lua_pop(L, 1);
+		storeErrorMessage(model);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
@@ -494,11 +500,7 @@ static int eval_matrix(
 			model->var_len * model->var_len, // returns
 			0);
 	if (err != 0) {
-		if(lua_strlen(L, -1)>12)
-			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 12);
-		else
-			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 0);
-		lua_pop(L, 1);
+		storeErrorMessage(model);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}

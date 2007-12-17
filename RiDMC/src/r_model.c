@@ -33,7 +33,10 @@ SEXP ridmc_model_alloc(SEXP in_buf) {
 	buflen = strlen(buf);
 	UNPROTECT(1);
 	ians = idmc_model_alloc(buf, buflen, &model);
-	if(ians != IDMC_OK)
+	if(ians == IDMC_ELUASYNTAX) {
+		idmc_model_free(model);
+		error("[idmclib error: %s] %s\n", idmc_err_message[n], ((idmc_model*) R_ExternalPtrAddr(m))->errorMessage)
+	} else if(ians != IDMC_OK)
 		RIDMC_GENERIC_ERROR(ians);
 	PDEBUG("allocated model %p\n", model);
 	PROTECT(ans = R_MakeExternalPtr(model, R_NilValue, R_NilValue));
