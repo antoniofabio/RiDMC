@@ -1,4 +1,5 @@
 0.8-6
+	fixed error in TrajectoryList plotting function
 	added detailed LUA syntax errors reporting
 	upgraded idmclib to version 0.8.2
 
