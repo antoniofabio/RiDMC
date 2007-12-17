@@ -153,7 +153,7 @@ TrajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
 as.grob.idmc_trajectoryList <- function(x, colors, ...) {
   as.grob2 <- function(obj, color, ...)
     as.grob(obj, gp=gpar(col=color), ...)
-  childs <- mapply(as.grob2, x, colors, ..., SIMPLIFY=FALSE)
+  childs <- mapply(as.grob2, x, colors, SIMPLIFY=FALSE)
   xmin <- min(sapply(childs, function(x) min(Xlim(x))))
   xmax <- max(sapply(childs, function(x) max(Xlim(x))))
   ymin <- min(sapply(childs, function(x) min(Ylim(x))))
