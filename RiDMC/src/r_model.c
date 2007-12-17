@@ -35,7 +35,7 @@ SEXP ridmc_model_alloc(SEXP in_buf) {
 	ians = idmc_model_alloc(buf, buflen, &model);
 	if(ians == IDMC_ELUASYNTAX) {
 		idmc_model_free(model);
-		error("[idmclib error: %s] %s\n", idmc_err_message[n], ((idmc_model*) R_ExternalPtrAddr(m))->errorMessage)
+		error("[idmclib error: %s] %s\n", idmc_err_message[ians], model->errorMessage);
 	} else if(ians != IDMC_OK)
 		RIDMC_GENERIC_ERROR(ians);
 	PDEBUG("allocated model %p\n", model);
