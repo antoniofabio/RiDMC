@@ -111,15 +111,15 @@ as.grob.idmc_trajectory <- function(x, vars=1:2, type='l', ...) {
   vars <- varNames[vars]
   if(length(varNames)<2) {
     y <- as.ts(x)
-    xyGrob(time(y), y, type=type, name='xy', ...)
+    xyGrob(time(y), y, type=type, col=col, name='xy', ...)
   } else {
     xx <- as.matrix(x)[,vars]
-    xyGrob(xx[,1], xx[,2], type=type, name='xy', ...)
+    xyGrob(xx[,1], xx[,2], type=type, col=col, name='xy', ...)
   }
 }
 
 plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
-  main = getModelName(getTrajectoryModel(x)), xlab, ylab,
+	main = getModelName(getTrajectoryModel(x)), xlab, ylab,
   mar = NULL, axes=TRUE, bty=TRUE, ...) {
   mdl <- getTrajectoryModel(x)
   varNames <- getModelVarNames(mdl)
