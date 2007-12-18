@@ -95,7 +95,7 @@ as.grob.idmc_lexp_diagram <- function(x, col, lty, ylim = NULL, ...) {
     lines[[j]] <- linesGrob(x1, y[,j], gp=gpar(col=col[j], lty=lty[j], ...), default.units = "native")
   lines <- do.call(gList, lines)
   cG <- gTree(children=lines, name='lines')
-  contentsGrob(cG, xlim=xlim, ylim=ylim)
+  contentsGrob(cG, xlim=xlim, ylim=.fixLim(ylim))
 }
 
 plot.idmc_lexp_diagram <- function(x, y, col, lty,
