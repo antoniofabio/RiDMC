@@ -1,5 +1,5 @@
 0.8-6
-	fixed (many) bugs in Trajectory and TrajectoryList plotting functions
+	fixed (many) bugs in Trajectory, TrajectoryList, LyapunpovExponents plotting functions
 	added detailed LUA syntax errors reporting
 	upgraded idmclib to version 0.8.2
 
