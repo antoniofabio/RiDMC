@@ -111,10 +111,10 @@ as.grob.idmc_trajectory <- function(x, vars=1:2, type='l', ...) {
   vars <- varNames[vars]
   if(length(varNames)<2) {
     y <- as.ts(x)
-    xyGrob(time(y), y, type=type, col=col, name='xy', ...)
+    xyGrob(time(y), y, type=type, name='xy', ...)
   } else {
     xx <- as.matrix(x)[,vars]
-    xyGrob(xx[,1], xx[,2], type=type, col=col, name='xy', ...)
+    xyGrob(xx[,1], xx[,2], type=type, name='xy', ...)
   }
 }
 
