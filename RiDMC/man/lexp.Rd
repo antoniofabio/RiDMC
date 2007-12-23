@@ -17,6 +17,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
   main = getModelName(x$model),
   xlab = x$which.par,
   ylab = 'Lyapunov exponent',
+	xlim = NULL,
   ylim = NULL,
   mar = NULL,
   axes=TRUE,
@@ -34,7 +35,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
  \item{x}{a \code{idmc_lexp_diagram} object}
  \item{y}{currently unused}
  \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }
- \item{main, xlab, ylab, ylim}{usual plot options}
+ \item{main, xlab, ylab, xlim, ylim}{usual plot options}
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
  \item{...}{further \code{\link[grid]{gpar}} lines options}
 }

@@ -79,7 +79,7 @@ print.idmc_lexp_diagram <- function(x, ...) {
   cat('MLE range: [', paste(format(mle, digits=4), collapse=', '), ']\n')
 }
 
-as.grob.idmc_lexp_diagram <- function(x, col, lty, ylim = NULL, ...) {
+as.grob.idmc_lexp_diagram <- function(x, col, lty, xlim=NULL, ylim = NULL, ...) {
   y <- x$values
   x1 <- x$par.values
   nc <- NCOL(y)
@@ -87,7 +87,8 @@ as.grob.idmc_lexp_diagram <- function(x, col, lty, ylim = NULL, ...) {
     col <- seq_len(nc)
   if(missing(lty))
     lty <- rep(1,nc)
-  xlim <- range(x1)
+	if(is.null(xlim))
+  	xlim <- range(x1)
   if(is.null(ylim))
     ylim <- range(as.vector(y))
   lines <- list()
@@ -102,12 +103,13 @@ plot.idmc_lexp_diagram <- function(x, y, col, lty,
   main = getModelName(x$model),
   xlab = x$which.par,
   ylab = 'Lyapunov exponent',
+	xlim = NULL,
   ylim = NULL,
   mar = NULL,
   axes=TRUE,
   bty=TRUE,
   ...) {
-  cG <- as.grob(x, col, lty, ylim = NULL, ...)
+  cG <- as.grob(x, col, lty, xlim = xlim, ylim = ylim, ...)
   pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
   grid.draw(pG)
 }
