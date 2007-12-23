@@ -9,7 +9,7 @@
 Model trajectories
 }
 \usage{
-Trajectory(idmc_model, par, var, time=1, transient=0, seed, eps, integrator=2)
+Trajectory(idmc_model, par, var, time=1, transient=0, seed, eps=getOption("ts.eps"), integrator=2)
 stepTrajectory(idmc_trajectory, time=1)
 setTrajectorySeed(idmc_trajectory, seed)
 \method{as.matrix}{idmc_trajectory}(x, ...)
@@ -21,10 +21,10 @@ setTrajectorySeed(idmc_trajectory, seed)
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
  \item{par, var}{model parameters values and starting point value}
- \item{time}{time span (after transient)}
+ \item{time}{time span after transient (in time units)}
  \item{transient}{transient length (in time units)}
- \item{seed}{RNG seed}
- \item{eps}{integration step}
+ \item{seed}{RNG seed (optional)}
+ \item{eps}{integration step (ignored for discrete time systems)}
  \item{integrator}{an integer code between 0 and 8 indicating what integrator to use (see details)}
  \item{idmc_trajectory}{an already created \code{idmc_trajectory} object}
  \item{x}{an \code{idmc_trajectory} object}
@@ -64,8 +64,6 @@ the integration step \code{eps} and the ODE numerical integrator. The following 
 8 \tab M=2 implicit Gear method
 }
 
-Note: if you don't specify the integration step \code{eps}, 
-the value \code{getOption("ts.eps")} is taken as default.
 }
 \author{
 Antonio, Fabio Di Narzo
