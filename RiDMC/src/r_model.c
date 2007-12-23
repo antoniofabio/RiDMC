@@ -26,16 +26,18 @@ SEXP ridmc_model_alloc(SEXP in_buf) {
 	SEXP sxp_buf;
 	SEXP ans;
 	char *buf;
+	char msg[IDMC_MAXSTRLEN];
 	int buflen, ians;
 	idmc_model *model;
 	PROTECT( sxp_buf = coerceVector( in_buf, STRSXP ) );
 	buf = (char*) CHAR( STRING_ELT(sxp_buf,0) );
 	buflen = strlen(buf);
-	UNPROTECT(1);
 	ians = idmc_model_alloc(buf, buflen, &model);
+	UNPROTECT(1);
 	if(ians == IDMC_ELUASYNTAX) {
+		strcpy(msg, model->errorMessage);
 		idmc_model_free(model);
-		error("[idmclib error: %s] %s\n", idmc_err_message[ians], model->errorMessage);
+		error("[idmclib error: %s] %s\n", idmc_err_message[ians], msg);
 	} else if(ians != IDMC_OK)
 		RIDMC_GENERIC_ERROR(ians);
 	PDEBUG("allocated model %p\n", model);
