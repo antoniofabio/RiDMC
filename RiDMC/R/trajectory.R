@@ -150,9 +150,9 @@ TrajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
   trList
 }
 
-as.grob.idmc_trajectoryList <- function(x, colors, ...) {
-  as.grob2 <- function(obj, color, ...)
-    as.grob(obj, gp=gpar(col=color), ...)
+as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, ...) {
+  as.grob2 <- function(obj, color)
+    as.grob(obj, vars=vars, type=type, gp=gpar(col=color, ...))
   childs <- mapply(as.grob2, x, colors, SIMPLIFY=FALSE)
   xmin <- min(sapply(childs, function(x) min(Xlim(x))))
   xmax <- max(sapply(childs, function(x) max(Xlim(x))))
@@ -192,7 +192,7 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
     mar <- c(4,4,4,rightMargin)
     mar[4] <- mar[4]*1.04
   }
-  cG <- as.grob(x, colors=as.list(colors), vars=vars, type=type, ...)
+  cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), ...)
   grid.draw(plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty))
   if(legend) {
     downViewport('rightMarginArea')

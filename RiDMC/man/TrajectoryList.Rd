@@ -23,7 +23,8 @@ TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
  \item{legend}{should a legend be showed?}
  \item{labels}{legend labels}
- \item{...}{arguments to and from other methods}
+ \item{...}{arguments to and from other methods.
+For \code{plot.idmc_trajectoryList}, arguments to \code{\link[grid]{gpar}}}
 }
 \description{
 Computes (and plots) a list of continuous and discrete trajectories from given model (\code{idmc_model}),
