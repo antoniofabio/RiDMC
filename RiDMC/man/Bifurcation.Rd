@@ -1,5 +1,6 @@
 \name{Bifurcation}
 \alias{Bifurcation}
+\alias{as.matrix.idmc_bifurcation}
 \alias{plot.idmc_bifurcation}
 \title{
 Bifurcation plot
@@ -8,6 +9,7 @@ Bifurcation plot
 Bifurcation(idmc_model, which.var.store=1, par, var, 
 	which.par.vary=1, par.min, par.max, par.howMany=100, 
 	transient=100, max.period=50)
+\method{as.matrix}{idmc_bifurcation}(x, ...)
 \method{plot}{idmc_bifurcation}(x, y, pch=16, cex=0.2,
   size = unit(cex, 'char'),
   main = getModelName(x$model),
@@ -32,7 +34,11 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{axes, bty, mar, ...}{see \code{\link{plotGrob}}}
 }
 \description{
-Computes bifurcation plot.
+Computes a bifurcation diagram.
+
+\code{as.matrix} converts it into a plain matrix object.
+
+\code{plot} plots it in a convenient manner.
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -66,4 +72,10 @@ downViewport('plotArea')
 grid.lines(c(2.5,4.0), c(0,0), default.units='native', gp=gpar(col='gray'))
 ##Go back to 'root' viewport
 popViewport(0)
+
+\dontshow{
+m <- Model(exModelFile('logistic'))
+bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0, par.howMany=10, transient=10, max.period=10)
+stopifnot(inherits(as.matrix(bf), 'matrix'))
+}
 }

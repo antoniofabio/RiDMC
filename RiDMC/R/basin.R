@@ -50,8 +50,8 @@ Basin <- function(model, parms, xlim, xres=100, ylim,
 }
 getBasinModel <- function(obj, ...)
   obj$model
-getBasinData <- function(obj, ...)
-  obj$data
+as.matrix.idmc_basin <- function(x, ...)
+	x$data
 
 print.idmc_basin <- function(x, ...){
   mdl <- getBasinModel(x)
@@ -89,7 +89,7 @@ makeBasinsPalette <- function(values, color.attractors, color.basins, color.infi
 
 as.grob.idmc_basin <- function(x, color.attractors, color.basins, 
   color.infinity, ...) {
-  mat <- getBasinData(x)
+  mat <- as.matrix(x)
   vals <- unique(as.vector(mat))
   vals <- vals[vals>1]
   attrCodes <- vals[(vals %% 2)==0]
@@ -114,7 +114,7 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   axes=TRUE, legend=FALSE, attractorPoints=FALSE,
   pch=16, cex=0.2, ...) {
   imG <- as.grob(x, color.attractors=color.attractors, color.basins=color.basins, color.infinity=color.infinity)
-  data <- getBasinData(x)
+  data <- as.matrix(x)
   vals <- unique(as.vector(data))
   vals <- vals[vals>1]
   attrCodes <- vals[(vals %% 2) == 0]

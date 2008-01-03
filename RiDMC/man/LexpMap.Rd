@@ -1,5 +1,6 @@
 \name{Lyapunov exponents map}
 \alias{LyapunovExponentsMap}
+\alias{as.matrix.idmc_lexp_map}
 \alias{plot.idmc_lexp_map}
 \alias{print.idmc_lexp_map}
 \title{
@@ -10,6 +11,7 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
   par.x = 1, par.x.range, par.x.howMany=100, par.y = 2, par.y.range, par.y.howMany=100,
   eps.zero=sqrt(.Machine$double.eps))
 \method{print}{idmc_lexp_map}(x, ...)
+\method{as.matrix}{idmc_lexp_map}(x, ...)
 \method{plot}{idmc_lexp_map}(x, y, colors, labels,
   main = getModelName(x$model),
   xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, ...)
@@ -31,14 +33,13 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
  \item{...}{arguments to/from other methods}
 }
 \description{
-Lyapunov exponents for continuous and discrete-time dynamical systems
+Lyapunov exponents for continuous and discrete-time dynamical systems in parameters space
 }
 \details{
-Computes numerically Lyapunov exponents for continuous and discrete-time dynamical systems.
+Computes numerically Lyapunov exponents for continuous and discrete-time dynamical systems
+in a bi-dimensional parameters space.
 
-\code{lexp} computes Lyapunov exponents spectrum for a single set of parameter values, while 
-\code{LyapunovExponents} computes Lyapunov exponents spectrum for a range of values
-of one selected parameter. The output of \code{LyapunovExponents} can be directly plotted
+The output of \code{LyapunovExponentsMap} can be directly plotted
 with \code{plot} or converted to a regular R matrix with \code{as.matrix} for subsequent
 manipulation.
 
@@ -87,4 +88,8 @@ plot(ly)
 ##change colors:
 grid.newpage()
 plot(ly, colors=c('blue', 'red', 'green'))
+
+\dontshow{
+stopifnot(inherits(as.matrix(ly), 'matrix'))
+}
 }

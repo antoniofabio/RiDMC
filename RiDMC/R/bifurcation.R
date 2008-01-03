@@ -25,6 +25,14 @@ Bifurcation <- function(idmc_model, which.var.store=1, par, var,
   return(ans)
 }
 
+as.matrix.idmc_bifurcation <- function(x, ...){
+	y <- x$values
+  x1 <- rep(x$par.values, each=x$max.period)
+  ans <- cbind(x1, y)
+	colnames(ans) <- c(x$which.par, x$which.var)
+	ans
+}
+
 print.idmc_bifurcation <- function(x, ...) {
   cat('= iDMC bifurcation plot =\n')
   cat('Model: ', getModelName(x$model), '\n')
@@ -37,10 +45,11 @@ print.idmc_bifurcation <- function(x, ...) {
 }
 
 as.grob.idmc_bifurcation <- function(x, pch=16, cex=0.2, size=unit(cex, 'char'), ...) {
-  y <- x$values
-  x1 <- rep(x$par.values, each=x$max.period)
+	xx <- as.matrix(x)
+	x1 <- xx[,1]
+	y <- xx[,2]
   pG <- pointsGrob(x1, y, pch=pch, size=size, name='points')
-  contentsGrob(pG, xlim=range(x1[is.finite(x1)]), ylim=.fixLim(range(y[is.finite(x1)])))
+  contentsGrob(pG, xlim=range(x1[is.finite(x1)]), ylim=.fixLim(range(y[is.finite(y)])))
 }
 
 plot.idmc_bifurcation <- function(x, y, pch=16, cex=0.2,

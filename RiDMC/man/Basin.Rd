@@ -1,5 +1,6 @@
 \name{Basin}
 \alias{Basin}
+\alias{as.matrix.idmc_basin}
 \alias{print.idmc_basin}
 \title{
 Computes basins of attraction for a 2-dim. discrete dynamical system
@@ -8,6 +9,7 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
 Basin(model, parms, xlim, xres=100, ylim, yres=100, 
 	attractorLimit, attractorIterations, 
 	method=c('fast', 'slow'), ntries, seed)
+\method{as.matrix}{idmc_basin}(x, ...)
 \method{print}{idmc_basin}(x, ...)
 }
 \arguments{
@@ -35,14 +37,15 @@ and observing on which attractor the trajectory falls.
 
 In the fast algorithm, attractors are identified 'on the fly'.
 
-In the slow algorithm, there is a preliminary search of map attractors by iterating from \code{ntries} random starting positions in the grid. In some cases, this gives
-more accurate results.
+In the slow algorithm, there is a preliminary search of map attractors by iterating from \code{ntries} random starting positions in the grid. In some cases, this gives more accurate results.
 
 Note: with the slow algorithm, use the \code{seed} argument to get reproducible results.
 }
 \value{
 \code{Basin} returns a \code{idmc_basin} object, which can be subsequently plotted
 by calling \code{plot(\dots)} on it.
+
+The \code{as.matrix} method converts the \code{idmc_basin} object in a plain matrix of integers.
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -74,5 +77,12 @@ plot(b1, color.attractors='blue', color.basins='green', color.infinity='white')
 b1 <- Basin(m1, c(1.42,0.3), c(-2,2), 500, c(-2, 2), 500, 100, 100)
 grid.newpage()
 plot(b1, legend=TRUE, attractorPoints=TRUE, pch=1, cex=1)
+
+\dontshow{
+m1 <- Model(exModelFile('henon'))
+b1 <- Basin(m1, c(1.42,0.3), c(-2,2), 20, c(-2, 2), 20, 10, 10)
+mat <- as.matrix(b1)
+stopifnot(inherits(mat, 'matrix'))
+}
 
 }

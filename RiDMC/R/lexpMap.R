@@ -116,8 +116,11 @@ print.idmc_lexp_map <- function(x, ...) {
   cat('Varying y-axis par. range: [', paste(x$par.y.range, collapse=', '), ']\n')
 }
 
-as.grob.idmc_lexp_map <- function(x, colors, ...) {
+as.matrix.idmc_lexp_map <- function(x, ...)
   mat <- x$mat
+
+as.grob.idmc_lexp_map <- function(x, colors, ...) {
+  mat <- as.matrix(x)
   if(missing(colors))
     colors <- seq_len(max(as.vector(mat)))
   colors <- colors[as.vector(mat)]
