@@ -11,6 +11,8 @@ RiDMC: the iDMC->R interface
 \details{
 \code{RiDMC} is an R interface to the \code{idmclib} library for the 
 numerical analysis of dynamical systems.
+
+See examples for getting started.
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -28,10 +30,11 @@ exModelFile()
 
 ##Load and init an univariate discrete time model
 model <- Model(exModelFile('logistic'))
-summary(model)
+model
 ##Compute trajectory
 tr <- Trajectory(model, par = 3.9, var = 0.6, time = 20)
 tr
+##Plot it
 plot(tr)
 
 ##Load and init a bivariate discrete time model
@@ -40,17 +43,20 @@ model <- Model(exModelFile('cremona'))
 basin <- Basin(model, 1.33, c(-1.2, 1.2), 300, 
   c(-1.2, 1.2), 300, 1000, 1000,
   method='slow', ntries=1000, seed=123)
+##Plot them
 grid.newpage()
 plot(basin)
 
 ##Load the logistic map
 model <- Model(exModelFile('logistic'))
-##Draw bifurcation plot
+##Compute bifurcation diagram
 bifurcation <- Bifurcation(model, par=1, var=0.3, par.min=2.5, par.max=4.0)
+##Plot it
 grid.newpage()
 plot(bifurcation, cex=0.5)
 ##Compute Lyapunov exponents
 le <- LyapunovExponents(model, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
+##Plot them
 grid.newpage()
 plot(le, col="red")
 downViewport('plotArea')
