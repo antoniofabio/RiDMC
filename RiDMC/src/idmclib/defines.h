@@ -18,8 +18,15 @@ Last modified: $Date$
 #ifndef _IDMC_DEFINES_H
 #define _IDMC_DEFINES_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <math.h>
+#include <float.h>
+
 /* eps value for numerical derivative computation */
-#define IDMC_EPS_VALUE 2e-8
+#define IDMC_EPS_VALUE sqrt(DBL_EPSILON)
 
 /* normal operation */
 #define IDMC_OK 0
@@ -33,9 +40,13 @@ Last modified: $Date$
 #define IDMC_EMODEL 4
 /* inconsistent state (disaster) */
 #define IDMC_EERROR 5
-/* algorithm failed */
+/* algorithm failed, or logical error */
 #define IDMC_EMATH 6
 /* interrupted by request */
 #define IDMC_EINT 7
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -18,6 +18,9 @@ Last modified: $Date$
 */
 #ifndef matrices_include_guard
 #define matrices_include_guard
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void vector_out(gsl_vector* v);
 
@@ -70,5 +73,8 @@ double* s, int m,int n,int p);
 inline void asym(double* a,int n);
 
 
-#endif /* matrices_include_guard*/
+#ifdef __cplusplus
+}
+#endif
 
+#endif /* matrices_include_guard*/

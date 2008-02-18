@@ -18,6 +18,10 @@ Last modified: $Date$
 #ifndef __BASINS_SLOW_H__
 #define __BASINS_SLOW_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "basin_common.h"
 #include "defines.h"
 #include "model.h"
@@ -67,5 +71,9 @@ int idmc_basin_slow_init(idmc_basin_slow* p);
 int idmc_basin_slow_step(idmc_basin_slow* p);
 /*check if algorithm finished*/
 int idmc_basin_slow_finished(idmc_basin_slow* p);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

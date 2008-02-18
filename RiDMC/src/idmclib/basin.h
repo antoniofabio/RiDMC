@@ -18,6 +18,10 @@ Last modified: $Date$
 #ifndef __BASINS_H__
 #define __BASINS_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "basin_common.h"
 #include "defines.h"
 #include "model.h"
@@ -60,5 +64,9 @@ void idmc_basin_free(idmc_basin* p);
 int idmc_basin_step(idmc_basin* p);
 /*check if algorithm finished*/
 int idmc_basin_finished(idmc_basin* p);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

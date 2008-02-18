@@ -25,6 +25,7 @@ SLOW BASINS ALGORITHM
 #include <assert.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#include "basin_common.h"
 #include "defines.h"
 #include "gsl_rng_lualib.h"
 #include "raster.h"
@@ -33,6 +34,8 @@ SLOW BASINS ALGORITHM
 
 #define getAttractorIndex(color) ((color)-2)/2
 #define getAttractorColor(index) (index)*2+2
+#define fillBasinSlowTrack(p, startPoint, iterations, value) fillRasterTrack(RASTER(p), MODEL(p), \
+	(p)->parameters, startPoint, iterations, value, p->work)
 
 int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
@@ -122,8 +125,6 @@ void idmc_basin_slow_free(idmc_basin_slow* p) {
 	free(p);
 }
 
-static void fillBasinSlowTrack(idmc_basin_slow* p, double *startPoint, int iterations, int value);
-
 #define STEP(ans) idmc_model_f(m, p->parameters, (ans), (ans))
 /*
 Init basin_slow object: find attractors
@@ -198,16 +199,6 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 	p->nAttractors = attractorIndex-1;
 	p->initialized = 1;
 	return IDMC_OK;
-}
-
-static void fillBasinSlowTrack(idmc_basin_slow* p, double *startPoint, int iterations, int value) {
-	memcpy(p->work, startPoint, 2 * sizeof(double));
-	for(int i=0; i<iterations; i++) {
-		if(!isPointInsideBounds(p, p->work))
-			continue;
-		setValue(p, p->work, value);
-		idmc_model_f(MODEL(p), p->parameters, p->work, p->work);
-	}
 }
 
 /*

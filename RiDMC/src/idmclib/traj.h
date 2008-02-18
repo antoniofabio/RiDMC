@@ -18,6 +18,9 @@ Last modified: $Date$
 */
 #ifndef TRAJ_H
 #define TRAJ_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <string.h>
 #include <gsl/gsl_odeiv.h>
@@ -55,5 +58,9 @@ int idmc_traj_ctrajectory_alloc(idmc_model *model, double *parValues, double *va
 						  idmc_traj_ctrajectory **ans);
 void idmc_traj_ctrajectory_free(idmc_traj_ctrajectory *trajectory);
 int idmc_traj_ctrajectory_step(idmc_traj_ctrajectory *trajectory);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

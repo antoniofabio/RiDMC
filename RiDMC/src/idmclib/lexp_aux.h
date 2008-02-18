@@ -20,11 +20,19 @@ Last modified: $Date$
 
 #ifndef __idmc_lexp_aux_include__
 #define __idmc_lexp_aux_include__
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 inline int compute_lexp(idmc_model* model, double* par, int dim, double step, 
 double* y, double t1, double* l, double* alloc_memory);
 
 inline int time_plot_step(idmc_model* model, int dim, double step, double* t,
 double* pars, double* y, double* Q, double* l, double* alloc_memory);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

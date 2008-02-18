@@ -18,6 +18,10 @@ Last modified: $Date$
 */
 #ifndef MODEL_H
 #define MODEL_H
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <lua.h>
 
 #include "defines.h"
@@ -37,7 +41,6 @@ extern char *idmc_err_message[];
 #define IDMC_IDENT_INVERSE_JACOBIAN "Jg"
 
 #define IDMC_MAXSTRLEN 1024
-
 
 typedef struct {
 	lua_State* L;
@@ -84,4 +87,9 @@ int idmc_model_Jf(idmc_model *model, const double par[], const double var[], dou
 int idmc_model_Jg(idmc_model *model, const double par[], const double var[], double Jf[]);
 int idmc_model_NumJf(idmc_model *model, const double par[], const double var[], double Jf[], 
 			   double util[], double util2[], double util3[]);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

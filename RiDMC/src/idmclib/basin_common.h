@@ -1,6 +1,15 @@
 #ifndef __BASINS_COMMON_H__
 #define __BASINS_COMMON_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <string.h>
+#include "defines.h"
+#include "raster.h"
+#include "model.h"
+
 /*basin of infinity code:*/
 #define IDMC_BASIN_INFINITY 1
 
@@ -8,7 +17,10 @@
 #define MODEL(basin) ((basin)->model)
 #define RASTER(basin) ((basin)->raster)
 
-/*Internal macros*/
+/*Internal macros and functions*/
+void fillRasterTrack(idmc_raster *r, idmc_model *m,
+	double *par, double *startPoint, int iterations, int value, double *workspace);
+
 #define getCurrPoint(p, point) \
 	do { \
 		while ( (p->currId < p->dataLength ) \
@@ -34,5 +46,9 @@
 
 /*Stopping condition:*/
 #define basin_finished(p) ((p)->currId >= ((p)->dataLength))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -18,6 +18,10 @@ Last modified: $Date$
 */
 #ifndef LEXP_H
 #define LEXP_H
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "model.h"
 
 int idmc_lexp(idmc_model* model, const double *par, double *startPoint, double *result, int iterations);
@@ -27,5 +31,9 @@ int idmc_lexp_ode(idmc_model* model, double *parameters, double *startPoint,
 
 int idmc_lexp_ode_step(idmc_model* model, double *parameters, double* result,
 						  double* Q, double* y, double* t, double step);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

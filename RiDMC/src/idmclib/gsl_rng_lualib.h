@@ -19,6 +19,10 @@ Last modified: $Date$
 #ifndef __gsl_rng_lualib__
 #define __gsl_rng_lualib__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <lua.h>
@@ -45,4 +49,9 @@ int getGslRngBeta(lua_State *L);
 int getGslRngLognormal(lua_State *L);
 int getGslRngLogistic(lua_State *L);
 int getGslRngPareto(lua_State *L);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
