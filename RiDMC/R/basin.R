@@ -112,7 +112,7 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   xlab = getModelVarNames(getBasinModel(x))[1],
   ylab = getModelVarNames(getBasinModel(x))[2],
   axes=TRUE, legend=FALSE, attractorPoints=FALSE,
-  pch=16, cex=0.2, ...) {
+  pch=16, cex=0.2, add=FALSE, ...) {
   imG <- as.grob(x, color.attractors=color.attractors, color.basins=color.basins, color.infinity=color.infinity)
   data <- as.matrix(x)
   vals <- unique(as.vector(data))
@@ -140,6 +140,8 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   } else
     mar <- NULL
   pG <- plotGrob(imG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
+  if(!add)
+    grid.newpage()
   grid.draw(pG)
   if(legend) {
     downViewport('rightMarginArea')

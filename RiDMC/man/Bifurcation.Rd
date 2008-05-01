@@ -15,7 +15,7 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
   main = getModelName(x$model),
   xlab = x$which.par,
   ylab = x$which.var,
-  axes=TRUE, bty=TRUE, mar=NULL, ...)
+  axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...)
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
@@ -31,7 +31,9 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{pch, cex}{see \code{\link{par}}}
  \item{size}{points size in an arbitrary grid \code{\link[grid]{unit}} (alternative to \code{cex})}
  \item{y}{currently unused}
- \item{axes, bty, mar, ...}{see \code{\link{plotGrob}}}
+ \item{axes, bty, mar}{see \code{\link{plotGrob}}}
+ \item{add}{add to existing plot}
+ \item{...}{arguments to and from other methods}
 }
 \description{
 Computes a bifurcation diagram.
@@ -50,23 +52,21 @@ Antonio, Fabio Di Narzo
 \examples{
 m <- Model(exModelFile('logistic'))
 bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
-grid.newpage()
 plot(bf, cex=0.3)
 
 grid.newpage()
-
 ##Setup: 2 rows, 1 column:
 pushViewport(viewport(layout=grid.layout(2, 1)))
 ##Go to second row:
 pushViewport(viewport(layout.pos.row=2))
 ##Plot bifurcation diagram:
-plot(bf, cex=0.15, main=NULL)
+plot(bf, cex=0.15, main=NULL, add=TRUE)
 ##go back to 1st row:
 popViewport()
 pushViewport(viewport(layout.pos.row=1))
 ##plot Lyap.exp. diagram:
 le <- LyapunovExponents(m, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
-plot(le, main='Logistic map', xlab=NULL)
+plot(le, main='Logistic map', xlab=NULL, add=TRUE)
 ##add horizontal line to main plot area:
 downViewport('plotArea')
 grid.lines(c(2.5,4.0), c(0,0), default.units='native', gp=gpar(col='gray'))

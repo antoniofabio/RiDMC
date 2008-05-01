@@ -72,6 +72,7 @@
 \alias{expandArgList}
 \alias{.fixLim}
 \alias{enumerateExponents}
+\alias{.signsToLegend}
 \title{
 RiDMC internal functions
 }

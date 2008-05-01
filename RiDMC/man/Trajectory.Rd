@@ -16,7 +16,7 @@ setTrajectorySeed(idmc_trajectory, seed)
 \method{as.ts}{idmc_trajectory}(x, ...)
 \method{plot}{idmc_trajectory}(x, y, vars=1:2, type='l',
   main = getModelName(getTrajectoryModel(x)), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, ...)
+  mar = NULL, axes=TRUE, bty=TRUE, add=FALSE, ...)
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
@@ -32,6 +32,7 @@ setTrajectorySeed(idmc_trajectory, seed)
  \item{vars}{variables to be plotted}
  \item{type, main, xlab, ylab}{usual plot options}
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
+ \item{add}{add to existing plot}
  \item{...}{arguments to and from other methods.
 		For \code{plot.idmc_trajectory}, arguments to \code{\link[grid]{gpar}}}
 }

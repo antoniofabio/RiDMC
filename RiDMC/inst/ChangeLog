@@ -1,3 +1,7 @@
+0.9-1
+	fixed legend in Lyap. exp. map plot
+	all plot methods gain an 'add' argument (default to FALSE)
+
 0.9-0
 	added some as.matrix methods (now all idmc_* classes have an as.matrix method)
 	fixed (many) bugs in Trajectory, TrajectoryList, LyapunpovExponents plotting functions

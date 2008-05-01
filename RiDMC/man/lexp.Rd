@@ -22,6 +22,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
   mar = NULL,
   axes=TRUE,
   bty=TRUE,
+  add=FALSE,
   ...)
 }
 \arguments{
@@ -37,6 +38,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
  \item{col, lty}{vector of line colours and line types (see \code{\link{par}}) }
  \item{main, xlab, ylab, xlim, ylim}{usual plot options}
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
+ \item{add}{add to existing plot}
  \item{...}{further \code{\link[grid]{gpar}} lines options}
 }
 \description{

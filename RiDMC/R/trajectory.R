@@ -120,7 +120,7 @@ as.grob.idmc_trajectory <- function(x, vars=1:2, type='l', ...) {
 
 plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
 	main = getModelName(getTrajectoryModel(x)), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, ...) {
+  mar = NULL, axes=TRUE, bty=TRUE, add=FALSE, ...) {
   mdl <- getTrajectoryModel(x)
   varNames <- getModelVarNames(mdl)
   names(varNames) <- varNames
@@ -136,6 +136,8 @@ plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
   }
   cG <- as.grob(x, vars=vars, type=type, ...)
   pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar, bty=bty)
+  if(!add)
+    grid.newpage()
   grid.draw(pG)
 }
 
@@ -168,7 +170,7 @@ as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, ...) {
 
 plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
   main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, ...) {
+  mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, add=FALSE, ...) {
   if(missing(colors))
     colors <- seq_along(x)
   mdl <- getTrajectoryModel(x[[1]])
@@ -193,6 +195,8 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
     mar[4] <- mar[4]*1.04
   }
   cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), ...)
+  if(!add)
+    grid.newpage()
   grid.draw(plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty))
   if(legend) {
     downViewport('rightMarginArea')

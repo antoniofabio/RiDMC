@@ -14,7 +14,7 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
 \method{as.matrix}{idmc_lexp_map}(x, ...)
 \method{plot}{idmc_lexp_map}(x, y, colors, labels,
   main = getModelName(x$model),
-  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, ...)
+  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, add=FALSE, ...)
 }
 \arguments{
 \item{idmc_model}{idmc\_model object as returned by \code{\link{Model}}}
@@ -30,6 +30,7 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
  \item{labels}{(optional) legend labels for each color}
  \item{main, xlab, ylab, mar, axes}{see \code{\link{plotGrob}}}
  \item{legend}{should a legend be plotted?}
+ \item{add}{add to existing plot}
  \item{...}{arguments to/from other methods}
 }
 \description{
@@ -86,7 +87,6 @@ ly <- LyapunovExponentsMap(m, par=c(phi0=0, phi1=0), var=0.8, time=100,
 
 plot(ly)
 ##change colors:
-grid.newpage()
 plot(ly, colors=c('blue', 'red', 'green'))
 
 \dontshow{

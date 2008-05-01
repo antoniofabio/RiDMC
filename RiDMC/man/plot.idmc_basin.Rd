@@ -10,7 +10,7 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
   xlab = getModelVarNames(getBasinModel(x))[1],
   ylab = getModelVarNames(getBasinModel(x))[2],
   axes=TRUE, legend=FALSE, attractorPoints=FALSE,
-  pch=16, cex=0.2, ...)
+  pch=16, cex=0.2, add=FALSE, ...)
 }
 \arguments{
  \item{x}{iDMC model object}
@@ -25,6 +25,7 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
  \item{attractorPoints}{should attractor trajectories be superposed on plot?}
  \item{pch, cex}{attractor trajectories point type and relative size. Ignored if \code{attractorPoints==FALSE}}
+ \item{add}{add to existing plot}
  \item{...}{arguments to and from other methods}
 }
 \description{

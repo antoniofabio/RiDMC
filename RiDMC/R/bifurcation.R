@@ -57,8 +57,10 @@ plot.idmc_bifurcation <- function(x, y, pch=16, cex=0.2,
   main = getModelName(x$model),
   xlab = x$which.par,
   ylab = x$which.var,
-  axes=TRUE, bty=TRUE, mar=NULL, ...) {
+  axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...) {
   cG <- as.grob(x, pch=pch, cex=cex, size=size)
   PG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
+  if(!add)
+    grid.newpage()
   grid.draw(PG)
 }

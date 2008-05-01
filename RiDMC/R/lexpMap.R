@@ -89,14 +89,37 @@ enumerateExponents <- function(nvar) {
   ans[,3] <- apply(ans2, 1, howManyPos)
   ans[,4] <- apply(ans2, 1, howManyDiverging)
   ans <- unique(ans)
-  nms <- apply(ans, 1, function(x) {
-      paste(if(x[3]) paste(x[3], "positive, ") else "",
-        if(x[1]) paste(x[1], 'negative, ') else "",
-        if(x[2]) paste(x[2], 'zero') else "",
-        if(x[4]) paste(x[4], 'diverging') else "", sep="")
-    })
+	nms <- apply(ans, 1, .signsToLegend)
   rownames(ans) <- nms
   return(ans)
+}
+
+##Translate a vector of signs counts into a legend string
+##Counts are given in that order: (#neg, #zero, #npos, #nna)
+.signsToLegend <- function(x) {
+	tmp <- ""
+	if(x[3]) {
+		tmp <- paste(x[3], "positive")
+		if(any(x[1]>0, x[2]>0, x[4]>0))
+			tmp <- paste(tmp, ",", sep="")
+	}
+	if(x[1]){
+		if(tmp!="") tmp <- paste(tmp, " ", sep="")
+		tmp <- paste(tmp, x[1], " negative", sep="")
+		if(any(x[2]>0, x[4]>0))
+			tmp <- paste(tmp, ",", sep="")
+	}
+	if(x[2]){
+		if(tmp!="") tmp <- paste(tmp, " ", sep="")
+		tmp <- paste(tmp, x[2], " zero", sep="")
+		if(x[4])
+			tmp <- paste(tmp, ",", sep="")
+	}
+	if(x[4]) {
+		if(tmp!="") tmp <- paste(tmp, " ", sep="")
+		tmp <- paste(tmp, x[4], " NA", sep="")
+	}
+	tmp
 }
 
 print.idmc_lexp_map <- function(x, ...) {
@@ -130,7 +153,7 @@ as.grob.idmc_lexp_map <- function(x, colors, ...) {
 
 plot.idmc_lexp_map <- function(x, y, colors, labels,
   main = getModelName(x$model),
-  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, ...) {
+  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, add=FALSE, ...) {
   m <- x$model
   pn <- getModelParNames(m)
   if(missing(xlab))
@@ -164,6 +187,8 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
     mar <- NULL
   }
   pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
+  if(!add)
+    grid.newpage()
   grid.draw(pG)
   if(legend) {
     downViewport('rightMarginArea')

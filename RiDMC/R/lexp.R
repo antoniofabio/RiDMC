@@ -108,8 +108,11 @@ plot.idmc_lexp_diagram <- function(x, y, col, lty,
   mar = NULL,
   axes=TRUE,
   bty=TRUE,
+  add=FALSE,
   ...) {
   cG <- as.grob(x, col, lty, xlim = xlim, ylim = ylim, ...)
   pG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
+  if(!add)
+    grid.newpage()
   grid.draw(pG)
 }
