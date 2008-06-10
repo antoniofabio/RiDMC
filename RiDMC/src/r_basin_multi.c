@@ -96,3 +96,30 @@ SEXP ridmc_basin_multi_getData(SEXP p) {
 	memcpy(INTEGER(ans), bp->raster->data, bp->dataLength * sizeof(int));
 	return ans;
 }
+
+SEXP ridmc_basin_multi_get_attractors(SEXP p) {
+	SEXP ans; int i, j, k;
+	idmc_basin_multi *bp = (idmc_basin_multi*) R_ExternalPtrAddr(p);
+	idmc_attractor* attr_head = bp->attr_head;
+	idmc_attractor* tmpa = 0;
+	idmc_attractor_point* tmpp = 0;
+	int ntmp;
+	int nattr = idmc_attractor_list_length(attr_head);
+	int dim = bp->model->var_len;
+	PROTECT(ans = allocVector(VECSXP, nattr));
+	for(i=0; i<nattr; i++) {
+		tmpa = idmc_attractor_list_get(attr_head, i);
+		ntmp = idmc_attractor_length(tmpa);
+		SET_VECTOR_ELT(ans, i, allocMatrix(REALSXP, ntmp, dim));
+		tmpp = tmpa->hd;
+		j=0;
+		while(tmpp) {
+			for(k=0; k<dim; k++)
+				REAL(VECTOR_ELT(ans, i))[j + k*ntmp] = tmpp->x[k];
+			j++;
+			tmpp = tmpp->next;
+		}
+	}
+	UNPROTECT(1);
+	return ans;
+}
