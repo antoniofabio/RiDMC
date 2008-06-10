@@ -138,7 +138,8 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   data <- as.matrix(x)
   vals <- unique(as.vector(data))
   vals <- vals[vals>1]
-  attrCodes <- vals[(vals %% 2) == 0]
+	attractors <- .getBasinAttractors(x)
+  attrCodes <- seq_along(attractors)*2
   na <- length(attrCodes)
   col <- makeBasinsPalette(values=vals, color.attractors, color.basins, color.infinity)
   if(legend) {
@@ -171,7 +172,6 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   }
   if(attractorPoints) {
     downViewport('plotArea')
-		attractors <- .getBasinAttractors(x)
     for(i in seq_along(attractors)) { ##for each attractor
 			xx <- attractors[[i]]
       grid.points(xx[,1], xx[,2], pch=pch, size=unit(cex, 'char'),
