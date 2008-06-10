@@ -274,7 +274,7 @@ int idmc_basin_multi_step(idmc_basin_multi* p) {
 
 		/* attractor encountered */
 		if (state < ntot) {
-			fillBasinMultiTrack(p, startPoint, i, (state*2)+2);
+			fillBasinMultiTrack(p, startPoint, i, (state*2)+3);
 			break;
 		}
 		STEP(currentPoint);
