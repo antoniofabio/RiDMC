@@ -60,10 +60,16 @@ as.matrix.idmc_basin <- function(x, ...)
   attrCodes <- vals[(vals %% 2) == 0]
   na <- length(attrCodes)
 	ans <- list()
+	xmin <- obj$xlim[1]
+	xrange <- diff(obj$xlim)
+	ymin <- obj$ylim[1]
+	yrange <- diff(obj$ylim)
 	for(i in seq_along(attrCodes)) { ##for each attractor
 		acd <- attrCodes[i]
 		ids <- which(data==acd, arr.ind=TRUE)
-		ans[[i]] <- cbind(ids[,1]/NCOL(data), 1-ids[,2]/NROW(data))
+		x <- xrange * ids[,1]/NCOL(data) + xmin
+		y <- yrange * (1-ids[,2]/NROW(data)) + ymin
+		ans[[i]] <- cbind(x, y)
 	}
 	return(ans)
 }
@@ -169,7 +175,7 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
     for(i in seq_along(attractors)) { ##for each attractor
 			xx <- attractors[[i]]
       grid.points(xx[,1], xx[,2], pch=pch, size=unit(cex, 'char'),
-        default.unit='npc', gp=gpar(col=col[i*2]))
+        default.unit='native', gp=gpar(col=col[i*2]))
     }
     upViewport(0)
   }

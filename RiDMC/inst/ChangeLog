@@ -1,3 +1,6 @@
+0.11-0
+	improved internal basin plotting code (non user-visible)
+
 0.10-0
 	upgraded idmclib to version 0.10.0
 	fixed legend in Lyap. exp. map plot
