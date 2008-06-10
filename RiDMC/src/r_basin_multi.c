@@ -104,7 +104,7 @@ SEXP ridmc_basin_multi_get_attractors(SEXP p) {
 	idmc_attractor* tmpa = 0;
 	idmc_attractor_point* tmpp = 0;
 	int ntmp;
-	int nattr = idmc_attractor_list_length(attr_head);
+	int nattr = attr_head ? idmc_attractor_list_length(attr_head) : 0;
 	int dim = bp->model->var_len;
 	PROTECT(ans = allocVector(VECSXP, nattr));
 	for(i=0; i<nattr; i++) {

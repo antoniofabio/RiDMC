@@ -46,7 +46,7 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
 }
 
 .getBasinAttractors.idmc_basin_multi <- function(obj, ...) {
-	return(.Call("ridmc_basin_multi_get_attractors", obj))
+	return(.Call("ridmc_basin_multi_get_attractors", obj$basin))
 }
 
 print.idmc_basin_multi <- function(x, ...){

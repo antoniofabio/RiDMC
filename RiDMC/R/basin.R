@@ -45,6 +45,7 @@ Basin <- function(model, parms, xlim, xres=100, ylim,
       .Call("ridmc_basin_slow_step", basin, PACKAGE='RiDMC')
     ans$data <- .Call("ridmc_basin_slow_getData", basin, PACKAGE='RiDMC')
   }
+	ans$basin <- basin
   class(ans) <- "idmc_basin"
   return(ans)
 }
