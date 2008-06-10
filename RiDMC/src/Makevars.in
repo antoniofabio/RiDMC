@@ -1,2 +1,2 @@
 PKG_LIBS=@LIBS@
-PKG_CPPFLAGS=@CPPFLAGS@ `lua-config --include` -I./idmclib -I.
+PKG_CPPFLAGS=@CPPFLAGS@ @CFLAGS@ -I./idmclib -I.

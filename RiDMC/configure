@@ -2804,9 +2804,9 @@ fi
 
 
 
-{ echo "$as_me:$LINENO: checking for lua_open in -llua5.1" >&5
-echo $ECHO_N "checking for lua_open in -llua5.1... $ECHO_C" >&6; }
-if test "${ac_cv_lib_lua5_1_lua_open+set}" = set; then
+{ echo "$as_me:$LINENO: checking for luaL_newstate in -llua5.1" >&5
+echo $ECHO_N "checking for luaL_newstate in -llua5.1... $ECHO_C" >&6; }
+if test "${ac_cv_lib_lua5_1_luaL_newstate+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -2824,11 +2824,11 @@ cat >>conftest.$ac_ext <<_ACEOF
 #ifdef __cplusplus
 extern "C"
 #endif
-char lua_open ();
+char luaL_newstate ();
 int
 main ()
 {
-return lua_open ();
+return luaL_newstate ();
   ;
   return 0;
 }
@@ -2851,21 +2851,21 @@ eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
 	 test ! -s conftest.err
        } && test -s conftest$ac_exeext &&
        $as_test_x conftest$ac_exeext; then
-  ac_cv_lib_lua5_1_lua_open=yes
+  ac_cv_lib_lua5_1_luaL_newstate=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-	ac_cv_lib_lua5_1_lua_open=no
+	ac_cv_lib_lua5_1_luaL_newstate=no
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
       conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ echo "$as_me:$LINENO: result: $ac_cv_lib_lua5_1_lua_open" >&5
-echo "${ECHO_T}$ac_cv_lib_lua5_1_lua_open" >&6; }
-if test $ac_cv_lib_lua5_1_lua_open = yes; then
+{ echo "$as_me:$LINENO: result: $ac_cv_lib_lua5_1_luaL_newstate" >&5
+echo "${ECHO_T}$ac_cv_lib_lua5_1_luaL_newstate" >&6; }
+if test $ac_cv_lib_lua5_1_luaL_newstate = yes; then
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBLUA5_1 1
 _ACEOF
