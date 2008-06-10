@@ -63,6 +63,13 @@ void ridmc_basin_multi_free(SEXP p) {
 	idmc_basin_multi_free( R_ExternalPtrAddr(p) );
 }
 
+SEXP ridmc_basin_multi_find_next_attractor(SEXP p) {
+	int ians = idmc_basin_multi_find_next_attractor(R_ExternalPtrAddr(p));
+	if(ians!=IDMC_OK)
+		RIDMC_GENERIC_ERROR(ians);
+	return R_NilValue;
+}
+
 SEXP ridmc_basin_multi_step(SEXP p) {
 	int ians = idmc_basin_multi_step(R_ExternalPtrAddr(p));
 	if(ians!=IDMC_OK)

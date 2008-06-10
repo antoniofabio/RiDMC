@@ -36,6 +36,8 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
 		as.integer(ntries), as.integer(xvar), as.integer(yvar), as.double(startValues), PACKAGE='RiDMC')
 	if(!missing(seed))
 		.Call("ridmc_basin_multi_setGslRngSeed", basin, as.integer(seed), PACKAGE='RiDMC')
+	for(i in seq_len(ntries))
+		.Call("ridmc_basin_multi_find_next_attractor", basin, PACKAGE='RiDMC')
 	while(.Call("ridmc_basin_multi_finished", basin, PACKAGE='RiDMC')==0)
 		.Call("ridmc_basin_multi_step", basin, PACKAGE='RiDMC')
 	ans$data <- .Call("ridmc_basin_multi_getData", basin, PACKAGE='RiDMC')
