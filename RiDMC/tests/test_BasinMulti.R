@@ -34,4 +34,4 @@ plot(b2, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
 plot(b1, color.attractors='blue', color.basins='green', color.infinity='white')
 #Improve plot resolution, then add trajectory points:
 #b1 <- BasinMulti(m1, c(1.42,0.3), c(-2,2), 300, c(-2, 2), 300, 100, 100)
-#plot(b1, legend=TRUE, attractorPoints=TRUE, pch=1, cex=1)
+plot(b1, legend=TRUE, attractorPoints=TRUE, pch=1, cex=1)

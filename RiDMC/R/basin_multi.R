@@ -40,6 +40,7 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
 		.Call("ridmc_basin_multi_find_next_attractor", basin, PACKAGE='RiDMC')
 	while(.Call("ridmc_basin_multi_finished", basin, PACKAGE='RiDMC')==0)
 		.Call("ridmc_basin_multi_step", basin, PACKAGE='RiDMC')
+	ans$basin <- basin
 	ans$data <- .Call("ridmc_basin_multi_getData", basin, PACKAGE='RiDMC')
   class(ans) <- c("idmc_basin_multi", "idmc_basin")
   return(ans)
