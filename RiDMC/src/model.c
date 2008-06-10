@@ -64,8 +64,9 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 		model = NULL;
 		return IDMC_EMEM;
 	}
+	model->errorMessage[0] = 0;
 
-	L = lua_open();
+	L = luaL_newstate();
 	model->L = L;
 
 	jmp_buf *jmpbuf = malloc(sizeof (jmp_buf));
@@ -82,11 +83,7 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 	lua_pushlightuserdata (L, jmpbuf);
 	lua_atpanic(L, &idmc_panic);
 
-	/* TODO luaopen_base always returns 0 while luaopen_math 1... ?? */
-	luaopen_base(L);
-	luaopen_math(L);
-	luaopen_string(L);
-	lua_pop(L, 3); // pop returns from the two above
+	luaL_openlibs(L);
 
 	/*register functions for random numbers generation*/
 	initGslRng(L);
