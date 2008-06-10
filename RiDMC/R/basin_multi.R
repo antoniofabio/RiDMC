@@ -23,6 +23,7 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
   ans$ylim <- ylim
   ans$yres <- yres
 	ans$eps <- eps
+	ans$method <- "multi"
   ans$attractorLimit <- attractorLimit
   ans$attractorIterations <- attractorIterations
 	ans$startValues <- startValues
@@ -38,11 +39,9 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
 	while(.Call("ridmc_basin_multi_finished", basin, PACKAGE='RiDMC')==0)
 		.Call("ridmc_basin_multi_step", basin, PACKAGE='RiDMC')
 	ans$data <- .Call("ridmc_basin_multi_getData", basin, PACKAGE='RiDMC')
-  class(ans) <- "idmc_basin_multi"
+  class(ans) <- c("idmc_basin_multi", "idmc_basin")
   return(ans)
 }
-as.matrix.idmc_basin_multi <- function(x, ...)
-	x$data
 
 print.idmc_basin_multi <- function(x, ...){
   mdl <- getBasinModel(x)
