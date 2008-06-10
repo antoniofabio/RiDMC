@@ -2,7 +2,7 @@
 #define __IDMC_VERSION_H__
 
 #define IDMC_VERSION_MAJOR 0
-#define IDMC_VERSION_MINOR 9
+#define IDMC_VERSION_MINOR 11
 #define IDMC_VERSION_MICRO 0
 
 int idmc_version_major();
