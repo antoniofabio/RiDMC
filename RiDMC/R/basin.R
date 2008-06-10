@@ -52,6 +52,21 @@ getBasinModel <- function(obj, ...)
   obj$model
 as.matrix.idmc_basin <- function(x, ...)
 	x$data
+.getBasinAttractors <- function(obj, ...) UseMethod(".getBasinAttractors")
+.getBasinAttractors.idmc_basin <- function(obj, ...) {
+  data <- as.matrix(obj)
+  vals <- unique(as.vector(data))
+  vals <- vals[vals>1]
+  attrCodes <- vals[(vals %% 2) == 0]
+  na <- length(attrCodes)
+	ans <- list()
+	for(i in seq_along(attrCodes)) { ##for each attractor
+		acd <- attrCodes[i]
+		ids <- which(data==acd, arr.ind=TRUE)
+		ans[[i]] <- cbind(ids[,1]/NCOL(data), 1-ids[,2]/NROW(data))
+	}
+	return(ans)
+}
 
 print.idmc_basin <- function(x, ...){
   mdl <- getBasinModel(x)
@@ -150,11 +165,10 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   }
   if(attractorPoints) {
     downViewport('plotArea')
-    for(i in seq_along(attrCodes)) { ##for each attractor
-      acd <- attrCodes[i]
-      ids <- which(data==acd, arr.ind=TRUE)
-      grid.points(ids[,1]/NCOL(data), 1-ids[,2]/NROW(data),
-        pch=pch, size=unit(cex, 'char'), 
+		attractors <- .getBasinAttractors(x)
+    for(i in seq_along(attractors)) { ##for each attractor
+			xx <- attractors[[i]]
+      grid.points(xx[,1], xx[,2], pch=pch, size=unit(cex, 'char'),
         default.unit='npc', gp=gpar(col=col[i*2]))
     }
     upViewport(0)
