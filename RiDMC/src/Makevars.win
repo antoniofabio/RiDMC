@@ -1,2 +1,2 @@
-PKG_LIBS=-L../winbin -llualib50 -llua50 -lgsl -lgslcblas -llua50 -llualib50
-PKG_CPPFLAGS=-I../winbin/include -I../winbin/include/lua50 -I./idmclib -I.
+PKG_LIBS=-L../winbin -llua -lgsl -lgslcblas -llua
+PKG_CPPFLAGS=-I../winbin/include -I../winbin/include/lua5.1 -I./idmclib -I.
