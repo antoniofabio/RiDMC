@@ -14,16 +14,18 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
 	yvar <- as.integer(yvar)
 	if(!((xvar >= 0) && (xvar < dim) && (yvar >= 0) && (yvar < dim)))
 		stop("'xvar' and 'yvar' must be between 0 and", dim)
+	if(missing(startValues))
+		startValues <- as.double(rep(0.0, dim))
   ans <- list()
   ans$model <- model
   ans$xlim <- xlim
   ans$xres <- xres
   ans$ylim <- ylim
   ans$yres <- yres
-	ans$eps <- 
+	ans$eps <- eps
   ans$attractorLimit <- attractorLimit
   ans$attractorIterations <- attractorIterations
-  ans$method <- method
+	ans$startValues <- startValues
 	checkPositiveScalar(ntries)
 	ans$ntries <- as.integer(ntries)
 	basin <- .Call("ridmc_basin_multi_alloc", model$model, as.double(parms),
@@ -39,13 +41,12 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLi
   class(ans) <- "idmc_basin_multi"
   return(ans)
 }
-getBasinModel <- function(obj, ...)
-  obj$model
 as.matrix.idmc_basin_multi <- function(x, ...)
 	x$data
 
-print.idmc_basin <- function(x, ...){
+print.idmc_basin_multi <- function(x, ...){
   mdl <- getBasinModel(x)
+	dim <- length(getModelVarNames(mdl))
   cat('= iDMC basins of attraction slice =\n')
   cat('Model: ', getModelName(mdl), '\n')
   cat('x-range: ', paste(x$xlim, collapse=', '), '\n')
@@ -54,4 +55,11 @@ print.idmc_basin <- function(x, ...){
   cat('transient: ', x$attractorLimit, '\n')
   cat('attractor iterations: ', x$attractorIterations, '\n')
 	cat('neighborhood window: ', x$eps, '\n')
+	if(dim>2) {
+		startValues <- x$startValues
+		names(startValues) <- getModelVarNames(mdl)
+		exclude <- c(x$xvar, x$yvar)
+		startValues <- startValues[-exclude]
+		cat('(fixed) starting values: ', startValues, '\n')
+	}
 }
