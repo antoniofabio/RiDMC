@@ -1,5 +1,5 @@
-BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, eps=getOption("ts.eps"),
-	attractorLimit, attractorIterations, ntries=20, xvar=0, yvar=1, startValues, seed) {
+BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, attractorLimit, attractorIterations,
+	startValues, xvar=0, yvar=1, ntries=20, eps=getOption("ts.eps"), seed) {
   checkModelParVar(model, parms, startValues, txt=deparse(substitute(model)))
   checkPositiveScalar(xres)
   checkPositiveScalar(yres)
@@ -14,7 +14,6 @@ BasinMulti <- function(model, parms, xlim, xres=100, ylim, yres=100, eps=getOpti
 	yvar <- as.integer(yvar)
 	if(!((xvar >= 0) && (xvar < dim) && (yvar >= 0) && (yvar < dim)))
 		stop("'xvar' and 'yvar' must be between 0 and", dim)
-  method <- match.arg(method)
   ans <- list()
   ans$model <- model
   ans$xlim <- xlim
