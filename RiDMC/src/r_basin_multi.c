@@ -62,3 +62,30 @@ void ridmc_basin_multi_free(SEXP p) {
 	PDEBUG("deallocating basin %p\n", R_ExternalPtrAddr(p));
 	idmc_basin_multi_free( R_ExternalPtrAddr(p) );
 }
+
+SEXP ridmc_basin_multi_step(SEXP p) {
+	int ians = idmc_basin_multi_step(R_ExternalPtrAddr(p));
+	if(ians!=IDMC_OK)
+		RIDMC_GENERIC_ERROR(ians);
+	return R_NilValue;
+}
+
+SEXP ridmc_basin_multi_finished(SEXP p) {
+	SEXP ans = allocVector(INTSXP, 1);
+	INTEGER(ans)[0] = idmc_basin_multi_finished(R_ExternalPtrAddr(p));
+	return ans;
+}
+
+SEXP ridmc_basin_multi_setGslRngSeed(SEXP b, SEXP seed) {
+	idmc_model_setGslRngSeed(((idmc_basin_multi*)R_ExternalPtrAddr(b))->model,
+		INTEGER(seed)[0]);
+	return R_NilValue;
+}
+
+SEXP ridmc_basin_multi_getData(SEXP p) {
+	SEXP ans;
+	idmc_basin_multi *bp = (idmc_basin_multi*) R_ExternalPtrAddr(p);
+	ans = allocMatrix(INTSXP, bp->raster->xres,  bp->raster->yres );
+	memcpy(INTEGER(ans), bp->raster->data, bp->dataLength * sizeof(int));
+	return ans;
+}
