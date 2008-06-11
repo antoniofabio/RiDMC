@@ -21,6 +21,7 @@ BasinMulti(model, parms, xlim, xres=100, ylim, yres=100, attractorLimit, attract
  \item{ntries}{number of tries for finding attractors}
  \item{eps}{neighborhood window}
  \item{seed}{RNG seed (only for 'slow' method)}
+ \item{x}{an \code{idmc_basin_multi} object}
  \item{...}{arguments to and from other methods}
 }
 \description{
@@ -50,10 +51,12 @@ Antonio, Fabio Di Narzo
 }
 \examples{
 ##Simple model
+m1 <- Model(exModelFile('henon'))
 b1 <- BasinMulti(m1, c(1.42,0.3), c(-2,2), 200, c(-2, 2), 200, 100, 100)
 plot(b1, attr=TRUE)
 
 ##A more complex model:
+m2 <- Model(exModelFile('cremona'))
 b2 <- BasinMulti(m2, 1.33, c(-1.2, 1.2), 300, c(-1.2, 1.2), 300, 1000, 1000)
 plot(b2, attr=TRUE)
 ##A plot with no annotations:
