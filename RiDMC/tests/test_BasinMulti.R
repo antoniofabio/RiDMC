@@ -1,8 +1,11 @@
 source('init.R')
 
+nattr <- function(b) length(.getBasinAttractors(b))
+
 ##A simple model:
 m1 <- Model(exModelFile('henon'))
 b1 <- BasinMulti(m1, c(1.42,0.3), c(-2,2), 20, c(-2, 2), 20, 100, 100)
+stopifnot(nattr(b1) == 1)
 b1
 
 ##A more complex model:
@@ -20,18 +23,19 @@ stopifnot(all(dim(mat) == c(20, 20)))
 ############
 
 ##Simple model
-b1 <- BasinMulti(m1, c(1.42,0.3), c(-2,2), 200, c(-2, 2), 200, 100, 100)
 plot(b1)
+plot(b1, attr=TRUE)
 
 ##A more complex model:
-#b2 <- BasinMulti(m2, 1.33, c(-1.2, 1.2), 300, c(-1.2, 1.2), 300, 1000, 1000,,,, 200)
-plot(b2)
+b2 <- BasinMulti(m2, 1.33, c(-1.2, 1.2), 30, c(-1.2, 1.2), 30, 1000, 1000, ntries=300)
+plot(b2, color.basins=rep("black", nattr(b2)), attr=TRUE)
 ##A plot with no annotations:
-plot(b2, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
+plot(b2, color.basins=rep("black", nattr(b2)),
+	axes=FALSE, xlab=NULL, ylab=NULL, main=NULL, attr=TRUE, cex=0.05)
 
 ##Customizing
 #A simple case with just 1 attractor:
 plot(b1, color.attractors='blue', color.basins='green', color.infinity='white')
 #Improve plot resolution, then add trajectory points:
-#b1 <- BasinMulti(m1, c(1.42,0.3), c(-2,2), 300, c(-2, 2), 300, 100, 100)
-plot(b1, legend=TRUE, attractorPoints=TRUE, pch=1, cex=1)
+b1 <- BasinMulti(m1, c(1.42,0.3), c(-2,2), 300, c(-2, 2), 300, 1000, 100, eps=1e-3)
+plot(b1, legend=TRUE, attractorPoints=TRUE)
