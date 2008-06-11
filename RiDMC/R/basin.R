@@ -112,9 +112,9 @@ makeBasinsPalette <- function(values, color.attractors, color.basins, color.infi
 as.grob.idmc_basin <- function(x, color.attractors, color.basins, 
   color.infinity, ...) {
   mat <- as.matrix(x)
-  vals <- unique(as.vector(mat))
-  vals <- vals[vals>1]
-  attrCodes <- vals[(vals %% 2)==0]
+	attractors <- .getBasinAttractors(x)
+  attrCodes <- seq_along(attractors)*2
+	vals <- seq_len(length(attractors)*2+1)[-1]
   na <- length(attrCodes)
   mat1 <- matrix(1, NROW(mat), NCOL(mat))
   for(i in seq_along(attrCodes)) {
@@ -135,7 +135,10 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
   ylab = getModelVarNames(getBasinModel(x))[2],
   axes=TRUE, legend=FALSE, attractorPoints=FALSE,
   pch=16, cex=0.2, add=FALSE, ...) {
-  imG <- as.grob(x, color.attractors=color.attractors, color.basins=color.basins, color.infinity=color.infinity)
+  imG <- as.grob(x,
+		color.attractors=color.attractors,
+		color.basins=color.basins,
+		color.infinity=color.infinity)
   data <- as.matrix(x)
 	attractors <- .getBasinAttractors(x)
   attrCodes <- seq_along(attractors)*2
