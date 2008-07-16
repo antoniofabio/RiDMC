@@ -17,7 +17,7 @@ imageGrob <- function(colors, xlim=0:1, ylim=0:1, respect = FALSE, name=NULL, gp
 }
 editDetails.image <- function(x, specs){
   x <- imageGrob(specs$colors)
-  update(x, specs)
+  .upgrade(x, specs)
 }
 
 imageScaleGrob <- function(values, breaks, palette, name=NULL, gp=NULL, vp=NULL) {
@@ -37,7 +37,7 @@ editDetails.imageScale <- function(x, specs){
       palette <- getField(x, 'palette')
     x <- imageScaleGrob(values=values, breaks=breaks, palette=palette)
   }
-  update(x, specs)
+  .upgrade(x, specs)
 }
 
 ###########################
