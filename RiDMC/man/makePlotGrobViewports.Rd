@@ -1,7 +1,7 @@
 \name{makePlotGrobViewports}
 \alias{makePlotGrobViewports}
 \title{
-Make viewports for a \code{plotGrob} object.
+Make viewports for a plotGrob object.
 }
 \usage{
 makePlotGrobViewports(xlim, ylim, respect, mar)
