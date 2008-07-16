@@ -1,4 +1,6 @@
 0.11-0
+	now all plotting functions (invisibly) returns plotGrobs
+	improved doc of some internal code
 	improved internal basin plotting code (non user-visible)
 
 0.10-0

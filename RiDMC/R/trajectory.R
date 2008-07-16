@@ -139,6 +139,7 @@ plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
   if(!add)
     grid.newpage()
   grid.draw(pG)
+	invisible(pG)
 }
 
 TrajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
@@ -197,10 +198,12 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
   cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), ...)
   if(!add)
     grid.newpage()
-  grid.draw(plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty))
+	pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty)
+  grid.draw(pG)
   if(legend) {
     downViewport('rightMarginArea')
     grid.draw(clg)
     upViewport(0)
   }
+	invisible(pG)
 }

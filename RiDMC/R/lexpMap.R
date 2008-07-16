@@ -195,4 +195,5 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
     grid.draw(clg)
     upViewport(0)
   }
+	invisible(pG)
 }

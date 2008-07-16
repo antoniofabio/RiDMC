@@ -115,4 +115,5 @@ plot.idmc_lexp_diagram <- function(x, y, col, lty,
   if(!add)
     grid.newpage()
   grid.draw(pG)
+	invisible(pG)
 }

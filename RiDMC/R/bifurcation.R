@@ -63,4 +63,5 @@ plot.idmc_bifurcation <- function(x, y, pch=16, cex=0.2,
   if(!add)
     grid.newpage()
   grid.draw(PG)
+	invisible(PG)
 }

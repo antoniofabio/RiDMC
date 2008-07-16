@@ -181,5 +181,5 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
     }
     upViewport(0)
   }
-  invisible(NULL)
+  invisible(pG)
 }
