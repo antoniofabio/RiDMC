@@ -29,6 +29,7 @@
 \alias{extend}
 \alias{extend.grob}
 \alias{as.grob}
+\alias{as.grob.grob}
 \alias{as.grob.idmc_basin}
 \alias{as.grob.idmc_bifurcation}
 \alias{as.grob.idmc_lexp_diagram}
@@ -56,7 +57,6 @@
 \alias{imageMapGrob}
 \alias{imageScaleGrob}
 \alias{makeBasinsPalette}
-\alias{makePlotGrobViewports}
 \alias{mkPlotChildsAndViewports}
 \alias{ribbonKids}
 \alias{ribbonLegend}

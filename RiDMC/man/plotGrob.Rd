@@ -22,13 +22,19 @@ plotGrob(contents=NULL, main=NULL, xlab=NULL, ylab=NULL,
 Stadard annotated plot graphical object
 }
 \details{
-Stadard annotated plot graphical object
+Stadard annotated plot graphical object.
+
+A 'plotGrob' contains a main 'contents' grob plus typical plot annotations
 }
 \value{
 A \code{plotGrob} object
+}
+\seealso{
+\code{\link{makePlotGrobViewports}}
 }
 \author{
 Antonio, Fabio Di Narzo
 }
 \keyword{hplot}
 \keyword{aplot}
+\keyword{internal}

@@ -24,17 +24,23 @@ extend.grob <- function(baseObj, className, ..., warningOnOverlap=TRUE) {
   x
 }
 
+##Convert an object into a graphical object
 as.grob <- function(x, ...) UseMethod('as.grob')
+as.grob.grob <- function(x, ...) x
 
 ###############################
 ##Auxiliary grobs attributes ##
 ###############################
+
+##Add 'xlim', 'ylim' and 'respect' attributes to an arbitrary grob
 contentsGrob <- function(baseGrob, xlim, ylim, respect=FALSE) {
   Xlim(baseGrob) <- xlim
   Ylim(baseGrob) <- ylim
   Respect(baseGrob) <- respect
   baseGrob
 }
+
+##xlim and ylim attributes getters and setters
 Xlim <- function(obj, ...) UseMethod("Xlim")
 Xlim.grob <- function(obj, ...) {
   ans <- attr(obj, 'Xlim')
@@ -62,6 +68,7 @@ Ylim.grob <- function(obj, ...) {
   obj
 }
 
+##'respect' attribute getter and setter
 Respect <- function(obj, ...) UseMethod("Respect")
 Respect.grob <- function(obj, ...) {
   ans <- attr(obj, 'Respect')
@@ -89,6 +96,9 @@ getField.grob <- function(obj, fieldName, warningOnNotFound=TRUE) {
 ##
 ##Generic grob classes
 ##
+
+#A plot grob is a grob which has a main 'contents' grob plus all the sorrounding
+# labellings.
 plotGrob <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
   xlim=NULL, ylim=NULL, axes=FALSE, bty=TRUE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
   cv <- mkPlotChildsAndViewports(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
@@ -101,6 +111,7 @@ editDetails.plotGrob <- function(x, specs) {
   do.call(plotGrob, specs)
 }
 
+#builds up the tree of plotGrob viewports
 makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
   ws <- unit(c(mar[2], diff(xlim), mar[4]), c('lines','null','lines'))
   hs <- unit(c(mar[3], diff(ylim), mar[1]), c('lines','null','lines'))
@@ -117,6 +128,7 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
         viewport(layout.pos.col=3, layout.pos.row=2, name='rightMarginArea')))
 }
 
+#builds up childs and viewports for a new plotGrob
 mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
   xlim=NULL, ylim=NULL, respect=NULL, axes=FALSE, bty=TRUE, mar=NULL) {
   null.mar <- is.null(mar)
@@ -132,7 +144,7 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
   }
   if(!is.null(main)) { ##reserve title space
     if(null.mar)
-      mar[3] <- 4
+      mar[3] <- 2
     childs <- append(childs, textGrob(main, name='title', y=unit(3,'lines'), just=c('center','top'),
       vp=vpPath('plotLayout', 'rootArea', 'titleArea')))
   }
