@@ -1,4 +1,5 @@
 0.11-0
+	fixed setting of 'pch' option in trajectoryList
 	fixed editing of plotGrob objects
 	now all plotting functions (invisibly) returns plotGrobs
 	improved doc of some internal code

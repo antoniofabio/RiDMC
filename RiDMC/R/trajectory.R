@@ -153,9 +153,9 @@ TrajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
   trList
 }
 
-as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, ...) {
+as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, pch=1, ...) {
   as.grob2 <- function(obj, color)
-    as.grob(obj, vars=vars, type=type, gp=gpar(col=color, ...))
+    as.grob(obj, vars=vars, type=type, pch=pch, gp=gpar(col=color, ...))
   childs <- mapply(as.grob2, x, colors, SIMPLIFY=FALSE)
   xmin <- min(sapply(childs, function(x) min(Xlim(x))))
   xmax <- max(sapply(childs, function(x) max(Xlim(x))))
@@ -169,7 +169,7 @@ as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, ...) {
   contentsGrob(gTree(children=childs), xlim=c(xmin, xmax), ylim=c(ymin, ymax), respect=FALSE)
 }
 
-plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
+plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
   main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
   mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, add=FALSE, ...) {
   if(missing(colors))
@@ -195,7 +195,7 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors,
     mar <- c(4,4,4,rightMargin)
     mar[4] <- mar[4]*1.04
   }
-  cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), ...)
+  cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), pch=pch, ...)
   if(!add)
     grid.newpage()
 	pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty)

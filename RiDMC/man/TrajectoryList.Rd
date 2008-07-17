@@ -7,7 +7,7 @@ List of trajectories from one model
 \usage{
 TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
   seed, eps=getOption("ts.eps"), integrator=2)
-\method{plot}{idmc_trajectoryList}(x, y, vars=1:2, type='l', colors,
+\method{plot}{idmc_trajectoryList}(x, y, vars=1:2, type='l', colors, pch=1,
   main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
   mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, add=FALSE, ...)
 }
@@ -20,6 +20,7 @@ TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
  \item{vars}{variables to be plotted}
  \item{type, main, xlab, ylab}{usual plot options}
  \item{colors}{vector of trajectory colors}
+ \item{pch}{see \code{\link{plot.idmc_trajectory}}}
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
  \item{legend}{should a legend be showed?}
  \item{labels}{legend labels}
@@ -54,7 +55,6 @@ m <- Model(exModelFile('Economic/solow'))
 param <- c(s=0.2, alpha=0.5, n=0.01, g=0.01, delta=0.04)
 initial.value <- list(k=4, k=13)
 tr <- TrajectoryList(m, n=5, param, initial.value, time=1000, eps=0.2)
-grid.newpage()
 plot(tr)
 
 ##A list of different parameters, fixed starting values:
@@ -63,6 +63,5 @@ initial.param <- c(s=0.2, alpha=0.5, n=0.01, g=0.01, delta=0.04)
 final.param <- c(s=0.2, alpha=0.5, n=0.01, g=0.01, delta=0.04)
 final.param['alpha'] <- 0.8
 tr <- TrajectoryList(m, n=5, list(initial.param, final.param), value, time=1000, eps=0.2, seed=1234)
-grid.newpage()
 plot(tr)
 }
