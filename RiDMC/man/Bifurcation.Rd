@@ -54,6 +54,7 @@ m <- Model(exModelFile('logistic'))
 bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
 plot(bf, cex=0.3)
 
+#start a new grid plot
 grid.newpage()
 ##Setup: 2 rows, 1 column:
 pushViewport(viewport(layout=grid.layout(2, 1)))
