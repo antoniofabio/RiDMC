@@ -45,14 +45,26 @@ int idmc_attractor_list_length(idmc_attractor* head) {
 
 /*return the index of the first attractor in the list containing point 'x'*/
 int idmc_attractor_list_check_point(idmc_attractor* head, double* x, double eps) {
-	int i=0;
-	while(head) {
-		if( idmc_attractor_check_point(head, x, eps) )
-			return i;
-		head = head->next;
-		i++;
+	int i;
+	srand(0);
+	int N = idmc_attractor_list_length(head);
+	if(N < MAX_ATTR_CHECK_LENGTH) {
+		int i=0;
+		while(head) {
+			if( idmc_attractor_check_point(head, x, eps) )
+				return i;
+			head = head->next;
+			i++;
+		}
+ 	} else {
+		for(int j = MAX_ATTR_CHECK_LENGTH; j; j--) {
+			i =	(int) (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) ) * N;
+			if( idmc_attractor_check_point( idmc_attractor_list_get(head, i), x, eps ) ) {
+				return i;
+			}
+		}
 	}
-	return i;
+	return N;
 }
 
 idmc_attractor* idmc_attractor_list_get(idmc_attractor* head, int id) {

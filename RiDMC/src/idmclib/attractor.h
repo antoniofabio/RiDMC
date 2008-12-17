@@ -27,6 +27,10 @@ extern "C" {
 #include <memory.h>
 #include <stdlib.h>
 
+/*max number of attractor points to check for while checking if a points
+lies on an attractor*/
+#define MAX_ATTR_CHECK_LENGTH 100
+
 struct attractor_pt {
 	double *x;
 	struct attractor_pt* next;
