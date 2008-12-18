@@ -444,7 +444,7 @@ int idmc_model_Jg(idmc_model *model,
  */
 int idmc_model_NumJf(idmc_model *model,
 			   const double par[],const double var[], double Jf[], double util[], double util2[], double util3[]) {
-	int i,i1,j, tmp;
+	int i,j, tmp;
 	int p1 = model->var_len;
 	double eps;
 	tmp = idmc_model_f(model,  par, var, util); /*store F(x0)*/
