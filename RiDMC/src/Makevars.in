@@ -1,2 +1,2 @@
-PKG_LIBS=@LIBS@
-PKG_CPPFLAGS=@CPPFLAGS@ @CFLAGS@ -I./idmclib -I.
+PKG_LIBS=@LIBS@ `pkg-config lua5.1 --libs`
+PKG_CPPFLAGS=@CPPFLAGS@ @CFLAGS@ -I./idmclib -I. `pkg-config lua5.1 --cflags`
