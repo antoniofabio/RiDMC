@@ -1,4 +1,4 @@
-0.11-0
+0.10-1
 	updated examples in main package help page
 	fixed setting of 'pch' option in trajectoryList
 	fixed editing of plotGrob objects
