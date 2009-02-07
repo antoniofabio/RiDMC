@@ -1,3 +1,6 @@
+0.10-2
+	added utility 'getModelF' function
+
 0.10-1
 	updated examples in main package help page
 	fixed setting of 'pch' option in trajectoryList

@@ -77,3 +77,25 @@ print.summary.idmc_model <- function(x, ...) {
   cat(getModelText(x), sep='\n')
   cat('\n')
 }
+
+##
+##Utility functions
+##
+#get the model function 'f' as a plain R function
+getModelF <- function(model) {
+  makeF <- function(fName, argsList) {
+    argsList <- c(argsList, sep=", ")
+    args <- do.call(paste, as.list(argsList))
+    paste(fName, "(", args, ")")
+  }
+
+  f <- model$f
+  parNames <- getModelParNames(model)
+  varNames <- getModelVarNames(model)
+  packParsExpr <- makeF("c", paste(parNames, parNames, sep="="))
+  packVarsExpr <- makeF("c", paste(varNames, varNames, sep="="))
+  F <- paste(makeF("function", c(parNames, varNames)),
+             makeF("f", c(packParsExpr, packVarsExpr)))
+  F <- eval(parse(text=F, srcfile=NULL))
+  return(F)
+}
