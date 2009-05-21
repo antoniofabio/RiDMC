@@ -22,16 +22,16 @@ Last modified: $Date: 2007-05-24 16:41:18 +0200 (gio, 24 mag 2007) $
 
 /*Return idmclib version number as (major, minor, micro) vector*/
 SEXP ridmc_version() {
-	SEXP ans, dimnames;
-	PROTECT(ans = allocVector(INTSXP, 3));
-	INTEGER(ans)[0] = idmc_version_major();
-	INTEGER(ans)[1] = idmc_version_minor();
-	INTEGER(ans)[2] = idmc_version_micro();
-	PROTECT(dimnames = allocVector(STRSXP, 3));
-	SET_STRING_ELT(dimnames, 0, mkChar("major"));
-	SET_STRING_ELT(dimnames, 1, mkChar("minor"));
-	SET_STRING_ELT(dimnames, 2, mkChar("micro"));
-	setAttrib(ans, R_NamesSymbol, dimnames);
-	UNPROTECT(2);
-	return ans;
+  SEXP ans, dimnames;
+  PROTECT(ans = allocVector(INTSXP, 3));
+  INTEGER(ans)[0] = idmc_version_major();
+  INTEGER(ans)[1] = idmc_version_minor();
+  INTEGER(ans)[2] = idmc_version_micro();
+  PROTECT(dimnames = allocVector(STRSXP, 3));
+  SET_STRING_ELT(dimnames, 0, mkChar("major"));
+  SET_STRING_ELT(dimnames, 1, mkChar("minor"));
+  SET_STRING_ELT(dimnames, 2, mkChar("micro"));
+  setAttrib(ans, R_NamesSymbol, dimnames);
+  UNPROTECT(2);
+  return ans;
 }
