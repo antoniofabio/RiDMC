@@ -39,8 +39,8 @@ SEXP ridmc_cycles_find(SEXP m, SEXP parms, SEXP start_point, SEXP power, SEXP ep
   SET_VECTOR_ELT(ans, 0, result);
   SET_VECTOR_ELT(ans, 1, eigvals);
   PROTECT(dimnames = allocVector(STRSXP, 2));
-  SET_VECTOR_ELT(dimnames, 0, mkChar("result"));
-  SET_VECTOR_ELT(dimnames, 1, mkChar("eigvals"));
+  SET_STRING_ELT(dimnames, 0, mkChar("result"));
+  SET_STRING_ELT(dimnames, 1, mkChar("eigvals"));
   setAttrib(ans, R_NamesSymbol, dimnames);
   UNPROTECT(4);
   return ans;
