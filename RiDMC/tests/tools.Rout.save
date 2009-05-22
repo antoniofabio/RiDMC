@@ -1,0 +1,40 @@
+
+R version 2.9.0 Patched (2009-05-03 r48460)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R è un software libero ed è rilasciato SENZA ALCUNA GARANZIA.
+Siamo ben lieti se potrai redistribuirlo, ma sotto certe condizioni.
+Scrivi 'license()' o 'licence()' per dettagli su come distribuirlo.
+
+R è un progetto di collaborazione con molti contributi esterni.
+Scrivi 'contributors()' per maggiori informazioni e 'citation()'
+per sapere come citare R o i pacchetti di R nelle pubblicazioni.
+
+Scrivi 'demo()' per una dimostrazione, 'help()' per la guida in linea, o
+'help.start()' per l'help navigabile con browser HTML.
+Scrivi 'q()' per uscire da R.
+
+> library(RiDMC)
+Carico il pacchetto richiesto: grid
+loaded idmclib version 0.10.1
+> 
+> uniqueSet(list(c(3, 10),
++                c(3, 21),
++                c(2, 11),
++                c(4, 9),
++                c(2, -7)),
++           function(a, b) a[1] == b[1])
+[[1]]
+[1]  3 10
+
+[[2]]
+[1]  2 11
+
+[[3]]
+[1] 4 9
+
+> 
+> proc.time()
+   user  system elapsed 
+  1.096   0.044   1.120 

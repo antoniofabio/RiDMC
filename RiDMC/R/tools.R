@@ -65,3 +65,18 @@ expandArgList <- function(n=2, ...) {
     ans[[i]] <- stepList(ans[[i-1]])
   ans
 }
+
+inSet <- function(set, elt, compfun) {
+  for(elti in set)
+    if(compfun(elt, elti))
+      return(TRUE)
+  return(FALSE)
+}
+
+uniqueSet <- function(lst, compfun) {
+  ans <- list()
+  for(a in lst)
+    if(!inSet(ans, a, compfun))
+      ans <- c(ans, list(a))
+  return(ans)
+}
