@@ -190,7 +190,8 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
   if(legend) {
     if(missing(labels))
       labels <- as.character(seq_along(x))
-    clg <- colorLegendGrob(colors, labels, y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
+    clg <- colorLegendGrob(unique(colors), unique(labels),
+                           y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
     rightMargin <- convertWidth(widthDetails(clg), 'lines')
     mar <- c(4,4,4,rightMargin)
     mar[4] <- mar[4]*1.04
