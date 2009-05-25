@@ -1,4 +1,5 @@
 0.10-2
+	added open rectangular domains handling
 	added utility 'getModelF' function
 
 0.10-1
