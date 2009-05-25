@@ -18,7 +18,7 @@ Cycles(idmc_model, par, period=1,
 \method{as.matrix}{periodic_cycle}(x, ...)
 \method{print}{periodic_cycle}(x, ...)
 \method{print}{idmc_cycles}(x, ...)
-\method{plot}{idmc_cycles}(x, y, ...)
+\method{plot}{idmc_cycles}(x, y, legend=TRUE, ...)
 }
 
 \arguments{

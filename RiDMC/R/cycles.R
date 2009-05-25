@@ -68,6 +68,17 @@ as.matrix.periodic_cycle <- function(x, ...) {
   return(all(dist))
 }
 
+##check if 'cycle' is a real, "full" cycle
+## or a cycle of smaller period
+.cycleTrue <- function(cycle, eps=.cycleEps(cycle)) {
+  if(.cyclePeriod(cycle) == 1)
+    return(TRUE)
+  pt <- cycle$pt
+  tr <- as.matrix(cycle)[-1,,drop=FALSE]
+  dist <- apply(abs(sweep(tr, 2, pt)), 1, max)
+  return(!any(dist <= eps))
+}
+
 print.periodic_cycle <- function(x, ...) {
   cat("Cycle of period ", .cyclePeriod(x), "\n")
   cat("Classification: ", .cycleStability(x), "\n")
@@ -130,6 +141,7 @@ Cycles <- function(idmc_model, par, period=2,
                               eps=eps,
                               max.iter=max.iter))
   cycles <- Filter(Negate(is.null), cycles)
+  cycles <- Filter(.cycleTrue, cycles)
 
   ##merge identical cycles
   cycles <- uniqueSet(cycles, .cycleCompare)
