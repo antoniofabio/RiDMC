@@ -1,0 +1,47 @@
+
+R version 2.9.0 Patched (2009-05-03 r48460)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R è un software libero ed è rilasciato SENZA ALCUNA GARANZIA.
+Siamo ben lieti se potrai redistribuirlo, ma sotto certe condizioni.
+Scrivi 'license()' o 'licence()' per dettagli su come distribuirlo.
+
+R è un progetto di collaborazione con molti contributi esterni.
+Scrivi 'contributors()' per maggiori informazioni e 'citation()'
+per sapere come citare R o i pacchetti di R nelle pubblicazioni.
+
+Scrivi 'demo()' per una dimostrazione, 'help()' per la guida in linea, o
+'help.start()' per l'help navigabile con browser HTML.
+Scrivi 'q()' per uscire da R.
+
+> ##
+> ##Periodic cycles scanning
+> ##
+> library(RiDMC)
+Carico il pacchetto richiesto: grid
+loaded idmclib version 0.10.1
+> 
+> model <- Model(exModelFile('logistic'))
+> cyc <- cycles_find(model, 3.25, 0.5, 2, 1e-6)
+> cyc2 <- cyc
+> cyc2$pt <- as.matrix(cyc)[2,]
+> 
+> cyc
+Periodic cycle of period  2 
+Classification:  stable 
+Trajectory:
+            mu
+[1,] 0.4952652
+[2,] 0.8124271
+> cyc2
+Periodic cycle of period  2 
+Classification:  stable 
+Trajectory:
+            mu
+[1,] 0.8124271
+[2,] 0.4952652
+> 
+> proc.time()
+   user  system elapsed 
+  1.172   0.048   1.392 

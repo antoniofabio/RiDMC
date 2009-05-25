@@ -42,3 +42,32 @@ openRectDomain <- function(varnames, mins, maxs) {
   }
   return(list(sample=sample, inside=inside))
 }
+
+##
+##Flexible open rectangular domain declaration
+##
+.openRectDomainBuilder <- function(varnames, mins, maxs) {
+  dim <- length(varnames)
+  vn <- varnames
+  if(is.null(names(mins))) {
+    if(length(mins) == 1)
+      mins <- rep(mins, dim)
+    stopifnot(length(mins) == dim)
+    names(mins) <- vn
+  }
+  stopifnot(all(names(mins) %in% varnames))
+  m <- rep(-Inf, dim)
+  names(m) <- vn
+  m[names(mins)] <- mins
+  if(is.null(names(maxs))) {
+    if(length(maxs) == 1)
+      maxs <- rep(maxs, dim)
+    stopifnot(length(maxs) == dim)
+    names(maxs) <- vn
+  }
+  stopifnot(all(names(maxs) %in% varnames))
+  M <- rep(Inf, dim)
+  names(M) <- vn
+  M[names(maxs)] <- maxs
+  return(openRectDomain(varnames, m, M))
+}

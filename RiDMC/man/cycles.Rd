@@ -1,34 +1,51 @@
 \name{cycles}
+\alias{Cycles}
 \alias{cycles}
 \alias{cycles_find}
 \title{
 Periodic cycles
 }
 \usage{
-cycles_find(idmc_model, par, var, period, eps, max.iter=100)
+cycles_find(idmc_model, par, var, period=1,
+   eps=sqrt(.Machine$double.eps), max.iter=100)
+
+Cycles(idmc_model, par, period=1,
+                   eps=sqrt(.Machine$double.eps),
+                   max.iter=100,
+                   ntries=100,
+                   varMin=-Inf, varMax=Inf, varList)
+
+\method{as.matrix}{periodic_cycle}(x, ...)
+\method{print}{periodic_cycle}(x, ...)
+\method{print}{idmc_cycles}(x, ...)
+\method{plot}{idmc_cycles}(x, y, ...)
 }
+
 \arguments{
-\item{idmc_model}{idmc\_model object as returned by \code{\link{Model}}}
-\item{par}{model parameters values}
-\item{var}{starting point}
-\item{period}{cycle period}
-\item{eps}{error criterion}
-\item{max.iter}{max number of iterations}
+  \item{idmc_model}{idmc\_model object as returned by
+    \code{\link{Model}}}
+  \item{par}{model parameters values}
+  \item{var}{starting point}
+  \item{period}{cycle period}
+  \item{eps}{error criterion}
+  \item{max.iter}{max number of iterations}
+  \item{ntries}{number of starting points to try}
+  \item{varMin, varMax}{model variables ranges}
+  \item{varList}{optional: explicit list of starting points to try}
 }
-\description{
-Find periodic cycles by Newton method
-}
-\details{
-Find periodic cycles by Newton method.
+
+\description{ Find periodic cycles by Newton method }
+
+\details{ Find periodic cycles by Newton method. A list of multiple
+                   starting points can be specified.
 
 Convergence criterion is \code{eps} with max-norm.
 }
 \value{
-	If a valid cycle is found, a list with components:
-	\item{result}{one sample cycle point}
-	\item{eigvals}{modulus of jacobian eigenvalues associated with the cycle}
+  \code{find_cycles} returns the found cycle, or \code{NULL} if none
+  found.
 
-  If a valid cycle isn't found, returns \code{NULL}.
+  \code{Cycles} returns the list of found cycles (if any).
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -39,5 +56,10 @@ Antonio, Fabio Di Narzo
 }
 \examples{
 model <- Model(exModelFile('logistic'))
-cycles_find(model, 3.25, 0.5, 2, 1e-6)
+Cycles(model, 3.25, period=2, varMin=0, varMax=1)
+
+model <- Model(exModelFile('henon'))
+cyc <- Cycles(model, par=c(a=1, b=0.3), period=4, varMin=-2, varMax=2)
+plot(cyc)
+
 }

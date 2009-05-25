@@ -1,4 +1,5 @@
 0.10-2
+	added much improved automatic periodic cycles scanning and plotting
 	improved trajectoryList plotting method
 		now horiz. and vertical limits are choosed more carefully
 	added open rectangular domains handling
