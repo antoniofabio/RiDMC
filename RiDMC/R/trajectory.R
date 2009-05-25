@@ -205,5 +205,5 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
     grid.draw(clg)
     upViewport(0)
   }
-	invisible(pG)
+  invisible(pG)
 }
