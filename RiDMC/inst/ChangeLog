@@ -1,4 +1,6 @@
 0.10-2
+	improved trajectoryList plotting method
+		now horiz. and vertical limits are choosed more carefully
 	added open rectangular domains handling
 	added utility 'getModelF' function
 

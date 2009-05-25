@@ -166,7 +166,9 @@ as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, pch=1, ..
     as.list(paste('xy', sep='.', seq_along(x))),
     SIMPLIFY=FALSE)
   childs <- do.call(gList, childs)
-  contentsGrob(gTree(children=childs), xlim=c(xmin, xmax), ylim=c(ymin, ymax), respect=FALSE)
+  contentsGrob(gTree(children=childs),
+               xlim=.fixLim(c(xmin, xmax)),
+               ylim=.fixLim(c(ymin, ymax)), respect=FALSE)
 }
 
 plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
@@ -199,7 +201,7 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
   cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), pch=pch, ...)
   if(!add)
     grid.newpage()
-	pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty)
+  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty)
   grid.draw(pG)
   if(legend) {
     downViewport('rightMarginArea')
