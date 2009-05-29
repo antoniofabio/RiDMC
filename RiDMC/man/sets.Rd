@@ -9,6 +9,10 @@
 \usage{
 setMap(A, f)
 Raster(xlim, ylim, data, xres=ncol(A), yres=nrow(A))
+\method{plot}{Raster}(x, y,
+  palette = rainbow(length(unique(as.vector(x)))),
+  xlab = "x", ylab = "y", axes = TRUE, mar = c(4, 4, 2, 2),
+  ..., add = FALSE)
 rasterXres(raster)
 rasterYres(raster)
 rasterXlim(raster)
@@ -17,16 +21,11 @@ rasterXrange(raster)
 rasterYrange(raster)
 rasterXeps(raster)
 rasterYeps(raster)
-as.matrix.Raster(x, ...)
+\method{as.matrix}{Raster}(x, ...)
 
 rasterSetAll(raster, value)
 rasterSetPoints(raster, pts, value)
-plot.Raster(x, y,
-           xlim=rasterXlim(x),
-           ylim=rasterYlim(x),
-           pch='.',
-           ...)
-lines.Raster(x, y, ...)
+\method{lines}{Raster}(x, y, ...)
 setDiscretize(A,
               xlim=range(A[,1]), xres=100,
               ylim=range(A[,2]), yres=100)
@@ -46,6 +45,10 @@ setDiff(A, B)
   \item{xres, yres}{resolutions}
   \item{pch}{see \code{plot}}
   \item{data}{raw raster matrix data}
+  \item{x}{a Raster object}
+  \item{y}{ignored}
+  \item{xlab, ylab, axes, mar, add}{see \code{plotGrob}}
+  \item{...}{arguments to and from other methods}
 }
 \description{
   Basic (moslty bivariate) sets and raster data handling
@@ -65,10 +68,17 @@ Br <- rasterSetAll(Raster(c(0.25, 0.75), c(0.25, 0.75), ,70, 70), 1)
 B <- raster2Set(Br)
 B1 <- setInv(B, f, A)
   
-plot(rasterSetAll(A, 0))
-points(B1, pch=16)
-lines(Raster(c(0.25, 0.75), c(0.25, 0.75), ,10, 10), lty=2)
+plot(A)
+grid.points(x=B1[,1], y=B1[,2], pch=16, vp="plotArea")
+#lines(Raster(c(0.25, 0.75), c(0.25, 0.75), ,10, 10), lty=2)
 
 C <- raster2Set(set2Raster(B, A) * set2Raster(B1, A))
-points(C, pch=16, col="red")
+plot(C, type="p", pch=16, col="red")
+
+A <- Raster(c(0, 1), c(0, 1), , 10, 10)
+for(i in 1:10)
+  A[i, i] <- 1
+for(i in 1:10)
+  A[10-i+1, i] <- 2
+plot(A)
 }

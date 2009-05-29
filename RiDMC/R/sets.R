@@ -9,7 +9,6 @@ setMap <- function(A, f) {
   stopifnot(nrow(A) == nrow(B))
   return(B)
 }
-f <- function(x) x^2
 
 ##Raster data: a grid of numerical values.
 ## Encapsulates horiz. and vert. ranges infos
@@ -50,13 +49,6 @@ rasterSetPoints <- function(raster, pts, value) {
   raster[ids] <- value
   raster
 }
-
-plot.Raster <- function(x, y,
-                        xlim=rasterXlim(x),
-                        ylim=rasterYlim(x),
-                        pch='.',
-                        ...)
-  plot(raster2Set(x), xlim=xlim, ylim=ylim, pch=pch, ...)
 
 lines.Raster <- function(x, y, ...) {
   xlim <- rasterXlim(x)
@@ -152,3 +144,28 @@ setDiff <- function(A, B) {
   return(ans[seq_len(na),])
 }
 
+plot.Raster <- function(x, y,
+                        palette=rainbow(length(unique(as.vector(x)))),
+                        xlab="x", ylab="y",
+                        axes=TRUE,
+                        mar=c(4,4,2,2),
+                        ...,
+                        add=FALSE) {
+  xlim <- rasterXlim(x)
+  xeps <- rasterXeps(x)
+  ylim <- rasterYlim(x)
+  yeps <- rasterYeps(x)
+  xseq <- seq(xlim[1] + xeps/2, xlim[2] - xeps/2, length=dim(x)[1])
+  yseq <- seq(ylim[1] + yeps/2, ylim[2] - yeps/2, length=dim(x)[2])
+  x <- as.matrix(x)
+  levs <- unique(as.vector(x))
+  palette <- palette[seq_along(levs)]
+  col <- matrix(palette[match(as.vector(x), levs)], dim(x)[1], dim(x)[2])
+  gr <- imageGrob(col, xlim=xlim, ylim=ylim, respect=FALSE,
+            name="raster")
+  pG <- plotGrob(gr, xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
+  if(!add)
+    grid.newpage()
+  grid.draw(pG)
+  invisible(pG)
+}
