@@ -69,11 +69,13 @@ B <- raster2Set(Br)
 B1 <- setInv(B, f, A)
   
 plot(A)
-grid.points(x=B1[,1], y=B1[,2], pch=16, vp="plotArea")
-#lines(Raster(c(0.25, 0.75), c(0.25, 0.75), ,10, 10), lty=2)
+seekViewport("plotArea")
+grid.points(x=B1[,1], y=B1[,2], pch=16)
+lines(Raster(c(0.25, 0.75), c(0.25, 0.75), ,10, 10),
+      lty=2)
 
-C <- raster2Set(set2Raster(B, A) * set2Raster(B1, A))
-plot(C, type="p", pch=16, col="red")
+C <- set2Raster(B, A) * set2Raster(B1, A)
+plot(C)
 
 A <- Raster(c(0, 1), c(0, 1), , 10, 10)
 for(i in 1:10)

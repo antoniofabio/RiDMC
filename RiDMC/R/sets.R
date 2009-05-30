@@ -53,8 +53,10 @@ rasterSetPoints <- function(raster, pts, value) {
 lines.Raster <- function(x, y, ...) {
   xlim <- rasterXlim(x)
   ylim <- rasterYlim(x)
-  lines(c(xlim[1], xlim[2], xlim[2], xlim[1], xlim[1]),
-        c(ylim[1], ylim[1], ylim[2], ylim[2], ylim[1]), ...)
+  grid.lines(x=c(xlim[1], xlim[2], xlim[2], xlim[1], xlim[1]),
+             y=c(ylim[1], ylim[1], ylim[2], ylim[2], ylim[1]),
+             default.units="native",
+             gp=gpar(...))
 }
 
 setDiscretize <- function(A,
