@@ -26,7 +26,7 @@ openRectDomain(varnames, mins, maxs)
 \author{
 Antonio, Fabio Di Narzo
 }
-\keyword{ utils }
+\keyword{ utilities }
 \examples{
 dd <- openRectDomain(c("x", "y"), rep(-Inf, 2), rep(Inf, 2))
 set.seed(12345)
