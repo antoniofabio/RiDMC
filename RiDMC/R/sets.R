@@ -56,10 +56,23 @@ rasterFillRect <- function(raster, x0, y0, x1, y1, value=1) {
   return(raster)
 }
 rasterMap <- function(raster, FUN, value=1, outvalue=value) {
-  set2Raster(setMap(raster2Set(raster, value=value), FUN),
+  set2Raster(setMap(raster2Set(raster, value=value), match.fun(FUN)),
              raster, value=outvalue)
 }
+rasterInvMap <- function(raster, FUN, value=1, outvalue=value) {
+  A <- raster2Set(rasterFill(raster, value=value), value=value)
+  FA <- setMap(A, match.fun(FUN))
+  iA <- A[rasterCheckPoints(raster, FA, value=value),]
+  rasterSetPoints(rasterFill(raster, 0), iA)
+}
 
+rasterCheckPoints <- function(raster, pts, value=1) {
+  stopifnot(ncol(pts) == 2)
+  ids <- setDiscretize(pts,
+                       rasterXlim(raster), rasterXres(raster),
+                       rasterXlim(raster), rasterXres(raster))
+  raster[ids] == value
+}
 rasterSetPoints <- function(raster, pts, value=1) {
   stopifnot(ncol(pts) == 2)
   ids <- setDiscretize(pts,
