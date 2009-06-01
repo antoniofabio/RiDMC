@@ -1,0 +1,66 @@
+> ##
+> ##Periodic cycles scanning
+> ##
+> library(RiDMC)
+Carico il pacchetto richiesto: grid
+loaded idmclib version 0.10.1
+> 
+> model <- Model(exModelFile('logistic'))
+> cyc <- cycles_find(model, 3.25, 0.5, 2, 1e-6)
+> cyc2 <- cyc
+> cyc2$pt <- as.matrix(cyc)[2,]
+> 
+> cyc
+Cycle of period  2 
+Classification:  stable 
+Trajectory:
+            x
+[1,] 0.495265
+[2,] 0.812427
+> cyc2
+Cycle of period  2 
+Classification:  stable 
+Trajectory:
+            x
+[1,] 0.812427
+[2,] 0.495265
+> 
+> stopifnot(!is.null(.cycleAlign(cyc2, cyc)))
+> 
+> .cycleAlign(cyc2, cyc)
+Cycle of period  2 
+Classification:  stable 
+Trajectory:
+            x
+[1,] 0.495265
+[2,] 0.812427
+> .cycleAlign(cyc, cyc2)
+Cycle of period  2 
+Classification:  stable 
+Trajectory:
+            x
+[1,] 0.812427
+[2,] 0.495265
+> 
+> stopifnot(.cycleCompare(cyc2, cyc))
+> stopifnot(.cycleCompare(cyc, cyc2))
+> 
+> cyc <- Cycles(model, par=3.25, period=2, eps=1e-4,
++               varMin=0, varMax=1)
+> cyc
+Logistic model
+1 periodic cycles found
+
+==details==
+cycle 1 
+Cycle of period  2 
+Classification:  stable 
+Trajectory:
+          x
+[1,] 0.4953
+[2,] 0.8124
+
+> 
+> proc.time()
+   user  system elapsed 
+  2.156   0.048   3.267 
