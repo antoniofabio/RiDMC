@@ -15,7 +15,7 @@ setMap <- function(A, f) {
 Raster <- function(xlim, ylim, xres=100, yres=xres, data) {
   if(!missing(data)) {
     stopifnot(xres == NCOL(data))
-    stopfinot(yres == NROW(data))
+    stopifnot(yres == NROW(data))
   } else {
     data <- matrix(0, xres, yres)
   }
