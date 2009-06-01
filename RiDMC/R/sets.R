@@ -91,7 +91,7 @@ setDiscretize <- function(A,
 }
 
 set2Raster <- function(A, raster=Raster(range(A[,1]), range(A[,2])), value=1)
-  rasterSetPoints(rasterSetAll(raster, 0), A, value)
+  rasterSetPoints(rasterFill(raster, 0), A, value)
 
 raster2Set <- function(raster, value=1) {
   xyd <- which(raster==value, TRUE)
@@ -114,7 +114,7 @@ setNormalize <- function(A, raster=Raster(range(A[,1]), range(A[,2])))
   raster2Set(set2Raster(A, raster))
 
 setInv <- function(B, f, raster) {
-  domain <- raster2Set(rasterSetAll(raster, 1), 1)
+  domain <- raster2Set(rasterFill(raster, 1), 1)
   n <- nrow(domain)
   id <- rep(FALSE, n)
   xEps <- rasterXeps(raster)
