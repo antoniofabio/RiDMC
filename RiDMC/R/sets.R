@@ -12,12 +12,11 @@ setMap <- function(A, f) {
 
 ##Raster data: a grid of numerical values.
 ## Encapsulates horiz. and vert. ranges infos
-Raster <- function(xlim, ylim, data, xres=ncol(A), yres=nrow(A)) {
-  if(missing(data)) {
-    if(missing(xres))
-      xres <- 100
-    if(missing(yres))
-      yres <- 100
+Raster <- function(xlim, ylim, xres=100, yres=xres, data) {
+  if(!missing(data)) {
+    stopifnot(xres == NCOL(data))
+    stopfinot(yres == NROW(data))
+  } else {
     data <- matrix(0, xres, yres)
   }
   stopifnot(is.matrix(data))
@@ -56,11 +55,11 @@ rasterFillRect <- function(raster, x0, y0, x1, y1, value=1) {
   return(raster)
 }
 rasterMap <- function(raster, FUN, value=1, outvalue=value) {
-  set2Raster(setMap(raster2Set(raster, value=value), match.fun(FUN)),
+  set2Raster(setMap(raster2Pts(raster, value=value), match.fun(FUN)),
              raster, value=outvalue)
 }
 rasterInvMap <- function(raster, FUN, value=1, outvalue=value) {
-  A <- raster2Set(rasterFill(raster, value=value), value=value)
+  A <- raster2Pts(rasterFill(raster, value=value), value=value)
   FA <- setMap(A, match.fun(FUN))
   iA <- A[rasterCheckPoints(raster, FA, value=value),]
   rasterSetPoints(rasterFill(raster, 0), iA)
@@ -115,76 +114,10 @@ setDiscretize <- function(A,
 set2Raster <- function(A, raster=Raster(range(A[,1]), range(A[,2])), value=1)
   rasterSetPoints(rasterFill(raster, 0), A, value)
 
-raster2Set <- function(raster, value=1) {
+raster2Pts <- function(raster, value=1) {
   xyd <- which(raster==value, TRUE)
   cbind(x=(xyd[,1] - 1)* rasterXeps(raster) + rasterXlim(raster)[1] + rasterXeps(raster)/2,
         y=(xyd[,2] - 1)* rasterYeps(raster) + rasterYlim(raster)[1] + rasterYeps(raster)/2)
-}
-
-rasterUnion <- function(a, b) {
-  xlim <- range(rasterXlim(a), rasterXlim(b))
-  ylim <- range(rasterYlim(a), rasterYlim(b))
-  xeps <- max(rasterXeps(a), rasterXeps(b))
-  yeps <- max(rasterYeps(a), rasterYeps(b))
-  ans <- Raster(xlim, ylim, xres=round(1/xeps), yres=round(1/yeps))
-  a1 <- set2Raster(raster2Set(a, value=1), ans, value=1)
-  b1 <- set2Raster(raster2Set(b, value=1), ans, value=1)
-  a1 + b1 - (a1 * b1)
-}
-
-setNormalize <- function(A, raster=Raster(range(A[,1]), range(A[,2])))
-  raster2Set(set2Raster(A, raster))
-
-setInv <- function(B, f, raster) {
-  domain <- raster2Set(rasterFill(raster, 1), 1)
-  n <- nrow(domain)
-  id <- rep(FALSE, n)
-  xEps <- rasterXeps(raster)
-  yEps <- rasterYeps(raster)
-  for(i in seq_len(n)) {
-    pt <- f(domain[i,])
-    dist <- abs(sweep(B, 2, pt))
-    id[i] <- any(dist[,1] <= xEps & dist[,2] <= yEps)
-    if((i %% (n/20)) == 0)
-      message(round(i*100/n, 2), "% done")
-  }
-  return(domain[id,])
-}
-
-setIntersect <- function(A, B) {
-  A <- unique(A)
-  B <- unique(B)
-  if(nrow(A) > nrow(B)) {
-    C <- A
-    A <- B
-    B <- C
-  }
-  ans <- matrix(0, nrow(A), 2)
-  na <- 0
-  for(i in seq_len(nrow(A))) {
-    pt <- A[i,]
-    dist <- apply(abs(sweep(B, 2, pt)), 1, max) == 0
-    if(any(dist)) {
-      na <- na+1
-      ans[na,] <- pt
-    }
-  }
-  return(ans[seq_len(na),])
-}
-
-setDiff <- function(A, B) {
-  ans <- matrix(nrow(A), 0, 2)
-  B <- setIntersect(A, B)
-  na <- 0
-  for(i in seq_len(nrow(A))) {
-    pt <- A[i,]
-    dist <- abs(sweep(B, 2, pt))
-    if(all(dist > 0)) {
-      na <- na+1
-      ans[na,] <- pt
-    }
-  }
-  return(ans[seq_len(na),])
 }
 
 plot.Raster <- function(x, y,
