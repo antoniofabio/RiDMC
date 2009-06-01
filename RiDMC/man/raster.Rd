@@ -33,7 +33,7 @@ rasterYrange(raster)
 rasterXeps(raster)
 rasterYeps(raster)
 rasterFill(raster, value=1)
-rasterFillRect(raster, value=1)
+rasterFillRect(raster, x0, y0, x1, y1, value=1)
 rasterMap(raster, FUN, value=1, outvalue=value)
 rasterInvMap(raster, FUN, value=1, outvalue=value)
 rasterContains(raster, pts)
@@ -56,6 +56,7 @@ raster2Pts(raster, value=1)
   \item{xlim, ylim}{ranges}
   \item{xres, yres}{resolutions}
   \item{data}{raw raster matrix data}
+  \item{x0, y0, x1, y1}{rectangle opposite corners}
   \item{x}{a Raster object}
   \item{y}{ignored}
   \item{value, outvalue}{reference integer value to be set/to look for into Raster
