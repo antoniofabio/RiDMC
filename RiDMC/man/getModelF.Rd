@@ -6,7 +6,8 @@
 getModelF(model)
 }
 \arguments{
-  \item{model}{an \code{idmc_model} object, as returned by \code{\link{Model}}}
+  \item{model}{an \code{idmc_model} object, as returned by
+    \code{\link{Model}}}
 }
 \value{
   An R function which evaluates the main model function.

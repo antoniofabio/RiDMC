@@ -99,3 +99,10 @@ getModelF <- function(model) {
   F <- eval(parse(text=F, srcfile=NULL))
   return(F)
 }
+
+getModelMap <- function(model, par) {
+  F <- model$f
+  return(function(var) {
+         F(var, par=par)
+       })
+}
