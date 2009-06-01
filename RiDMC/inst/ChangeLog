@@ -1,4 +1,5 @@
 0.10-3
+	added discrete 2D sets manipulation functions (see 'Raster' manpage)
 	fixed periodic cycles man page
 
 0.10-2
