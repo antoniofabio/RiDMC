@@ -87,7 +87,7 @@ print.periodic_cycle <- function(x, ...) {
   invisible(x)
 }
 
-cycles_find <- function(idmc_model, par, var, period,
+cycles_find <- function(idmc_model, par, var, period=1,
                         eps=sqrt(.Machine$double.eps),
                         max.iter=100) {
   checkModelDiscrete(idmc_model)
@@ -120,7 +120,7 @@ cycles_find <- function(idmc_model, par, var, period,
   return(domain$sample(n))
 }
 
-Cycles <- function(idmc_model, par, period=2,
+Cycles <- function(idmc_model, par, period=1,
                    eps=sqrt(.Machine$double.eps),
                    ntries=100,
                    max.iter=100,

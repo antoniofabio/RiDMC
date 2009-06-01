@@ -73,6 +73,8 @@
 \alias{.fixLim}
 \alias{enumerateExponents}
 \alias{.signsToLegend}
+\alias{inSet}
+\alias{uniqueSet}
 \title{
 RiDMC internal functions
 }

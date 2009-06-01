@@ -2,6 +2,10 @@
 \alias{Cycles}
 \alias{cycles}
 \alias{cycles_find}
+\alias{as.matrix.periodic_cycle}
+\alias{print.periodic_cycle}
+\alias{print.idmc_cycles}
+\alias{plot.idmc_cycles}
 \title{
 Periodic cycles
 }
@@ -10,10 +14,10 @@ cycles_find(idmc_model, par, var, period=1,
    eps=sqrt(.Machine$double.eps), max.iter=100)
 
 Cycles(idmc_model, par, period=1,
-                   eps=sqrt(.Machine$double.eps),
-                   max.iter=100,
-                   ntries=100,
-                   varMin=-Inf, varMax=Inf, varList)
+       eps=sqrt(.Machine$double.eps),
+       ntries=100,
+       max.iter=100,
+       varMin=-Inf, varMax=Inf, varList)
 
 \method{as.matrix}{periodic_cycle}(x, ...)
 \method{print}{periodic_cycle}(x, ...)
@@ -32,6 +36,10 @@ Cycles(idmc_model, par, period=1,
   \item{ntries}{number of starting points to try}
   \item{varMin, varMax}{model variables ranges}
   \item{varList}{optional: explicit list of starting points to try}
+  \item{x}{an idmc\_cycle object}
+  \item{y}{ignored}
+  \item{legend}{should a legend be added to the plot?}
+  \item{...}{arguments to and from other methods}
 }
 
 \description{ Find periodic cycles by Newton method }
