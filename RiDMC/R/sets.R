@@ -65,16 +65,23 @@ rasterInvMap <- function(raster, FUN, value=1, outvalue=value) {
   iA <- A[rasterCheckPoints(raster, FA, value=value),]
   rasterSetPoints(rasterFill(raster, 0), iA)
 }
+rasterContains <- function(raster, pts) {
+  xlim <- rasterXlim(raster)
+  ylim <- rasterYlim(raster)
+  return(pts[,1] >= xlim[1] & pts[,1] <= xlim[2] &
+         pts[,2] >= ylim[1] & pts[,2] <= ylim[2])
+}
 
 rasterCheckPoints <- function(raster, pts, value=1) {
   stopifnot(ncol(pts) == 2)
   ids <- setDiscretize(pts,
                        rasterXlim(raster), rasterXres(raster),
                        rasterXlim(raster), rasterXres(raster))
-  raster[ids] == value
+  apply(ids, 1, function(x) all(is.finite(x))) & (raster[ids] == value)
 }
 rasterSetPoints <- function(raster, pts, value=1) {
   stopifnot(ncol(pts) == 2)
+  pts <- pts[rasterContains(raster, pts), ]
   ids <- setDiscretize(pts,
                        rasterXlim(raster), rasterXres(raster),
                        rasterXlim(raster), rasterXres(raster))
@@ -96,10 +103,12 @@ setDiscretize <- function(A,
                           ylim=range(A[,2]), yres=100) {
   xeps <- diff(xlim) / xres
   yeps <- diff(ylim) / yres
-  A <- A[A[,1] >= xlim[1] & A[,1] <= xlim[2],]
-  A <- A[A[,2] >= ylim[1] & A[,2] <= ylim[2],]
   Ax <- floor((A[,1] - xlim[1]) / xeps)
   Ay <- floor((A[,2] - ylim[1]) / yeps)
+  Ax[Ax < 0] <- NA
+  Ay[Ay < 0] <- NA
+  Ax[Ax >= xres] <- NA
+  Ay[Ay >= yres] <- NA
   return(cbind(x=Ax, y=Ay) + 1)
 }
 
