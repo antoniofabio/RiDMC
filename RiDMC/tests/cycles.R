@@ -19,5 +19,6 @@ stopifnot(!is.null(.cycleAlign(cyc2, cyc)))
 stopifnot(.cycleCompare(cyc2, cyc))
 stopifnot(.cycleCompare(cyc, cyc2))
 
-cyc <- Cycles(model, 3.25, as.list(seq(0.01, 0.99, length=100)), 2, 1e-4)
+cyc <- Cycles(model, par=3.25, period=2, eps=1e-4,
+              varMin=0, varMax=1)
 cyc
