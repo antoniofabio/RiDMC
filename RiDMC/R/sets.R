@@ -166,7 +166,7 @@ setDiff <- function(A, B) {
 }
 
 plot.Raster <- function(x, y,
-                        palette=gray.colors(length(unique(as.vector(x)))),
+                        palette=gray.colors(length(unique(c(as.vector(x), 1)))),
                         xlab="x", ylab="y",
                         axes=TRUE,
                         mar=c(4,4,2,2),
@@ -179,7 +179,7 @@ plot.Raster <- function(x, y,
   xseq <- seq(xlim[1] + xeps/2, xlim[2] - xeps/2, length=dim(x)[1])
   yseq <- seq(ylim[1] + yeps/2, ylim[2] - yeps/2, length=dim(x)[2])
   x <- as.matrix(x)
-  levs <- -sort(-unique(as.vector(x)))
+  levs <- -sort(-unique(c(as.vector(x), 1)))
   palette <- palette[seq_along(levs)]
   col <- matrix(palette[match(as.vector(x), levs)], dim(x)[1], dim(x)[2])
   gr <- imageGrob(col, xlim=xlim, ylim=ylim, respect=FALSE,
