@@ -36,12 +36,31 @@ rasterXeps <- function(raster) rasterXrange(raster) / rasterXres(raster)
 rasterYeps <- function(raster) rasterYrange(raster) / rasterYres(raster)
 as.matrix.Raster <- function(x, ...) x
 
-rasterSetAll <- function(raster, value) {
+rasterFill <- function(raster, value=1) {
   raster[,] <- value
   raster
 }
+rasterFillRect <- function(raster, x0, y0, x1, y1, value=1) {
+  xlim <- rasterXlim(raster)
+  ylim <- rasterYlim(raster)
+  stopifnot(x0 >= xlim[1] && x1 <= xlim[2])
+  stopifnot(y0 >= ylim[1] && y1 <= ylim[2])
+  ids <- setDiscretize(matrix(c(x0, x1, y0, y1), 2, 2),
+                       xlim=xlim, xres=rasterXres(raster),
+                       ylim=ylim, yres=rasterYres(raster))
+  i0 <- ids[1,1]
+  i1 <- ids[2,1]
+  j0 <- ids[1,2]
+  j1 <- ids[2,2]
+  raster[seq(j0, j1), seq(i0, i1)] <- value
+  return(raster)
+}
+rasterMap <- function(raster, FUN, value=1, outvalue=value) {
+  set2Raster(setMap(raster2Set(raster, value=value), FUN),
+             raster, value=outvalue)
+}
 
-rasterSetPoints <- function(raster, pts, value) {
+rasterSetPoints <- function(raster, pts, value=1) {
   stopifnot(ncol(pts) == 2)
   ids <- setDiscretize(pts,
                        rasterXlim(raster), rasterXres(raster),
