@@ -2,6 +2,10 @@
 \alias{Cycles}
 \alias{cycles}
 \alias{cycles_find}
+\alias{as.matrix.periodic_cycle}
+\alias{print.periodic_cycle}
+\alias{print.idmc_cycles}
+\alias{plot.idmc_cycles}
 \title{
 Periodic cycles
 }
