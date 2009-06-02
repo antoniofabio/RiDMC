@@ -64,6 +64,10 @@ rasterFillLocus <- function(raster, FUN, value=1) {
   return(rasterSetPoints(raster, pts, value=value))
 }
 
+rasterFillPolygon <- function(raster, polygon, value=1) {
+  rasterFillLocus(raster, function(pt) polyContainsPt(polygon, pt), value=value)
+}
+
 rasterMap <- function(raster, FUN, value=1, outvalue=value) {
   set2Raster(setMap(raster2Pts(raster, value=value), match.fun(FUN)),
              raster, value=outvalue)

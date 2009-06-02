@@ -36,6 +36,7 @@ rasterYeps(raster)
 rasterFill(raster, value=1)
 rasterFillRect(raster, x0, y0, x1, y1, value=1)
 rasterFillLocus(raster, FUN, value=1)
+rasterFillPolygon(raster, polygon, value=1)
 rasterMap(raster, FUN, value=1, outvalue=value)
 rasterInvMap(raster, FUN, value=1, outvalue=value)
 rasterContains(raster, pts)
@@ -64,7 +65,9 @@ raster2Pts(raster, value=1)
   \item{value, outvalue}{reference integer value to be set/to look for into Raster
     cells. It can be safely ignored for standard usage}
   \item{xlab, ylab, axes, mar, add}{see \code{plotGrob}}
-  \item{FUN}{map function, from R2 to R2}
+  \item{FUN}{for Map, InvMap: map function from R2 to R2. For FillLocus: boolean
+                      check function, from R2 to {true, false}}
+  \item{polygon}{ordered set of polygon vertices. Polygon is 'closed' automatically}
   \item{pts}{vertical matrix of 2d points}
   \item{palette}{image palette}
   \item{...}{arguments to and from other methods}
