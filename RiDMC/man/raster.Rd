@@ -5,6 +5,8 @@
 \alias{rasterFill}
 \alias{rasterFillRect}
 \alias{rasterFillLocus}
+\alias{rasterFillCircle}
+\alias{rasterFillPolygon}
 \alias{rasterXres}
 \alias{rasterYres}
 \alias{rasterXlim}
@@ -34,7 +36,8 @@ rasterYrange(raster)
 rasterXeps(raster)
 rasterYeps(raster)
 rasterFill(raster, value=1)
-rasterFillRect(raster, x0, y0, x1, y1, value=1)
+rasterFillRect(raster, x0, y0, width, height=width, value=1)
+rasterFillCircle(raster, center, radius, value=1)
 rasterFillLocus(raster, FUN, value=1)
 rasterFillPolygon(raster, polygon, value=1)
 rasterMap(raster, FUN, value=1, outvalue=value)
@@ -59,7 +62,8 @@ raster2Pts(raster, value=1)
   \item{xlim, ylim}{ranges}
   \item{xres, yres}{resolutions}
   \item{data}{raw raster matrix data}
-  \item{x0, y0, x1, y1}{rectangle opposite corners}
+  \item{x0, y0}{top-left rectangle corner}
+  \item{width, height}{rectangle width and height}
   \item{x}{a Raster object}
   \item{y}{ignored}
   \item{value, outvalue}{reference integer value to be set/to look for into Raster
@@ -86,7 +90,7 @@ Antonio, Fabio Di Narzo
 \keyword{ utilities }
 \examples{
 A <- Raster(xlim=c(0, 100), ylim=c(0, 100), xres=100, yres=100)
-B <- rasterFillRect(A, 25, 25, 75, 75)
+B <- rasterFillRect(A, x0=25, y0=75, width=50)
 plot(B)
 
 F <- function(xy) xy + 10
@@ -106,4 +110,18 @@ D1 <- rasterInvMap(B, iF)
 plot(D1)
 
 plot(D + D1)
+
+circleLocus <- function(center, radius) {
+  function(xy) {
+    return(sqrt(sum((xy - center)^2)) <= radius)
+  }
+}
+B <- rasterFillLocus(A, circleLocus(c(50, 50), 15))
+
+poly <- matrix(c(20, 20,
+                 60, 30,
+                 80, 90),
+                 ncol=2,
+                 byrow=TRUE)
+C <- rasterFillPolygon(A, poly)
 }

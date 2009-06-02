@@ -39,9 +39,11 @@ rasterFill <- function(raster, value=1) {
   raster[,] <- value
   raster
 }
-rasterFillRect <- function(raster, x0, y0, x1, y1, value=1) {
+rasterFillRect <- function(raster, x0, y0, width, height=width, value=1) {
   xlim <- rasterXlim(raster)
   ylim <- rasterYlim(raster)
+  x1 <- x0 + width
+  y1 <- y0 - height
   stopifnot(x0 >= xlim[1] && x1 <= xlim[2])
   stopifnot(y0 >= ylim[1] && y1 <= ylim[2])
   ids <- setDiscretize(matrix(c(x0, x1, y0, y1), 2, 2),
@@ -57,11 +59,17 @@ rasterFillRect <- function(raster, x0, y0, x1, y1, value=1) {
 
 rasterFillLocus <- function(raster, FUN, value=1) {
   FUN <- match.fun(FUN)
-  pts <- raster2Pt(raster)
+  pts <- raster2Pts(rasterFill(raster, value=1), value=1)
   ids <- apply(pts, 1, FUN)
   stopifnot(all(is.logical(ids)))
   pts <- pts[ids,]
   return(rasterSetPoints(raster, pts, value=value))
+}
+
+rasterFillCircle <- function(raster, center, radius, value=1) {
+  rasterFillLocus(raster, function(xy) {
+    return(sqrt(sum(xy - center)^2) < radius)
+  }, value = value)
 }
 
 rasterFillPolygon <- function(raster, polygon, value=1) {
