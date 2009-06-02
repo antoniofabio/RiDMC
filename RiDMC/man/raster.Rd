@@ -118,7 +118,8 @@ circleLocus <- function(center, radius) {
 }
 B <- rasterFillLocus(A, circleLocus(c(50, 50), 15))
 
-B1 <- rasterFillCircle(A, c(50, 50), 15)
+A <- Raster(xlim=c(0, 100), ylim=c(0, 100), xres=100)
+B <- rasterFillCircle(A, c(50, 50), 15)
 
 poly <- matrix(c(20, 20,
                  60, 30,
@@ -126,4 +127,5 @@ poly <- matrix(c(20, 20,
                  ncol=2,
                  byrow=TRUE)
 C <- rasterFillPolygon(A, poly)
+plot(B + C)
 }
