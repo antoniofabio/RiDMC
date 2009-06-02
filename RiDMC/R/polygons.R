@@ -16,7 +16,8 @@ segmentVerticalIntersection <- function(x1, y1, x2, y2, y0) {
   slope <- (y2 - y1) / (x2 - x1)
   intercept <- y1 - slope * x1
   ans <- (y0 - intercept) / slope
-  ans[!is.finite(slope)] <- x1
+  nFiniteSlope <- !is.finite(slope)
+  ans[nFiniteSlope] <- x1[nFiniteSlope]
   return(ans)
 }
 

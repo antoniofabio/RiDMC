@@ -128,4 +128,11 @@ poly <- matrix(c(20, 20,
                  byrow=TRUE)
 C <- rasterFillPolygon(A, poly)
 plot(B + C)
+
+poly <- matrix(c(20, 20,
+                 60, 30,
+                 20, 60),
+                 ncol=2,
+                 byrow=TRUE)
+C <- rasterFillPolygon(A, poly)
 }
