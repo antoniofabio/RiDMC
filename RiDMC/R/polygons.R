@@ -37,5 +37,5 @@ polyContainsPt <- function(poly, pt) {
                                      poly3_2[,2],
                                      ptY)
   ptX <- pt[1]
-  return(odd(sum(xes < ptX)) && odd(sum(xes > ptX)))
+  return(odd(sum(xes <= ptX)) && odd(sum(xes >= ptX)))
 }
