@@ -80,7 +80,7 @@ rasterCheckPoints <- function(raster, pts, value=1) {
 }
 rasterSetPoints <- function(raster, pts, value=1) {
   stopifnot(ncol(pts) == 2)
-  pts <- pts[rasterContains(raster, pts), ]
+  pts <- pts[rasterContains(raster, pts), ,drop=FALSE]
   ids <- setDiscretize(pts,
                        rasterXlim(raster), rasterXres(raster),
                        rasterXlim(raster), rasterXres(raster))
@@ -108,7 +108,7 @@ setDiscretize <- function(A,
   Ay[Ay < 0] <- NA
   Ax[Ax >= xres] <- NA
   Ay[Ay >= yres] <- NA
-  return(cbind(x=Ax, y=Ay) + 1)
+  return(cbind(x=Ay, y=Ax) + 1)
 }
 
 set2Raster <- function(A, raster=Raster(range(A[,1]), range(A[,2])), value=1)
