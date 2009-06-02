@@ -20,6 +20,10 @@ segmentVerticalIntersection <- function(x1, y1, x2, y2, y0) {
   return(ans)
 }
 
+odd <- function(x) {
+  return(x %% 2 == 1)
+}
+
 polyContainsPt <- function(poly, pt) {
   ptY <- pt[2]
   crosses <- sideYCrossesPtY(polySidesY(poly), ptY)
