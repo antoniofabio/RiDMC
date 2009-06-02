@@ -4,6 +4,7 @@
 \alias{rasterInvMap}
 \alias{rasterFill}
 \alias{rasterFillRect}
+\alias{rasterFillLocus}
 \alias{rasterXres}
 \alias{rasterYres}
 \alias{rasterXlim}
@@ -34,6 +35,7 @@ rasterXeps(raster)
 rasterYeps(raster)
 rasterFill(raster, value=1)
 rasterFillRect(raster, x0, y0, x1, y1, value=1)
+rasterFillLocus(raster, FUN, value=1)
 rasterMap(raster, FUN, value=1, outvalue=value)
 rasterInvMap(raster, FUN, value=1, outvalue=value)
 rasterContains(raster, pts)

@@ -54,6 +54,16 @@ rasterFillRect <- function(raster, x0, y0, x1, y1, value=1) {
   raster[seq(j0, j1), seq(i0, i1)] <- value
   return(raster)
 }
+
+rasterFillLocus <- function(raster, FUN, value=1) {
+  FUN <- match.fun(FUN)
+  pts <- raster2Pt(raster)
+  ids <- apply(pts, 1, FUN)
+  stopifnot(all(is.logical(ids)))
+  pts <- pts[ids,]
+  return(rasterSetPoints(raster, pts, value=value))
+}
+
 rasterMap <- function(raster, FUN, value=1, outvalue=value) {
   set2Raster(setMap(raster2Pts(raster, value=value), match.fun(FUN)),
              raster, value=outvalue)
