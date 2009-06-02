@@ -68,7 +68,7 @@ rasterFillLocus <- function(raster, FUN, value=1) {
 
 rasterFillCircle <- function(raster, center, radius, value=1) {
   rasterFillLocus(raster, function(xy) {
-    return(sqrt(sum(xy - center)^2) < radius)
+    return(sqrt(sum((xy - center)^2)) < radius)
   }, value = value)
 }
 

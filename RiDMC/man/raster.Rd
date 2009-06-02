@@ -118,6 +118,8 @@ circleLocus <- function(center, radius) {
 }
 B <- rasterFillLocus(A, circleLocus(c(50, 50), 15))
 
+B1 <- rasterFillCircle(A, c(50, 50), 15)
+
 poly <- matrix(c(20, 20,
                  60, 30,
                  80, 90),
