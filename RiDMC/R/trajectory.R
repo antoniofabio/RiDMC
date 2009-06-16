@@ -204,9 +204,9 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
   pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty)
   grid.draw(pG)
   if(legend) {
-    downViewport('rightMarginArea')
+    depth <- downViewport('rightMarginArea')
     grid.draw(clg)
-    upViewport(0)
+    upViewport(depth)
   }
   invisible(pG)
 }
