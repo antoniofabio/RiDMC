@@ -1,4 +1,5 @@
 0.10-3
+	fixed mistake in Model()$Jf function: matrix is filled by row!
 	added utility getModelMap function
 	added discrete 2D sets manipulation functions (see 'Raster' manpage)
 	fixed periodic cycles man page

@@ -29,7 +29,10 @@ buildModel <- function(pointer, text) {
   ans$g <- function(par, var)
     .Call("ridmc_model_g", model, as.double(par), as.double(var), PACKAGE='RiDMC')
   ans$Jf <- function(par, var)
-    matrix(.Call("ridmc_model_Jf", model, as.double(par), as.double(var), PACKAGE='RiDMC'), n.vars)
+    matrix(.Call("ridmc_model_Jf", model, as.double(par),
+                 as.double(var), PACKAGE='RiDMC'),
+           ncol=n.vars, nrow=n.vars,
+           byrow=TRUE)
   ans$NumJf <- function(par, var)
     matrix(.Call("ridmc_model_NumJf", model, as.double(par), as.double(var), PACKAGE='RiDMC'), n.vars)
   ans$set.seed <- function(seed)
