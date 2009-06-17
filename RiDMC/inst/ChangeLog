@@ -1,4 +1,5 @@
 0.10-4
+	robustified LyapExpMap input args handling
 	cleaned LyapunovExponentsMap print method
 	added utility internal functions getModelNPar, getModelNVar
 

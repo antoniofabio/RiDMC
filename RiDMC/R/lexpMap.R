@@ -1,6 +1,42 @@
 LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
-  par.x = 1, par.x.range, par.x.howMany=100, par.y = 2, par.y.range, par.y.howMany=100,
-  eps.zero=sqrt(.Machine$double.eps)) {
+                                 par.x = 1, par.x.range, par.x.howMany=100,
+                                 par.y = 2, par.y.range, par.y.howMany=100,
+                                 eps.zero=sqrt(.Machine$double.eps)) {
+  stopifnot(getModelNPar(idmc_model) >= 2)
+  npar <- getModelNPar(idmc_model)
+  tmp_par <- numeric(npar)
+  parNames <- getModelParNames(idmc_model)
+  names(tmp_par) <- parNames
+  if(npar > 2) {
+    if(missing(par))
+      stop("you must provide fixed values for the non-varying parameters")
+    stopifnot(!is.null(names(par)))
+  } else {
+    par <- numeric(0)
+  }
+  par.fixed <- names(par)
+  tmp_par[par.fixed] <- par
+  fixedParIndexes <- match(par.fixed, parNames)
+  par <- tmp_par
+  charParToInt <- function(nm) {
+    nmName <- deparse(substitute(nm))
+    int <- match(nm, parNames)
+    if(!is.finite(int))
+      stop("invalid parameter name for ", nmName)
+    return(int)
+  }
+  if(is.character(par.x))
+    par.x <- charParToInt(par.x)
+  if((par.x < 0) || (par.x > npar))
+    stop("'par.x' must be between 1 and ", npar)
+  if(is.character(par.y))
+    par.y <- charParToInt(par.y)
+  if((par.y < 0) || (par.y > npar))
+    stop("'par.y' must be between 1 and ", npar)
+  stopifnot(par.x != par.y)
+  stopifnot(!(par.x %in% fixedParIndexes))
+  stopifnot(!(par.y %in% fixedParIndexes))
+
   checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
@@ -21,7 +57,7 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
   if(modelType=='C') {
     if(missing(eps)) {
       eps <- getOption('ts.eps')
-      message('using eps = ', eps)
+      message('using integration step eps = ', eps)
     }
     checkPositiveScalar(eps)
     eps <- as.double(eps)
