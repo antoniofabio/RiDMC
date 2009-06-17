@@ -1,4 +1,5 @@
 0.10-4
+	cleaned LyapunovExponentsMap print method
 	added utility internal functions getModelNPar, getModelNVar
 
 0.10-3	17 Jun 2009

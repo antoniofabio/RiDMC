@@ -129,14 +129,16 @@ print.idmc_lexp_map <- function(x, ...) {
   cat('Starting point: ')
     tmp <- getModelVarNames(m)
     cat(paste(tmp, signif(x$var), sep=' = ', collapse=', '), '\n')
-  cat('Parameter values: ')
-    tmp <- getModelParNames(m)
+  if(getModelNPar(m) > 2){
+    cat('Fixed parameter values: ')
+    tmp <- names(x$par)
     cat(paste(tmp, x$par, sep=' = ', collapse=', '), '\n')
+  }
   pn <- getModelParNames(m)
-  cat('Varying x-axis par.: ', pn[x$par.x], '\n')
-  cat('Varying x-axis par. range: [', paste(x$par.x.range, collapse=', '), ']\n')
-  cat('Varying y-axis par.: ', pn[x$par.y], '\n')
-  cat('Varying y-axis par. range: [', paste(x$par.y.range, collapse=', '), ']\n')
+  cat('Varying x-axis par.:', pn[x$par.x],
+      '\t[', paste(x$par.x.range, collapse=', '), ']\n')
+  cat('Varying y-axis par.:', pn[x$par.y],
+      '\t[', paste(x$par.y.range, collapse=', '), ']\n')
 }
 
 as.matrix.idmc_lexp_map <- function(x, ...)
