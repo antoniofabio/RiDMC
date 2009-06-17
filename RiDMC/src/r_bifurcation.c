@@ -55,3 +55,82 @@ SEXP ridmc_bifurcation(SEXP m, SEXP whichVar,
   UNPROTECT(1);
   return ans;
 }
+
+/*return true if 'a' and 'b' are closer than 'eps' in maxnorm dist.*/
+static int arePointsClose(double* a, double* b, int dim, double eps) {
+  for(int i=0; i<dim; i++)
+    if(fabs(a[i] - b[i]) > eps)
+      return 0;
+  return 1;
+}
+
+/*returns true if 'pt' is in set 'pts' with proximity threshold 'eps'*/
+static int isPointInSet(double* pts, int npts,
+			double* pt, int dim,
+			double eps) {
+  for(int i=0; i<npts; i++)
+    if(arePointsClose(pts + (i*dim), pt, dim, eps))
+      return 1;
+  return 0;
+}
+
+/*adds point 'pt' to set 'pts' if 'pt' doesn't already belongs to it.
+If effectively added, set size 'npts' is updated accordingly.
+
+'pts' is assumed to be already big enough*/
+static void addPointToSet(double* pts, int* npts, double* pt, int dim, double eps) {
+  if(!isPointInSet(pts, npts[0], pt, dim, eps)) {
+    memcpy(pts + npts[0] * dim, pt, dim * sizeof(double));
+    npts[0]++;
+  }
+}
+
+/*
+m: idmc model object
+par: fixed parameter values
+var: common starting value
+whichParXY: which parameters to vary
+parXValues: vector of x-par values
+parYValues: vector of y-par values
+transient: transient length
+maxPeriod: max period
+*/
+SEXP ridmc_bifurcation_map(SEXP m,
+			   SEXP par, SEXP var,
+			   SEXP whichParXY, SEXP parXValues, SEXP parYValues,
+			   SEXP transient, SEXP maxPeriod,
+			   SEXP in_eps) {
+  SEXP ans;
+  int np, mp, tr, i, j, ij, dim, jj;
+  double *tv;
+  np = length(parXValues);
+  dim = length(var);
+  mp = INTEGER(maxPeriod)[0];
+  tr = INTEGER(transient)[0];
+  double eps = REAL(in_eps)[0];
+  idmc_model *model;
+  model = (idmc_model*) R_ExternalPtrAddr(m);
+  PROTECT( ans = allocVector(INTSXP, np * np ) );
+  double* attractor = (double*) R_alloc(dim * np, sizeof(double));
+  tv = (double*) R_alloc(dim, sizeof(double));
+  for(i=0; i<np; i++) {
+    REAL(par)[INTEGER(whichParXY)[0]] = REAL(parXValues)[i];
+    for(j=0, ij=0; j<np; j++) {
+      R_CheckUserInterrupt();
+      REAL(par)[INTEGER(whichParXY)[1]] = REAL(parYValues)[j];
+      memcpy(tv, REAL(var), dim*sizeof(double));
+      /*just discard transient:*/
+      for(jj=0; jj<tr; jj++)
+	idmc_model_f(model, REAL(par), tv, tv);
+      /*store all subsequent points in the 'attractor' container:*/
+      int period = 0;
+      for(jj=0; jj<mp; jj++) {
+	idmc_model_f(model, REAL(par), tv, tv);
+	addPointToSet(attractor, &period, tv, dim, eps);
+      }
+      INTEGER(ans)[i * np + j] = period;
+    }
+  }
+  UNPROTECT(1);
+  return ans;
+}
