@@ -48,8 +48,12 @@ getModelDescription <- function(obj, ...)
   obj$infos[[1]]['description']
 getModelParNames <- function(obj, ...)
   obj$infos[[4]]
+getModelNPar <- function(obj, ...)
+  length(getModelParNames(obj, ...))
 getModelVarNames <- function(obj, ...)
   obj$infos[[5]]
+getModelNVar <- function(obj, ...)
+  length(getModelVarNames(obj, ...))
 getModelText <- function(obj, ...)
   obj$text
 getModelHasInverse <- function(obj, ...)

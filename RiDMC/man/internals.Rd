@@ -10,7 +10,9 @@
 \alias{getModelName}
 \alias{getModelDescription}
 \alias{getModelParNames}
+\alias{getModelNPar}
 \alias{getModelVarNames}
+\alias{getModelNVar}
 \alias{getModelText}
 \alias{getModelHasInverse}
 \alias{getModelHasJacobian}
