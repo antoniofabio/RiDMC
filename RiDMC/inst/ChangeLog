@@ -1,4 +1,4 @@
-0.10-3
+0.10-3	17 Jun 2009
 	internal improvement to plot.idmc_trajectoryList
 	fixed mistake in Model()$Jf function: matrix is filled by row!
 	added utility getModelMap function
