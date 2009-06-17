@@ -89,7 +89,7 @@ enumerateExponents <- function(nvar) {
   ans[,3] <- apply(ans2, 1, howManyPos)
   ans[,4] <- apply(ans2, 1, howManyDiverging)
   ans <- unique(ans)
-	nms <- apply(ans, 1, .signsToLegend)
+  nms <- apply(ans, 1, .signsToLegend)
   rownames(ans) <- nms
   return(ans)
 }
@@ -97,29 +97,29 @@ enumerateExponents <- function(nvar) {
 ##Translate a vector of signs counts into a legend string
 ##Counts are given in that order: (#neg, #zero, #npos, #nna)
 .signsToLegend <- function(x) {
-	tmp <- ""
-	if(x[3]) {
-		tmp <- paste(x[3], "positive")
-		if(any(x[1]>0, x[2]>0, x[4]>0))
-			tmp <- paste(tmp, ",", sep="")
-	}
-	if(x[1]){
-		if(tmp!="") tmp <- paste(tmp, " ", sep="")
-		tmp <- paste(tmp, x[1], " negative", sep="")
-		if(any(x[2]>0, x[4]>0))
-			tmp <- paste(tmp, ",", sep="")
-	}
-	if(x[2]){
-		if(tmp!="") tmp <- paste(tmp, " ", sep="")
-		tmp <- paste(tmp, x[2], " zero", sep="")
-		if(x[4])
-			tmp <- paste(tmp, ",", sep="")
-	}
-	if(x[4]) {
-		if(tmp!="") tmp <- paste(tmp, " ", sep="")
-		tmp <- paste(tmp, x[4], " NA", sep="")
-	}
-	tmp
+  tmp <- ""
+  if(x[3]) {
+    tmp <- paste(x[3], "positive")
+    if(any(x[1]>0, x[2]>0, x[4]>0))
+      tmp <- paste(tmp, ",", sep="")
+  }
+  if(x[1]){
+    if(tmp!="") tmp <- paste(tmp, " ", sep="")
+    tmp <- paste(tmp, x[1], " negative", sep="")
+    if(any(x[2]>0, x[4]>0))
+      tmp <- paste(tmp, ",", sep="")
+  }
+  if(x[2]){
+    if(tmp!="") tmp <- paste(tmp, " ", sep="")
+    tmp <- paste(tmp, x[2], " zero", sep="")
+    if(x[4])
+      tmp <- paste(tmp, ",", sep="")
+  }
+  if(x[4]) {
+    if(tmp!="") tmp <- paste(tmp, " ", sep="")
+    tmp <- paste(tmp, x[4], " NA", sep="")
+  }
+  tmp
 }
 
 print.idmc_lexp_map <- function(x, ...) {
