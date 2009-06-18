@@ -17,7 +17,7 @@ BifurcationMap <- function(idmc_model,
                   as.double(par.x.values),
                   as.double(par.y.values),
                   as.integer(transient),
-                  as.integer(max.period),
+                  as.integer(max.period + 1),
                   as.double(eps),
                   PACKAGE='RiDMC')
   ans <- list()
