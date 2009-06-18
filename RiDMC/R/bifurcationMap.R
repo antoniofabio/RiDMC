@@ -13,7 +13,7 @@ BifurcationMap <- function(idmc_model,
   par.y.values <- seq(par.y.range[1], par.y.range[2], length=par.y.howMany)
   values <- .Call('ridmc_bifurcation_map', m$model,
                   as.double(par), as.double(var),
-                  as.integer(match(c(which.par.x, which.par.y), parNames)),
+                  as.integer(match(c(which.par.x, which.par.y), parNames) - 1),
                   as.double(par.x.values),
                   as.double(par.y.values),
                   as.integer(transient),
