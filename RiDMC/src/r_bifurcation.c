@@ -102,23 +102,26 @@ SEXP ridmc_bifurcation_map(SEXP m,
 			   SEXP in_eps) {
   SEXP ans;
   int npX, npY, mp, tr, i, j, dim, jj;
-  double *tv;
+  int whichX, whichY;
+  double *tv, *attractor, eps;
+  idmc_model *model;
   npX = length(parXValues);
   npY = length(parYValues);
+  whichX = INTEGER(whichParXY)[0];
+  whichY = INTEGER(whichParXY)[1];
   dim = length(var);
   mp = INTEGER(maxPeriod)[0];
   tr = INTEGER(transient)[0];
-  double eps = REAL(in_eps)[0];
-  idmc_model *model;
+  eps = REAL(in_eps)[0];
   model = (idmc_model*) R_ExternalPtrAddr(m);
   PROTECT( ans = allocVector(INTSXP, npX * npY ) );
-  double* attractor = (double*) R_alloc(dim * mp, sizeof(double));
+  attractor = (double*) R_alloc(dim * mp, sizeof(double));
   tv = (double*) R_alloc(dim, sizeof(double));
   for(i=0; i<npX; i++) {
-    REAL(par)[INTEGER(whichParXY)[0]] = REAL(parXValues)[i];
+    REAL(par)[whichX] = REAL(parXValues)[i];
     for(j=0; j<npY; j++) {
       R_CheckUserInterrupt();
-      REAL(par)[INTEGER(whichParXY)[1]] = REAL(parYValues)[j];
+      REAL(par)[whichY] = REAL(parYValues)[j];
       memcpy(tv, REAL(var), dim * sizeof(double));
       /*just discard transient:*/
       for(jj=0; jj<tr; jj++)
