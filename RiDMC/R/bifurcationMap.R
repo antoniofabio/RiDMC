@@ -5,12 +5,9 @@ BifurcationMap <- function(idmc_model,
                            transient=100, max.period=50,
                            eps=1e-3) {
   m <- idmc_model
-  parFull <- rep(0, getModelNPar(m))
-  names(parFull) <- getModelParNames(m)
-  stopifnot(!is.null(names(par)))
-  parFull[names(par)] <- par
-  par <- parFull
+  par <- .sanitizeNamedVector(par, getModelParNames(m))
   checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
+  var <- .sanitizeNamedVector(var, getModelVarNames(m))
   par.x.values <- seq(par.x.range[1], par.x.range[2], length=par.x.howMany)
   par.y.values <- seq(par.y.range[1], par.y.range[2], length=par.y.howMany)
   parNames <- getModelParNames(m)
