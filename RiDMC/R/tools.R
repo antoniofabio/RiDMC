@@ -81,10 +81,10 @@ uniqueSet <- function(lst, compfun) {
   return(ans)
 }
 
-.sanitizeNamedVector <- function(values, valueNames) {
+.sanitizeNamedVector <- function(values, valueNames, default.value=NA) {
   stopifnot(is.character(valueNames))
   stopifnot(is.numeric(values))
-  ans <- rep(NA, length(valueNames))
+  ans <- rep(default.value, length(valueNames))
   names(ans) <- valueNames
   if(!is.null(names(values)))
     ans[names(values)] <- values
