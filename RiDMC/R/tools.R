@@ -80,3 +80,17 @@ uniqueSet <- function(lst, compfun) {
       ans <- c(ans, list(a))
   return(ans)
 }
+
+.sanitizeNamedVector <- function(values, valueNames) {
+  stopifnot(is.character(valueNames))
+  stopifnot(is.numeric(values))
+  ans <- rep(NA, length(valueNames))
+  names(ans) <- valueNames
+  if(!is.null(names(values)))
+    ans[names(values)] <- values
+  else {
+    stopifnot(length(values) == length(valueNames))
+    ans[seq_along(ans)] <- values
+  }
+  return(ans)
+}
