@@ -5,16 +5,18 @@ BifurcationMap <- function(idmc_model,
                            transient=100, max.period=50,
                            eps=1e-3) {
   m <- idmc_model
-  parFull <- numeric(getModelNPar(m))
+  parFull <- rep(0, getModelNPar(m))
   names(parFull) <- getModelParNames(m)
+  stopifnot(!is.null(names(par)))
   parFull[names(par)] <- par
   par <- parFull
   checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
   par.x.values <- seq(par.x.range[1], par.x.range[2], length=par.x.howMany)
   par.y.values <- seq(par.y.range[1], par.y.range[2], length=par.y.howMany)
+  parNames <- getModelParNames(m)
   values <- .Call('ridmc_bifurcation_map', m$model,
                   as.double(par), as.double(var),
-                  as.integer(c(which.par.x, which.par.y)),
+                  match(c(which.par.x, which.par.y), parNames),
                   as.double(par.x.values),
                   as.double(par.y.values),
                   as.integer(transient),
@@ -22,7 +24,7 @@ BifurcationMap <- function(idmc_model,
                   as.double(eps),
                   PACKAGE='RiDMC')
   ans <- list()
-  parNames <- getModelParNames(m)
+
   names(parNames) <- parNames
   which.par.x <- parNames[which.par.x]
   which.par.y <- parNames[which.par.y]
