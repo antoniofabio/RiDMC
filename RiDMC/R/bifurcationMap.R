@@ -1,6 +1,5 @@
 BifurcationMap <- function(idmc_model,
                            par, var,
-                           which.var.monitor=1,
                            which.par.x=1, par.x.range, par.x.howMany=100,
                            which.par.y=2, par.y.range, par.y.howMany=100,
                            transient=100, max.period=50,

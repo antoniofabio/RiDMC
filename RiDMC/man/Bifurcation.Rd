@@ -9,7 +9,15 @@ Bifurcation plot
 Bifurcation(idmc_model, which.var.store=1, par, var, 
 	which.par.vary=1, par.min, par.max, par.howMany=100, 
 	transient=100, max.period=50)
+
+BifurcationMap(idmc_model,
+  par, var,
+  which.par.x=1, par.x.range, par.x.howMany=100,
+  which.par.y=2, par.y.range, par.y.howMany=100,
+  transient=100, max.period=50,
+  eps=1e-3)
 \method{as.matrix}{idmc_bifurcation}(x, ...)
+\method{as.matrix}{idmc_bifurcation_map}(x, ...)
 \method{plot}{idmc_bifurcation}(x, y, pch=16, cex=0.2,
   size = unit(cex, 'char'),
   main = getModelName(x$model),
@@ -20,12 +28,17 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
  \item{which.var.store}{which variable is to be stored?}
- \item{par}{a valid set of *all* model parameter values}
+ \item{par}{fixed model parameter values}
  \item{var}{starting values}
  \item{which.par.vary}{which parameter is to be varied?}
  \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
+ \item{which.par.x, which.par.y}{horiz. and vertical axes parameters}
+ \item{par.x.range, par.y.range}{varying parameters ranges}
+ \item{par.x.howMany, par.y.howMany}{number of different \code{x} and \code{y}
+  params. values}
  \item{transient}{transient length}
  \item{max.period}{max period for a cycle}
+ \item{eps}{points proximity threshold}
  \item{x}{an \code{idmc_bifurcation} object}
  \item{main, xlab, ylab}{usual plot options (see \code{\link{plotGrob}})}
  \item{pch, cex}{see \code{\link{par}}}
@@ -36,11 +49,12 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{...}{arguments to and from other methods}
 }
 \description{
-Computes a bifurcation diagram.
+  Compute bifurcation diagram (\code{Bifurcation}) and bifurcation map
+  (\code{BifurcationMap}).
 
-\code{as.matrix} converts it into a plain matrix object.
+  \code{as.matrix} converts it into a plain matrix object.
 
-\code{plot} plots it in a convenient manner.
+  \code{plot} plots it in a convenient manner.
 }
 \author{
 Antonio, Fabio Di Narzo
