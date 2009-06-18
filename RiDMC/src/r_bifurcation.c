@@ -1,7 +1,7 @@
 /*
 ridmc: iDMC->R interface
 
-Copyright (C) 2007 Marji Lines and Alfredo Medio.
+Copyright (C) 2007,2009 Marji Lines and Alfredo Medio.
 
 Written by Antonio, Fabio Di Narzo <antonio.fabio@gmail.com>.
 
@@ -15,7 +15,6 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date: 2007-06-08 19:02:35 +0200 (ven, 08 giu 2007) $
 */
 #include <R.h>
 #include <Rinternals.h>
@@ -101,7 +100,7 @@ SEXP ridmc_bifurcation_map(SEXP m,
 			   SEXP transient, SEXP maxPeriod,
 			   SEXP in_eps) {
   SEXP ans;
-  int np, mp, tr, i, j, ij, dim, jj;
+  int np, mp, tr, i, j, dim, jj;
   double *tv;
   np = length(parXValues);
   dim = length(var);
@@ -115,7 +114,7 @@ SEXP ridmc_bifurcation_map(SEXP m,
   tv = (double*) R_alloc(dim, sizeof(double));
   for(i=0; i<np; i++) {
     REAL(par)[INTEGER(whichParXY)[0]] = REAL(parXValues)[i];
-    for(j=0, ij=0; j<np; j++) {
+    for(j=0; j<np; j++) {
       R_CheckUserInterrupt();
       REAL(par)[INTEGER(whichParXY)[1]] = REAL(parYValues)[j];
       memcpy(tv, REAL(var), dim*sizeof(double));
