@@ -74,14 +74,15 @@ static int isPointInSet(double* pts, int npts,
 }
 
 /*adds point 'pt' to set 'pts' if 'pt' doesn't already belongs to it.
-If effectively added, set size 'npts' is updated accordingly.
+Returns new set size.
 
 'pts' is assumed to be already big enough*/
-static void addPointToSet(double* pts, int* npts, double* pt, int dim, double eps) {
-  if(!isPointInSet(pts, npts[0], pt, dim, eps)) {
-    memcpy(pts + npts[0] * dim, pt, dim * sizeof(double));
-    npts[0]++;
+static int addPointToSet(double* pts, int npts, double* pt, int dim, double eps) {
+  if(!isPointInSet(pts, npts, pt, dim, eps)) {
+    memcpy(pts + npts * dim, pt, dim * sizeof(double));
+    return(npts+1);
   }
+  return npts;
 }
 
 /*
@@ -126,7 +127,7 @@ SEXP ridmc_bifurcation_map(SEXP m,
       int period = 0;
       for(jj=0; jj<mp; jj++) {
 	idmc_model_f(model, REAL(par), tv, tv);
-	addPointToSet(attractor, &period, tv, dim, eps);
+	period = addPointToSet(attractor, period, tv, dim, eps);
       }
       INTEGER(ans)[i * npY + j] = period;
     }
