@@ -123,7 +123,7 @@ SEXP ridmc_bifurcation_map(SEXP m,
       R_CheckUserInterrupt();
       REAL(par)[whichY] = REAL(parYValues)[j];
       memcpy(tv, REAL(var), dim * sizeof(double));
-      /*just discard transient:*/
+      /*discard transient:*/
       for(jj=0; jj<tr; jj++)
 	idmc_model_f(model, REAL(par), tv, tv);
       /*store all subsequent points in the 'attractor' container:*/
