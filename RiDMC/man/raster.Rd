@@ -15,6 +15,8 @@
 \alias{rasterYrange}
 \alias{rasterXeps}
 \alias{rasterYeps}
+\alias{rasterXname}
+\alias{rasterYname}
 \alias{rasterContains}
 \alias{rasterCheckPoints}
 \alias{rasterSetPoints}
@@ -26,7 +28,7 @@
   Raster data handling
 }
 \usage{
-Raster(xlim, ylim, xres=100, yres=xres, data)
+Raster(xlim, ylim, xres=100, yres=xres, data, xName="x", yName="y")
 rasterXres(raster)
 rasterYres(raster)
 rasterXlim(raster)
@@ -35,6 +37,8 @@ rasterXrange(raster)
 rasterYrange(raster)
 rasterXeps(raster)
 rasterYeps(raster)
+rasterXname(raster)
+rasterYname(raster)
 rasterFill(raster, value=1)
 rasterFillRect(raster, x0, y0, width, height=width, value=1)
 rasterFillCircle(raster, center, radius, value=1)
@@ -48,8 +52,8 @@ rasterSetPoints(raster, pts, value=1)
 raster2Pts(raster, value=1)
 
 \method{plot}{Raster}(x, y,
-                      palette=gray.colors(length(unique(c(as.vector(x), 1)))),
-                      xlab="x", ylab="y",
+                      palette=gray.colors(length(unique(c(as.vector(x),1)))),
+                      xlab=rasterXname(x), ylab=rasterYname(x),
                       axes=TRUE,
                       mar=c(4,4,2,2),
                       ...,

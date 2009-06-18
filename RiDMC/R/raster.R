@@ -4,7 +4,8 @@
 
 ##Raster data: a grid of numerical values.
 ## Encapsulates horiz. and vert. ranges infos
-Raster <- function(xlim, ylim, xres=100, yres=xres, data) {
+Raster <- function(xlim, ylim, xres=100, yres=xres, data,
+                   xName='x', yName='y') {
   if(!missing(data)) {
     stopifnot(xres == NCOL(data))
     stopifnot(yres == NROW(data))
@@ -15,6 +16,8 @@ Raster <- function(xlim, ylim, xres=100, yres=xres, data) {
   structure(data,
             xlim=xlim,
             ylim=ylim,
+            xName=xName,
+            yName=yName,
             class=c("Raster", "matrix"))
 }
 rasterXres <- function(raster) ncol(raster)
@@ -25,6 +28,8 @@ rasterXrange <- function(raster) diff(rasterXlim(raster))
 rasterYrange <- function(raster) diff(rasterYlim(raster))
 rasterXeps <- function(raster) rasterXrange(raster) / rasterXres(raster)
 rasterYeps <- function(raster) rasterYrange(raster) / rasterYres(raster)
+rasterXname <- function(raster) attr(raster, "xName")
+rasterYname <- function(raster) attr(raster, "yName")
 as.matrix.Raster <- function(x, ...) x
 
 rasterFill <- function(raster, value=1) {
@@ -119,7 +124,7 @@ raster2Pts <- function(raster, value=1) {
 
 plot.Raster <- function(x, y,
                         palette=gray.colors(length(unique(c(as.vector(x), 1)))),
-                        xlab="x", ylab="y",
+                        xlab=rasterXname(x), ylab=rasterYname(x),
                         axes=TRUE,
                         mar=c(4,4,2,2),
                         ...,
