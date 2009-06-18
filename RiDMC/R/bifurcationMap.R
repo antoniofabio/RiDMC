@@ -24,6 +24,8 @@ BifurcationMap <- function(idmc_model,
   ans <- list()
   parNames <- getModelParNames(m)
   names(parNames) <- parNames
+  which.par.x <- parNames[which.par.x]
+  which.par.y <- parNames[which.par.y]
   ans$model <- m
   values <- matrix(values,
                    ncol=par.x.howMany,
@@ -31,9 +33,11 @@ BifurcationMap <- function(idmc_model,
   ans$values <- Raster(xlim=par.x.range, ylim=par.y.range,
                        xres=par.x.howMany,
                        yres=par.y.howMany,
-                       data=values)
-  ans$which.par.x <- parNames[which.par.x]
-  ans$which.par.y <- parNames[which.par.y]
+                       data=values,
+                       xName=which.par.x,
+                       yName=which.par.y)
+  ans$which.par.x <- which.par.x
+  ans$which.par.y <- which.par.y
   ans$max.period <- max.period
   ans$eps <- eps
   class(ans) <- 'idmc_bifurcation_map'
@@ -49,4 +53,8 @@ print.idmc_bifurcation_map <- function(x, ...) {
   cat('Model: ', getModelName(x$model), '\n')
   cat('varying parameters: (', x$which.par.x, ';', x$which.par.y, ')\n')
   cat('resolution: ', rasterXres(x$values), 'x', rasterYres(x$values), '\n')
+}
+
+plot.idmc_bifurcation_map <- function(x, y, ...) {
+  plot(x$values, ...)
 }

@@ -2,8 +2,12 @@
 \alias{Bifurcation}
 \alias{as.matrix.idmc_bifurcation}
 \alias{plot.idmc_bifurcation}
+\alias{BifurcationMap}
+\alias{as.matrix.idmc_bifurcation_map}
+\alias{print.idmc_bifurcation_map}
+\alias{plot.idmc_bifurcation_map}
 \title{
-Bifurcation plot
+Bifurcation diagram
 }
 \usage{
 Bifurcation(idmc_model, which.var.store=1, par, var, 
@@ -25,6 +29,7 @@ BifurcationMap(idmc_model,
   ylab = x$which.var,
   axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...)
 }
+\method{plot}{idmc_bifurcation_map}(x, y, ...)
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
  \item{which.var.store}{which variable is to be stored?}
