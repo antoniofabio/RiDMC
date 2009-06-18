@@ -57,10 +57,10 @@ SEXP ridmc_bifurcation(SEXP m, SEXP whichVar,
 
 /*return true if 'a' and 'b' are closer than 'eps' in maxnorm dist.*/
 static int arePointsClose(double* a, double* b, int dim, double eps) {
-  for(int i=0; i<dim; i++)
-    if(fabs(a[i] - b[i]) > eps)
-      return 0;
-  return 1;
+  double M = fabs(a[0] - b[0]);
+  for(int i=1; i<dim; i++)
+    M = fmax(M, fabs(a[0] - b[0]));
+  return (M <= eps);
 }
 
 /*returns true if 'pt' is in set 'pts' with proximity threshold 'eps'*/
