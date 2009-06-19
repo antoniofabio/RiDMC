@@ -64,6 +64,10 @@ raster2Pts(raster, value=1)
                       add=FALSE)
 \method{lines}{Raster}(x, y, ...)
 \method{as.matrix}{Raster}(x, ...)
+\method{as.grob}{Raster}(x,
+                         palette="gray",
+                         respect=FALSE,
+                         name="raster", ...)
 }
 \arguments{
   \item{raster}{a \code{Raster} object}
@@ -78,8 +82,10 @@ raster2Pts(raster, value=1)
     cells. It can be safely ignored for standard usage}
   \item{xlab, ylab, axes, mar, add}{see \code{plotGrob}}
   \item{FUN}{for Map, InvMap: map function from R2 to R2. For FillLocus: boolean
-                      check function, from R2 to {true, false}}
-  \item{polygon}{ordered set of polygon vertices. Polygon is 'closed' automatically}
+                      check function, from R2 to (true, false)}
+  \item{polygon}{ordered set of polygon vertices. Polygon is 'closed'
+automatically}
+  \item{center, radius}{circle parameters}
   \item{pts}{vertical matrix of 2d points}
   \item{palette}{image palette}
   \item{...}{arguments to and from other methods}

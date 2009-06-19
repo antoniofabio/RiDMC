@@ -131,6 +131,22 @@ raster2Pts <- function(raster, value=1) {
         y=rasterYvalues(raster)[xyd[,2]])
 }
 
+as.grob.Raster <- function(x,
+                           palette="gray",
+                           respect=FALSE,
+                           name="raster", ...) {
+  mat <- as.matrix(x)
+  levs <- -sort(-unique(c(as.vector(mat), 1)))
+  palette <- palette[seq_along(levs)]
+  col <- matrix(palette[match(as.vector(mat), levs)], dim(mat)[1], dim(mat)[2])
+  return(imageGrob(col,
+                   xlim=rasterXlim(x),
+                   ylim=rasterYlim(x),
+                   respect=respect,
+                   name=name,
+                   ...))
+}
+
 plot.Raster <- function(x, y,
                         palette=gray.colors(length(unique(c(as.vector(x), 1)))),
                         xlab=rasterXname(x), ylab=rasterYname(x),
@@ -138,16 +154,7 @@ plot.Raster <- function(x, y,
                         mar=c(4,4,2,2),
                         ...,
                         add=FALSE) {
-  x <- as.matrix(x)
-  levs <- -sort(-unique(c(as.vector(x), 1)))
-  palette <- palette[seq_along(levs)]
-  col <- matrix(palette[match(as.vector(x), levs)], dim(x)[1], dim(x)[2])
-  gr <- imageGrob(col,
-                  xlim=rasterXlim(x),
-                  ylim=rasterYlim(x),
-                  respect=FALSE,
-                  name="raster")
-  pG <- plotGrob(gr, xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
+  pG <- plotGrob(as.grob(x, palette=palette), xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
   if(!add)
     grid.newpage()
   grid.draw(pG)
