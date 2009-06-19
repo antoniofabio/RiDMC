@@ -127,8 +127,8 @@ lines.Raster <- function(x, y, ...) {
 
 raster2Pts <- function(raster, value=1) {
   xyd <- which(raster==value, TRUE)
-  cbind(x=(xyd[,1] - 1)* rasterXeps(raster) + rasterXlim(raster)[1] + rasterXeps(raster)/2,
-        y=(xyd[,2] - 1)* rasterYeps(raster) + rasterYlim(raster)[1] + rasterYeps(raster)/2)
+  cbind(x=rasterXvalues(raster)[xyd[,1]],
+        y=rasterYvalues(raster)[xyd[,2]])
 }
 
 plot.Raster <- function(x, y,
@@ -138,18 +138,15 @@ plot.Raster <- function(x, y,
                         mar=c(4,4,2,2),
                         ...,
                         add=FALSE) {
-  xlim <- rasterXlim(x)
-  xeps <- rasterXeps(x)
-  ylim <- rasterYlim(x)
-  yeps <- rasterYeps(x)
-  xseq <- seq(xlim[1] + xeps/2, xlim[2] - xeps/2, length=dim(x)[1])
-  yseq <- seq(ylim[1] + yeps/2, ylim[2] - yeps/2, length=dim(x)[2])
   x <- as.matrix(x)
   levs <- -sort(-unique(c(as.vector(x), 1)))
   palette <- palette[seq_along(levs)]
   col <- matrix(palette[match(as.vector(x), levs)], dim(x)[1], dim(x)[2])
-  gr <- imageGrob(col, xlim=xlim, ylim=ylim, respect=FALSE,
-            name="raster")
+  gr <- imageGrob(col,
+                  xlim=rasterXlim(x),
+                  ylim=rasterYlim(x),
+                  respect=FALSE,
+                  name="raster")
   pG <- plotGrob(gr, xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
   if(!add)
     grid.newpage()
