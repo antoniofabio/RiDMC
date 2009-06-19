@@ -54,20 +54,22 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
     lexpLocal(par)
   }
 
-  p1seq <- seq(par.x.range[1], par.x.range[2], len=par.x.howMany)
-  p2seq <- seq(par.y.range[1], par.y.range[2], len=par.y.howMany)
-  mat <- outer(p1seq, p2seq, Vectorize(f))
+  raster <- Raster(xlim=par.x.range[1],
+                   ylim=par.x.range[2],
+                   xres=par.x.howMany,
+                   yres=par.y.howMany,
+                   xName=par.x,
+                   yName=par.y)
+  xSeq <- rasterXvalues(raster)
+  ySeq <- rasterYvalues(raster)
+  raster[] <- outer(xSeq, ySeq, Vectorize(f))
   ans <- list()
   ans$model <- idmc_model
   ans$var <- var
   ans$par <- par
   ans$par.x <- par.x
-  ans$par.x.range <- par.x.range
-  ans$par.x.howMany <- par.x.howMany
   ans$par.y <- par.y
-  ans$par.y.range <- par.y.range
-  ans$par.y.howMany <- par.y.howMany
-  ans$mat <- mat
+  ans$raster <- raster
   ans$labels <- rownames(lm)
   class(ans) <- 'idmc_lexp_map'
   ans
@@ -156,7 +158,7 @@ print.idmc_lexp_map <- function(x, ...) {
 }
 
 as.matrix.idmc_lexp_map <- function(x, ...)
-  mat <- x$mat
+  as.matrix(x$raster)
 
 as.grob.idmc_lexp_map <- function(x, colors, ...) {
   mat <- as.matrix(x)
@@ -176,7 +178,7 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
     xlab <- pn[x$par.x]
   if(missing(ylab))
     ylab <- pn[x$par.y]
-  mat <- x$mat
+  mat <- as.matrix(x)
   levels <- seq_along(x$labels)
   colors.all <- seq_along(levels)
   ids <- unique(as.vector(mat))

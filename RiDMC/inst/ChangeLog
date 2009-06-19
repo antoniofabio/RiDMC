@@ -1,4 +1,5 @@
 0.10-4
+	refactored LyapExpMap: now internally uses Raster class facilities
 	refactored Raster internals to use the new support methods
 	added support methods to Raster class
 	refactored Trajectory input args handling
