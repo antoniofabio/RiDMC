@@ -171,11 +171,12 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
   levels <- seq_along(x$labels)
   colors.all <- seq_along(levels)
   ids <- unique(as.vector(as.matrix(x)))
-  if(missing(colors))
+  if(missing(colors)) {
     colors <- colors.all[ids]
-  else
+  } else {
     if(length(colors) < length(ids))
       stop(length(ids), 'colors must be specified')
+  }
   colors.all[ids] <- colors
   cG <- as.grob(x, palette=colors.all)
   if(missing(xlab))
@@ -191,20 +192,14 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
     cl <- colors.all[ids]
     lb <- labels
     clg <- colorLegendGrob(cl, lb, y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
-    rightMargin <- convertWidth(widthDetails(clg), 'lines')
-    mar <- c(4,4,4,rightMargin)
-    mar[4] <- mar[4]*1.04
   } else {
     mar <- NULL
+    clg <- NULL
   }
-  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
+  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab,
+                 axes=axes, mar=mar, legendObj=clg,...)
   if(!add)
     grid.newpage()
   grid.draw(pG)
-  if(legend) {
-    depth <- downViewport('rightMarginArea')
-    grid.draw(clg)
-    upViewport(depth)
-  }
   invisible(pG)
 }
