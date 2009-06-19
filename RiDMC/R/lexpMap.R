@@ -54,8 +54,8 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
     lexpLocal(par)
   }
 
-  raster <- Raster(xlim=par.x.range[1],
-                   ylim=par.x.range[2],
+  raster <- Raster(xlim=par.x.range,
+                   ylim=par.y.range,
                    xres=par.x.howMany,
                    yres=par.y.howMany,
                    xName=par.x,
