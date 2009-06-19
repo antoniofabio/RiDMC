@@ -59,6 +59,7 @@ raster2Pts(raster, value=1)
                       palette=gray.colors(length(unique(c(as.vector(x),1)))),
                       xlab=rasterXname(x), ylab=rasterYname(x),
                       axes=TRUE,
+                      respect=FALSE,
                       mar=c(4,4,2,2),
                       ...,
                       add=FALSE)
@@ -88,6 +89,7 @@ automatically}
   \item{center, radius}{circle parameters}
   \item{pts}{vertical matrix of 2d points}
   \item{palette}{image palette}
+  \item{respect}{respect aspect ratio?}
   \item{...}{arguments to and from other methods}
 }
 \description{

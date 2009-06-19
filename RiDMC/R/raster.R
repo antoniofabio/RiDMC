@@ -151,10 +151,14 @@ plot.Raster <- function(x, y,
                         palette=gray.colors(length(unique(c(as.vector(x), 1)))),
                         xlab=rasterXname(x), ylab=rasterYname(x),
                         axes=TRUE,
+                        respect=FALSE,
                         mar=c(4,4,2,2),
                         ...,
                         add=FALSE) {
-  pG <- plotGrob(as.grob(x, palette=palette), xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
+  pG <- plotGrob(as.grob(x,
+                         palette=palette,
+                         respect=respect),
+                 xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
   if(!add)
     grid.newpage()
   grid.draw(pG)
