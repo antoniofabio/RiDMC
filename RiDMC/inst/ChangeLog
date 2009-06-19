@@ -1,7 +1,7 @@
 0.10-4
 	added BifurcationMap function (to be tested)
 	added optional horizontal and vertical label settings to Raster objects
-	robustified LyapExpMap input args handling
+	refactored (cleaned) LyapExpMap input args handling
 	cleaned LyapunovExponentsMap print method
 	added utility internal functions getModelNPar, getModelNVar
 

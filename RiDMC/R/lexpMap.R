@@ -3,45 +3,23 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
                                  par.y = 2, par.y.range, par.y.howMany=100,
                                  eps.zero=sqrt(.Machine$double.eps)) {
   stopifnot(getModelNPar(idmc_model) >= 2)
+  var <- .sanitizeNamedVector(var, getModelVarNames(idmc_model))
   npar <- getModelNPar(idmc_model)
-  tmp_par <- numeric(npar)
   parNames <- getModelParNames(idmc_model)
-  names(tmp_par) <- parNames
-  if(npar > 2) {
-    if(missing(par))
-      stop("you must provide fixed values for the non-varying parameters")
-    stopifnot(!is.null(names(par)))
-  } else {
-    par <- numeric(0)
-  }
-  par.fixed <- names(par)
-  tmp_par[par.fixed] <- par
+  tmp_par <- .sanitizeNamedVector(par, parNames)
   fixedParIndexes <- match(par.fixed, parNames)
-  par <- tmp_par
-  charParToInt <- function(nm) {
-    nmName <- deparse(substitute(nm))
-    int <- match(nm, parNames)
-    if(!is.finite(int))
-      stop("invalid parameter name for ", nmName)
-    return(int)
-  }
-  if(is.character(par.x))
-    par.x <- charParToInt(par.x)
-  if((par.x < 0) || (par.x > npar))
-    stop("'par.x' must be between 1 and ", npar)
-  if(is.character(par.y))
-    par.y <- charParToInt(par.y)
-  if((par.y < 0) || (par.y > npar))
-    stop("'par.y' must be between 1 and ", npar)
+  par.x <- parNames[par.x]
+  par.y <- parNames[par.y]
   stopifnot(par.x != par.y)
-  stopifnot(!(par.x %in% fixedParIndexes))
-  stopifnot(!(par.y %in% fixedParIndexes))
+  stopifnot(!(par.x %in% names(par)))
+  stopifnot(!(par.y %in% names(par)))
+  par <- tmp_par
 
   checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
   var <- as.double(var)
-  nvar <- length(var)
+  nvar <- getModelNVar(idmc_model)
   ##Lookup matrix:
   lm <- enumerateExponents(nvar)
   m <- idmc_model$model

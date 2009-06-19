@@ -20,7 +20,7 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
   \item{idmc_model}{idmc\_model object as returned by \code{\link{Model}}}
   \item{var, time, eps}{see \code{\link{LyapunovExponents}}}
   \item{par}{if \code{idmc\_model} has >2 parms, named vector of fixed
-    values for the remaining parameters}
+    values for the non-varying parameters}
   \item{par.x}{parameter name for x-axis variation}
   \item{par.x.range, par.x.howMany}{x-axis values}
   \item{par.y}{parameter name for y-axis variation}
