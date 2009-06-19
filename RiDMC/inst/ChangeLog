@@ -1,4 +1,5 @@
 0.10-4
+	improved internal function '.sanitizeNamedVector', added testcases
 	refactored LyapExpMap plotting: now uses Raster plotting facilities
 	refactored Raster plotting functions for easier reusability
 	refactored LyapExpMap: now internally uses Raster class facilities
