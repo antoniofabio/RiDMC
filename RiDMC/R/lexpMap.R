@@ -150,11 +150,10 @@ print.idmc_lexp_map <- function(x, ...) {
     tmp <- names(x$par)
     cat(paste(tmp, x$par, sep=' = ', collapse=', '), '\n')
   }
-  pn <- getModelParNames(m)
-  cat('Varying x-axis par.:', pn[x$par.x],
-      '\t[', paste(x$par.x.range, collapse=', '), ']\n')
-  cat('Varying y-axis par.:', pn[x$par.y],
-      '\t[', paste(x$par.y.range, collapse=', '), ']\n')
+  cat('Varying x-axis par.:', x$par.x,
+      '\t[', paste(rasterXlim(x$raster), collapse=', '), ']\n')
+  cat('Varying y-axis par.:', x$par.y,
+      '\t[', paste(rasterYlim(x$raster), collapse=', '), ']\n')
 }
 
 as.matrix.idmc_lexp_map <- function(x, ...)
