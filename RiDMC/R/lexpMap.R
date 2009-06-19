@@ -160,35 +160,28 @@ print.idmc_lexp_map <- function(x, ...) {
 as.matrix.idmc_lexp_map <- function(x, ...)
   as.matrix(x$raster)
 
-as.grob.idmc_lexp_map <- function(x, colors, ...) {
-  mat <- as.matrix(x)
-  if(missing(colors))
-    colors <- seq_len(max(as.vector(mat)))
-  colors <- colors[as.vector(mat)]
-  colors <- matrix(colors, NROW(mat))
-  imageGrob(t(colors), xlim=x$par.x.range, ylim=x$par.y.range, respect = FALSE, name='image')
-}
+as.grob.idmc_lexp_map <- function(x, ...)
+  as.grob(x$raster, ...)
 
 plot.idmc_lexp_map <- function(x, y, colors, labels,
   main = getModelName(x$model),
   xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, add=FALSE, ...) {
   m <- x$model
-  pn <- getModelParNames(m)
-  if(missing(xlab))
-    xlab <- pn[x$par.x]
-  if(missing(ylab))
-    ylab <- pn[x$par.y]
-  mat <- as.matrix(x)
+  raster <- x$raster
   levels <- seq_along(x$labels)
   colors.all <- seq_along(levels)
-  ids <- unique(as.vector(mat))
+  ids <- unique(as.vector(as.matrix(x)))
   if(missing(colors))
     colors <- colors.all[ids]
   else
     if(length(colors) < length(ids))
       stop(length(ids), 'colors must be specified')
   colors.all[ids] <- colors
-  cG <- as.grob(x, colors=colors.all)
+  cG <- as.grob(x, palette=colors.all)
+  if(missing(xlab))
+    xlab <- rasterXname(raster)
+  if(missing(ylab))
+    ylab <- rasterYname(raster)
   if(legend) {
     labels.all <- x$labels
     if(missing(labels))
@@ -209,9 +202,9 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
     grid.newpage()
   grid.draw(pG)
   if(legend) {
-    downViewport('rightMarginArea')
+    depth <- downViewport('rightMarginArea')
     grid.draw(clg)
-    upViewport(0)
+    upViewport(depth)
   }
   invisible(pG)
 }
