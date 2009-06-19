@@ -55,7 +55,8 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
 mkPlotChildsAndViewports <- function(contents=NULL,
                                      main=NULL, xlab=NULL, ylab=NULL,
                                      xlim=NULL, ylim=NULL, respect=NULL,
-                                     axes=FALSE, bty=TRUE, mar=NULL) {
+                                     axes=FALSE, bty=TRUE, mar=NULL,
+                                     legendObj=NULL) {
   null.mar <- is.null(mar)
   if(null.mar)
     mar <- c(0,0,0,0)
