@@ -20,7 +20,8 @@ setTrajectorySeed(idmc_trajectory, seed)
 }
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
- \item{par, var}{model parameters values and starting point value}
+ \item{par, var}{model parameters values and starting point value, to be
+   specified as named vectors}
  \item{time}{time span after transient (in time units)}
  \item{transient}{transient length (in time units)}
  \item{seed}{RNG seed (optional)}

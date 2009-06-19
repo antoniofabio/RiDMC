@@ -1,4 +1,5 @@
 0.10-4
+	refactored Trajectory input args handling
 	added BifurcationMap function (to be tested)
 	added optional horizontal and vertical label settings to Raster objects
 	refactored (cleaned) LyapExpMap input args handling

@@ -1,7 +1,9 @@
 Trajectory <- function(idmc_model, par, var, time=1, transient=0,
   seed, eps=getOption("ts.eps"), integrator=2) {
-  m <- idmc_model
   checkModelParVar(m, par, var, deparse(substitute(idmc_model)))
+  m <- idmc_model
+  par <- .sanitizeNamedVector(par, getModelParNames(m))
+  var <- .sanitizeNamedVector(var, getModelVarNames(m))
   ans <- list()
   ans$transient <- transient
   ans$time <- time
@@ -10,7 +12,7 @@ Trajectory <- function(idmc_model, par, var, time=1, transient=0,
   ans$model <- m
   if(getModelType(m)=='C') { ##Continuous model
     integrator <- as.integer(integrator)
-    if((integrator<0)||(integrator>8)) 
+    if((integrator<0)||(integrator>8))
       stop('\'integrator\' should be an integer code between 0 and 8')
     checkPositiveScalar(eps)
     ans$eps <- eps
