@@ -17,6 +17,8 @@
 \alias{rasterYeps}
 \alias{rasterXname}
 \alias{rasterYname}
+\alias{rasterXvalues}
+\alias{rasterYvalues}
 \alias{rasterContains}
 \alias{rasterCheckPoints}
 \alias{rasterSetPoints}
@@ -39,6 +41,8 @@ rasterXeps(raster)
 rasterYeps(raster)
 rasterXname(raster)
 rasterYname(raster)
+rasterXvalues(raster)
+rasterYvalues(raster)
 rasterFill(raster, value=1)
 rasterFillRect(raster, x0, y0, width, height=width, value=1)
 rasterFillCircle(raster, center, radius, value=1)
