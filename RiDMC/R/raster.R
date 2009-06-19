@@ -30,6 +30,15 @@ rasterXeps <- function(raster) rasterXrange(raster) / rasterXres(raster)
 rasterYeps <- function(raster) rasterYrange(raster) / rasterYres(raster)
 rasterXname <- function(raster) attr(raster, "xName")
 rasterYname <- function(raster) attr(raster, "yName")
+.rasterValuesSequence <- function(lim, howMany) {
+  lim <- range(lim)
+  eps <- diff(lim)/howMany
+  return(seq(lim[1]+eps/2, lim[2]-eps/2, length=howMany))
+}
+rasterXvalues <- function(raster)
+  .rasterValuesSequence(rasterXlim(raster), rasterXres(raster))
+rasterYvalues <- function(raster)
+  .rasterValuesSequence(rasterYlim(raster), rasterYres(raster))
 as.matrix.Raster <- function(x, ...) x
 
 rasterFill <- function(raster, value=1) {

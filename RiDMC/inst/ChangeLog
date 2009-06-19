@@ -1,4 +1,5 @@
 0.10-4
+	added support methods to Raster class
 	refactored Trajectory input args handling
 	added BifurcationMap function (to be tested)
 	added optional horizontal and vertical label settings to Raster objects
