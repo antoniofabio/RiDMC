@@ -1,22 +1,37 @@
 ##A plot grob is a grob which has a main 'contents' grob plus all the sorrounding
 ## labellings.
 
-plotGrob <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=NULL, ylim=NULL, axes=FALSE, bty=TRUE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL) {
-  cv <- mkPlotChildsAndViewports(contents=contents, main=main, xlab=xlab, ylab=ylab,
-		xlim=xlim, ylim=ylim, axes=axes, bty=bty, respect = respect, mar=mar)
-  gTree(contents=contents, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-		axes=axes, bty=bty, respect=respect, mar=mar,
-    children = cv$children, childrenvp = cv$viewports,
-    name=name, gp=gp, vp=vp, cl='plotGrob')
+plotGrob <- function(contents=NULL,
+                     main=NULL, xlab=NULL, ylab=NULL,
+                     xlim=NULL, ylim=NULL,
+                     axes=FALSE, bty=TRUE, respect=NULL,
+                     mar=NULL, legendObj=NULL,
+                     name=NULL, gp=NULL, vp=NULL) {
+  cv <- mkPlotChildsAndViewports(contents=contents,
+                                 main=main, xlab=xlab, ylab=ylab,
+                                 xlim=xlim, ylim=ylim,
+                                 axes=axes, bty=bty,
+                                 respect = respect, mar=mar,
+                                 legendObj = legendObj)
+  gTree(contents=contents,
+        main=main, xlab=xlab, ylab=ylab,
+        xlim=xlim, ylim=ylim,
+        axes=axes, bty=bty,
+        respect=respect,
+        mar=mar,
+        legendObj=legendObj,
+        children = cv$children,
+        childrenvp = cv$viewports,
+        name=name, gp=gp, vp=vp,
+        cl='plotGrob')
 }
 editDetails.plotGrob <- function(x, specs) {
-	args <- as.list(formals(plotGrob))
-	for(nm in names(x))
-		if(nm %in% names(args)) args[[nm]] <- x[[nm]]
-	for(nm in names(specs))
-		args[[nm]] <- specs[[nm]]
-	do.call(plotGrob, args)
+  args <- as.list(formals(plotGrob))
+  for(nm in names(x))
+    if(nm %in% names(args)) args[[nm]] <- x[[nm]]
+  for(nm in names(specs))
+    args[[nm]] <- specs[[nm]]
+  do.call(plotGrob, args)
 }
 
 #builds up the tree of plotGrob viewports
@@ -37,8 +52,10 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
 }
 
 #builds up childs and viewports for a new plotGrob
-mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=NULL, ylim=NULL, respect=NULL, axes=FALSE, bty=TRUE, mar=NULL) {
+mkPlotChildsAndViewports <- function(contents=NULL,
+                                     main=NULL, xlab=NULL, ylab=NULL,
+                                     xlim=NULL, ylim=NULL, respect=NULL,
+                                     axes=FALSE, bty=TRUE, mar=NULL) {
   null.mar <- is.null(mar)
   if(null.mar)
     mar <- c(0,0,0,0)
@@ -51,37 +68,42 @@ mkPlotChildsAndViewports <- function(contents=NULL, main=NULL, xlab=NULL, ylab=N
     childs <- append(childs, rectGrob(name='box', vp=vpPath('plotLayout','rootArea','plotArea')))
   }
   if(!is.null(main)) { ##reserve title space
-    if(null.mar)
-      mar[3] <- 4
-    childs <- append(childs, textGrob(main, name='title', y=unit(2,'lines'), just=c('center','top'),
-      vp=vpPath('plotLayout', 'rootArea', 'titleArea')))
+    mar[3] <- max(4, mar[3])
+    childs <- append(childs,
+                     textGrob(main, name='title', y=unit(2,'lines'), just=c('center','top'),
+                              vp=vpPath('plotLayout', 'rootArea', 'titleArea')))
   }
   if(!is.null(xlab)) { ##reserve xlab space
-    if(null.mar)
-      mar[1] <- 4
-    childs <- append(childs, textGrob(xlab, y=unit(1, 'npc') - unit(3, 'lines'), name='xlab', just=c('center', 'bottom'),
-      vp=vpPath('plotLayout', 'rootArea', 'xlabArea')))
+    mar[1] <- max(4, mar[1])
+    childs <- append(childs,
+                     textGrob(xlab, y=unit(1, 'npc') - unit(3, 'lines'), name='xlab',
+                              just=c('center', 'bottom'),
+                              vp=vpPath('plotLayout', 'rootArea', 'xlabArea')))
   }
   if(!is.null(ylab)) { ##reserve ylab space
-    if(null.mar)
-      mar[2] <- 4
+    mar[2] <- max(4, mar[2])
     childs <- append(childs, textGrob(ylab, x=unit(1, 'npc') - unit(3, 'lines'), rot=90, name='ylab',
       vp=vpPath('plotLayout', 'rootArea', 'ylabArea')))
   }
   if(axes) { ##add axes to main area
-    if(null.mar) {
-      mar[1] <- max(2, mar[1])
-      mar[2] <- max(2, mar[2])
-      mar[4] <- max(2, mar[4])
-    }
-    childs <- append(childs, xaxisGrob(name='xaxis', vp=vpPath('plotLayout','rootArea','axesArea')))
+    mar[1] <- max(2, mar[1])
+    mar[2] <- max(2, mar[2])
+    mar[4] <- max(2, mar[4])
+    childs <- append(childs, xaxisGrob(name='xaxis',
+                                       vp=vpPath('plotLayout','rootArea','axesArea')))
     childs <- append(childs, yaxisGrob(name='yaxis',
-      edits=gEdit('labels', rot=90, just=c('center','bottom')),
-      vp=vpPath('plotLayout', 'rootArea', 'axesArea')))
+                                       edits=gEdit('labels', rot=90, just=c('center','bottom')),
+                                       vp=vpPath('plotLayout', 'rootArea', 'axesArea')))
   }
   if(!is.null(contents)) {
     contents$vp <- vpPath('plotLayout','rootArea','plotArea')
     childs <- append(childs, contents)
+  }
+  if(!is.null(legendObj)) {
+    mar[4] <- max(convertWidth(widthDetails(legendObj), 'lines') * 1.04,
+                  mar[4])
+    legendObj$vp <- vpPath('plotLayout', 'rootArea', 'rightMarginArea')
+    childs <- append(childs, legendObj)
   }
   children <- do.call(gList, childs)
   if(is.null(xlim)) xlim <- Xlim(contents)

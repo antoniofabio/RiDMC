@@ -5,7 +5,9 @@ Stadard annotated plot graphical object
 }
 \usage{
 plotGrob(contents=NULL, main=NULL, xlab=NULL, ylab=NULL, 
-  xlim=NULL, ylim=NULL, axes=FALSE, bty=TRUE, respect=NULL, mar=NULL, name=NULL, gp=NULL, vp=NULL)
+         xlim=NULL, ylim=NULL, axes=FALSE, bty=TRUE,
+         respect=NULL, mar=NULL, legendObj=NULL,
+         name=NULL, gp=NULL, vp=NULL)
 }
 \arguments{
  \item{contents}{main contents graphical object}
@@ -16,6 +18,8 @@ plotGrob(contents=NULL, main=NULL, xlab=NULL, ylab=NULL,
  \item{bty}{draw box around plot contents}
  \item{respect}{should aspect ratio be respected?}
  \item{mar}{plot margins in 'number of lines' (see \code{\link{par}})}
+ \item{legendObj}{a graphical object to be rendered on the right margin
+   (usually a legend)}
  \item{name, gp, vp}{see \code{\link[grid]{grob}}}
 }
 \description{
@@ -24,7 +28,7 @@ Stadard annotated plot graphical object
 \details{
 Stadard annotated plot graphical object.
 
-A 'plotGrob' contains a main 'contents' grob plus typical plot annotations
+A \code{plotGrob} contains a main \code{contents} grob plus typical plot annotations.
 }
 \value{
 A \code{plotGrob} object
