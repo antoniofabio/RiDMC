@@ -62,13 +62,11 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
                    yName=par.y)
   xSeq <- rasterXvalues(raster)
   ySeq <- rasterYvalues(raster)
-  raster[] <- outer(xSeq, ySeq, Vectorize(f))
+  raster[,] <- outer(xSeq, ySeq, Vectorize(f))
   ans <- list()
   ans$model <- idmc_model
   ans$var <- var
   ans$par <- par
-  ans$par.x <- par.x
-  ans$par.y <- par.y
   ans$raster <- raster
   ans$labels <- rownames(lm)
   class(ans) <- 'idmc_lexp_map'
@@ -150,9 +148,9 @@ print.idmc_lexp_map <- function(x, ...) {
     tmp <- names(x$par)
     cat(paste(tmp, x$par, sep=' = ', collapse=', '), '\n')
   }
-  cat('Varying x-axis par.:', x$par.x,
+  cat('Varying x-axis par.:', rasterXname(x$raster),
       '\t[', paste(rasterXlim(x$raster), collapse=', '), ']\n')
-  cat('Varying y-axis par.:', x$par.y,
+  cat('Varying y-axis par.:', rasterYname(x$raster),
       '\t[', paste(rasterYlim(x$raster), collapse=', '), ']\n')
 }
 
