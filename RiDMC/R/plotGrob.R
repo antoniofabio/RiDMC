@@ -101,7 +101,7 @@ mkPlotChildsAndViewports <- function(contents=NULL,
     childs <- append(childs, contents)
   }
   if(!is.null(legendObj)) {
-    mar[4] <- max(convertWidth(widthDetails(legendObj), 'lines') * 1.04,
+    mar[4] <- max(unclass(convertWidth(widthDetails(legendObj), 'lines')) * 1.04,
                   mar[4])
     legendObj$vp <- vpPath('plotLayout', 'rootArea', 'rightMarginArea')
     childs <- append(childs, legendObj)
