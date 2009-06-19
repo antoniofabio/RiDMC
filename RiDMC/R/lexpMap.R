@@ -167,7 +167,7 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
   raster <- x$raster
   levels <- seq_along(x$labels)
   colors.all <- seq_along(levels)
-  ids <- unique(as.vector(as.matrix(x)))
+  ids <- sort(unique(as.vector(as.matrix(x))))
   if(missing(colors)) {
     colors <- colors.all[ids]
   } else {
@@ -175,7 +175,7 @@ plot.idmc_lexp_map <- function(x, y, colors, labels,
       stop(length(ids), 'colors must be specified')
   }
   colors.all[ids] <- colors
-  cG <- as.grob(x, palette=colors.all)
+  cG <- as.grob(x, levels=levels, palette=colors.all)
   if(missing(xlab))
     xlab <- rasterXname(raster)
   if(missing(ylab))
