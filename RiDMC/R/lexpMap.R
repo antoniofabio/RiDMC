@@ -6,15 +6,15 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
   var <- .sanitizeNamedVector(var, getModelVarNames(idmc_model))
   npar <- getModelNPar(idmc_model)
   parNames <- getModelParNames(idmc_model)
-  tmp_par <- .sanitizeNamedVector(par, parNames)
-  fixedParIndexes <- match(par.fixed, parNames)
   par.x <- parNames[par.x]
   par.y <- parNames[par.y]
   stopifnot(par.x != par.y)
-  stopifnot(!(par.x %in% names(par)))
-  stopifnot(!(par.y %in% names(par)))
-  par <- tmp_par
-
+  if(npar > 2) {
+    stopifnot(!missing(par))
+    stopifnot(!(par.x %in% names(par)))
+    stopifnot(!(par.y %in% names(par)))
+  }
+  par <- .sanitizeNamedVector(par, parNames)
   checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
