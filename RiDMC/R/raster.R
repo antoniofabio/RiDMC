@@ -134,11 +134,12 @@ raster2Pts <- function(raster, value=1) {
 }
 
 as.grob.Raster <- function(x,
+                           levels=-sort(-unique(c(as.vector(as.matrix(x)), 1))),
                            palette="gray",
                            respect=FALSE,
                            name="raster", ...) {
   mat <- as.matrix(x)
-  levs <- -sort(-unique(c(as.vector(mat), 1)))
+  levs <- levels
   palette <- palette[seq_along(levs)]
   col <- matrix(palette[match(as.vector(mat), levs)], dim(mat)[1], dim(mat)[2])
   return(imageGrob(col,

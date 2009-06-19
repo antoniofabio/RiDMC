@@ -66,6 +66,7 @@ raster2Pts(raster, value=1)
 \method{lines}{Raster}(x, y, ...)
 \method{as.matrix}{Raster}(x, ...)
 \method{as.grob}{Raster}(x,
+                         levels=-sort(-unique(c(as.vector(as.matrix(x)), 1))),
                          palette="gray",
                          respect=FALSE,
                          name="raster", ...)
@@ -88,7 +89,8 @@ raster2Pts(raster, value=1)
 automatically}
   \item{center, radius}{circle parameters}
   \item{pts}{vertical matrix of 2d points}
-  \item{palette}{image palette}
+  \item{levels}{image levels (order matters)}
+  \item{palette}{image palette (in the same order as \code{levels})}
   \item{respect}{respect aspect ratio?}
   \item{...}{arguments to and from other methods}
 }
