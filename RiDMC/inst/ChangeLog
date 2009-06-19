@@ -1,4 +1,5 @@
 0.10-4
+	refactored Basins plotting func: now uses plotGrob facilities to add legend
 	added optional 'legendObj' component to base 'plotGrob' class
 	improved internal function '.sanitizeNamedVector', added testcases
 	refactored LyapExpMap plotting: now uses Raster plotting facilities

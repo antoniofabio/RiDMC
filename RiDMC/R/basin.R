@@ -155,31 +155,26 @@ plot.idmc_basin <- function(x, y, color.attractors, color.basins,
     labels[1] <- label.infty
     labels[1+seq(1, by=2, length=na)] <- labels.attr
     labels[1+seq(2, by=2, length=na)] <- labels.bas
-    yl <- unit(0, 'npc')
-    xl <- unit(0, 'npc')
     clg <- colorLegendGrob(col, labels, y=yl, x=xl, name='legend')
-    rightMargin <- convertWidth(widthDetails(clg), 'lines')
-    mar <- c(4,4,4,rightMargin)
-    mar[4] <- mar[4]*1.04
-  } else
+  } else {
     mar <- NULL
-  pG <- plotGrob(imG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
+    clg <- NULL
+  }
+  pG <- plotGrob(imG, axes=axes,
+                 main=main, xlab=xlab, ylab=ylab,
+                 mar=mar,
+                 legendObj=clg)
   if(!add)
     grid.newpage()
   grid.draw(pG)
-  if(legend) {
-    downViewport('rightMarginArea')
-    grid.draw(clg)
-    upViewport(0)
-  }
   if(attractorPoints) {
-    downViewport('plotArea')
+    depth <- downViewport('plotArea')
     for(i in seq_along(attractors)) { ##for each attractor
-			xx <- attractors[[i]]
+      xx <- attractors[[i]]
       grid.points(xx[,1], xx[,2], pch=pch, size=unit(cex, 'char'),
-        default.unit='native', gp=gpar(col=col[i*2]))
+                  default.unit='native', gp=gpar(col=col[i*2]))
     }
-    upViewport(0)
+    upViewport(depth)
   }
   invisible(pG)
 }
