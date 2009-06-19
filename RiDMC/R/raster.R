@@ -6,6 +6,8 @@
 ## Encapsulates horiz. and vert. ranges infos
 Raster <- function(xlim, ylim, xres=100, yres=xres, data,
                    xName='x', yName='y') {
+  stopifnot(length(xlim) == 2)
+  stopifnot(length(ylim) == 2)
   if(!missing(data)) {
     stopifnot(xres == NCOL(data))
     stopifnot(yres == NROW(data))
