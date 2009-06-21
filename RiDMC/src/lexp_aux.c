@@ -50,7 +50,7 @@ int func(double t,const double y[],double f[],void* params){
 		return GSL_SUCCESS-1;
 }	
 
-inline int func_jac(double t,double* y,double* f,Combined* params){
+int func_jac(double t,double* y,double* f,Combined* params){
 	int status;
 	Combined* par=(Combined*) params;
 	status=idmc_model_Jf((*par).model,(*par).pars,y,f);
@@ -61,7 +61,7 @@ inline int func_jac(double t,double* y,double* f,Combined* params){
 }
 
 //(*c).draft should hold dim*dim
-inline int interpolated_jac(Combined* c, double t0, double* y0, double t1, double* y1, double t, double f[])
+int interpolated_jac(Combined* c, double t0, double* y0, double t1, double* y1, double t, double f[])
 {
 	int status1,status2;
 	int dim=(*c).dim;
@@ -123,7 +123,7 @@ int Qsystem (double t, const double Q[], double RHS[], void *params)
 		return GSL_SUCCESS-1;
 }
 
-inline int elementary_step(Combined* c, double step, gsl_odeiv_step* ode_step, gsl_odeiv_step* Q_step, gsl_odeiv_system* sys,
+int elementary_step(Combined* c, double step, gsl_odeiv_step* ode_step, gsl_odeiv_step* Q_step, gsl_odeiv_system* sys,
 						   double* t, double* y, double* Q, double* l, double* y_err, double* Q_err ){
 	int status1,status2,status3;
 	int dim=(*c).dim;

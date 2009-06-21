@@ -24,12 +24,12 @@ Last modified: $Date$
 extern "C" {
 #endif
 
+int compute_lexp(idmc_model* model, double* par, int dim, double step,
+		 double* y, double t1, double* l, double* alloc_memory);
 
-inline int compute_lexp(idmc_model* model, double* par, int dim, double step, 
-double* y, double t1, double* l, double* alloc_memory);
-
-inline int time_plot_step(idmc_model* model, int dim, double step, double* t,
-double* pars, double* y, double* Q, double* l, double* alloc_memory);
+int time_plot_step(idmc_model* model, int dim, double step, double* t,
+		   double* pars, double* y, double* Q, double* l,
+		   double* alloc_memory);
 
 #ifdef __cplusplus
 }
