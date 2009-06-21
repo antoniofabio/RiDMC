@@ -1,4 +1,5 @@
 0.10-4
+	updated idmclib to version 0.10.2
 	simplified configure mechanism: less robust, but no more relying on pkg-config
 	refactored Basins plotting func: now uses plotGrob facilities to add legend
 	added optional 'legendObj' component to base 'plotGrob' class
