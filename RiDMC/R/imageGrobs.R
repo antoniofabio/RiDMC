@@ -93,8 +93,30 @@ rasterGrob <- function(raster, labels, palette,
   } else {
     legendObj <- NULL
   }
-  return(plotGrob(contents=cg, legendObj=legendObj,
-                  xlab=xlab, ylab=ylab, axes=axes,
-                  ...,
-                  name=name, gp=gp, vp=vp))
+  return(extend(plotGrob(contents=cg, legendObj=legendObj,
+                         xlab=xlab, ylab=ylab, axes=axes,
+                         ...,
+                         name=name, gp=gp, vp=vp),
+                "rasterGrob",
+                raster=raster, labels=labels, palette=palette,
+                legend=legend))
+}
+
+editDetails.rasterGrob <- function(x, specs){
+  labels <- getField(x, "labels")
+  palette <- getField(x, "palette")
+  if(!is.null(specs$palette)) {
+    palette[names(specs$palette)] <- specs$palette
+  }
+  if(!is.null(specs$labels)) {
+    palette[names(specs$labels)] <- specs$labels
+  }
+  legend <- specs$legend
+  if(is.null(legend))
+    legend <- getField(x, "legend")
+  specs <- specs[setdiff(names(specs), c("labels", "palette", "legend"))]
+  return(.upgrade(rasterGrob(getField(x, "raster"),
+                             labels=labels,
+                             palette=palette,
+                             legend=legend), specs))
 }
