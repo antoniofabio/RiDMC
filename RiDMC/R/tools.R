@@ -96,3 +96,14 @@ uniqueSet <- function(lst, compfun) {
   }
   return(ans)
 }
+
+.mustMatchString <- function(x, values) {
+  xDp <- deparse(substitute(x))
+  if(!is.numeric(x)) {
+    x <- match(x, values)
+    if(!is.finite(x))
+      stop(paste(sQuote(xDp), " must be one of: ", paste(values, collapse=", ")))
+  }
+  stopifnot(x > 0 && x <= length(values))
+  return(x)
+}

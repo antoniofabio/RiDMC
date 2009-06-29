@@ -1,5 +1,5 @@
 Bifurcation <- function(idmc_model, which.var.store=1, par, var, 
-  which.par.vary=1, par.min, par.max, par.howMany=100, 
+  which.par.vary=1, par.min, par.max, par.howMany=100,
   transient=100, max.period=50) {
   m <- idmc_model
   parNames <- getModelParNames(m)
@@ -14,13 +14,11 @@ Bifurcation <- function(idmc_model, which.var.store=1, par, var,
   checkPositiveScalar(max.period)
   if(transient != 0)
     checkPositiveScalar(transient)
-  if(!is.numeric(which.var.store)) {
-    which.var.store <- match(which.var.store, varNames)
-    if(!is.finite(which.var.store))
-      stop("'which.var.store' must be one of: ",
-           paste(getModelVarNames(m), collapse=", "))
-  }
-  stopifnot((which.var.store > 0) && which.var.store <= getModelNVar(m))
+  which.var.store <- .mustMatchString(which.var.store, varNames)
+  if(!missing(which.par.vary))
+    warning("argument 'which.par.vary' is ignored")
+  which.par.vary <- parNames[!is.finite(par)]
+  which.par.vary <- .mustMatchString(which.par.vary, parNames)
   values <- .Call('ridmc_bifurcation', m$model, 
     as.integer(which.var.store-1),
     as.double(par), as.double(var), as.integer(which.par.vary-1), 

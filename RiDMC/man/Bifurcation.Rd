@@ -35,7 +35,7 @@ BifurcationMap(idmc_model,
  \item{which.var.store}{which variable is to be stored?}
  \item{par}{named vector of fixed model parameter values}
  \item{var}{named vector of starting values}
- \item{which.par.vary}{which parameter is to be varied?}
+ \item{which.par.vary}{ignored: which parameter is to be varied? (deprecated)}
  \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
  \item{which.par.x, which.par.y}{horiz. and vertical axes parameters}
  \item{par.x.range, par.y.range}{varying parameters ranges}
