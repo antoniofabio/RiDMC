@@ -65,7 +65,7 @@ mkPlotChildsAndViewports <- function(contents=NULL,
     lst
   }
   if(bty) {
-    childs <- append(childs, rectGrob(name='box', vp=vpPath('plotLayout','rootArea','plotArea')))
+    childs <- append(childs, rectGrob(name='box', vp=vpPath('plotLayout','rootArea','axesArea')))
   }
   if(!is.null(main)) { ##reserve title space
     mar[3] <- max(4, mar[3])

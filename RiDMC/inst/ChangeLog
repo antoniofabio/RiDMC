@@ -1,4 +1,5 @@
 0.10-4
+	improved axes apparence in plotGrob
 	fixed plotGrob viewports clipping
 	improved 'Bifurcation' input handling
 	updated idmclib to version 0.10.2
