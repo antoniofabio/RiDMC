@@ -12,9 +12,9 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
   eps.zero=sqrt(.Machine$double.eps))
 \method{print}{idmc_lexp_map}(x, ...)
 \method{as.matrix}{idmc_lexp_map}(x, ...)
-\method{plot}{idmc_lexp_map}(x, y, colors, labels,
+\method{plot}{idmc_lexp_map}(x, y,
   main = getModelName(x$model),
-  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, add=FALSE, ...)
+  legend=TRUE, palette, ...)
 }
 \arguments{
   \item{idmc_model}{idmc\_model object as returned by \code{\link{Model}}}
@@ -28,11 +28,10 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
   \item{eps.zero}{threshold for discriminating 0-value exponents}
   \item{x}{an \code{idmc_lexp_map} object}
   \item{y}{unused}
-  \item{colors}{(optional) vector of colors (for each combination of lyap.exp. signs)}
   \item{labels}{(optional) legend labels for each color}
-  \item{main, xlab, ylab, mar, axes}{see \code{\link{plotGrob}}}
-  \item{legend}{should a legend be plotted?}
-  \item{add}{add to existing plot}
+  \item{main}{see \code{\link{plotGrob}}}
+  \item{legend}{should a legend be added?}
+  \item{palette}{(optional) color palette}
   \item{...}{arguments to/from other methods}
 }
 \description{
@@ -61,7 +60,7 @@ Antonio, Fabio Di Narzo
 }
 \examples{
 ##Consider the SHED discrete time model:
-text <- readLines(txt <- textConnection('
+m <- Model(text='
 name = "SCED"
 description = "none"
 type = "D"
@@ -79,17 +78,15 @@ function f(phi0, phi1, d)
        end
        return d1
 end
-'))
-close(txt)
-m <- Model(text=text)
+')
 
-##This may take a little while:
-ly <- LyapunovExponentsMap(m, par=c(phi0=0, phi1=0), var=0.8, time=100,
-  par.x = 1, par.x.range=c(0.01, 0.99), par.x.howMany=100, par.y = 2, par.y.range=c(0.01, 0.99), par.y.howMany=100)
+ly <- LyapunovExponentsMap(m, var=0.8, time=100,
+  par.x.range=c(0.01, 0.99), par.x.howMany=50,
+  par.y.range=c(0.01, 0.99), par.y.howMany=50)
 
 plot(ly)
 ##change colors:
-plot(ly, colors=c('blue', 'red', 'green'))
+plot(ly, palette=c('green', 'red', 'blue'))
 
 \dontshow{
 stopifnot(inherits(as.matrix(ly), 'matrix'))
