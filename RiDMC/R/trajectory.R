@@ -1,5 +1,5 @@
 Trajectory <- function(idmc_model, par, var, time=1, transient=0,
-  seed, eps=getOption("ts.eps"), integrator=2) {
+                       seed, eps=getOption("ts.eps"), integrator=2) {
   checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   m <- idmc_model
   par <- .sanitizeNamedVector(par, getModelParNames(m))

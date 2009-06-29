@@ -5,11 +5,9 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
 }
 \usage{
 \method{plot}{idmc_basin}(x, y, color.attractors, color.basins, 
-  color.infinity, labels.attr, labels.bas, label.infty='infinity',
+  color.infinity, labels.attractors, labels.basins, label.infinity='infinity',
   main = getModelName(getBasinModel(x)),
-  xlab = getModelVarNames(getBasinModel(x))[1],
-  ylab = getModelVarNames(getBasinModel(x))[2],
-  axes=TRUE, legend=FALSE, attractorPoints=FALSE,
+  legend = TRUE, attractorPoints=FALSE,
   pch=16, cex=0.2, add=FALSE, ...)
 }
 \arguments{

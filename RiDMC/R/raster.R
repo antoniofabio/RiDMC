@@ -128,9 +128,9 @@ lines.Raster <- function(x, y, ...) {
 }
 
 raster2Pts <- function(raster, value=1) {
-  xyd <- which(raster==value, TRUE)
-  cbind(x=rasterXvalues(raster)[xyd[,1]],
-        y=rasterYvalues(raster)[xyd[,2]])
+  xyd <- which(raster==value, arr.ind=TRUE)
+  cbind(x=rasterXvalues(raster)[xyd[,2]],
+        y=rasterYvalues(raster)[xyd[,1]])
 }
 
 as.grob.Raster <- function(x, ...) {
