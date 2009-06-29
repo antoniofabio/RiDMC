@@ -44,17 +44,16 @@ editDetails.imageScale <- function(x, specs){
 ##Complete image map grob##
 ###########################
 ##Has optional axes and legend. Space is accomodated accordingly
-imageMapGrob <- function(values, breaks, palette, xlim=0:1, ylim=0:1, axes=TRUE, legend=TRUE, name=NULL, gp=NULL, vp=NULL) {
+imageMapGrob <- function(values, breaks, palette, xlim=0:1, ylim=0:1, axes=TRUE,
+                         legend=TRUE, respect=FALSE, name=NULL, gp=NULL, vp=NULL) {
   cg <- imageScaleGrob(values, breaks, palette)
-  pg <- plotGrob(cg, axes=axes, mar=c(2,2,2,6), xlim=xlim, ylim=ylim, respect=TRUE)
-  lg <- ribbonLegend(breaks, palette, n=10)
-  extend(pg, 'imageMap', legend=lg)
-}
-drawDetails.imageMap <- function(x, recording) {
-  NextMethod()
-  downViewport(vpPath('plotLayout','rootArea','rightMarginArea'))
-  grid.draw(getField(x, 'legend'))
-  upViewport(3)
+  if(legend) {
+    lg <- ribbonLegend(breaks, palette, n=10)
+  } else {
+    lg <- NULL
+  }
+  return(plotGrob(cg, axes=axes, mar=c(2,2,2,6), xlim=xlim, ylim=ylim,
+                  respect=respect, legend=lg))
 }
 grid.imageMap <- function(...)
   grid.draw(imageMapGrob(...))

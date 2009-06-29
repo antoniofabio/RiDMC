@@ -23,7 +23,6 @@
 \alias{idmclibVersion}
 \alias{colorLegendGrob}
 \alias{contentsGrob}
-\alias{drawDetails.imageMap}
 \alias{editDetails.colorLegendGrob}
 \alias{editDetails.image}
 \alias{editDetails.imageScale}
