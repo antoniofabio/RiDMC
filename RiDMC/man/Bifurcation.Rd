@@ -29,7 +29,8 @@ BifurcationMap(idmc_model,
   ylab = x$which.var,
   axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...)
 }
-\method{plot}{idmc_bifurcation_map}(x, y, ...)
+\method{plot}{idmc_bifurcation_map}(x, y, main=getModelName(x$model),
+  legend=TRUE, palette, ...)
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
  \item{which.var.store}{which variable is to be stored?}
@@ -51,6 +52,7 @@ BifurcationMap(idmc_model,
  \item{y}{currently unused}
  \item{axes, bty, mar}{see \code{\link{plotGrob}}}
  \item{add}{add to existing plot}
+ \item{palette}{(optional) named vector of image colors}
  \item{...}{arguments to and from other methods}
 }
 \description{

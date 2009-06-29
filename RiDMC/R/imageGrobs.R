@@ -82,9 +82,9 @@ rasterGrob <- function(raster, labels, palette,
   cg <- imageGrob(colors,
                   xlim = rasterXlim(raster), ylim = rasterYlim(raster),
                   name=name, gp=gp, vp=vp)
+  if(missing(labels))
+    labels <- valuesTable
   if(legend) {
-    if(missing(labels))
-      labels <- valuesTable
     if(is.null(names(labels)))
       names(labels) <- valuesTable
     legendObj <- colorLegendGrob(palette[valuesTable],

@@ -55,6 +55,10 @@ print.idmc_bifurcation_map <- function(x, ...) {
   cat('resolution: ', rasterXres(x$values), 'x', rasterYres(x$values), '\n')
 }
 
-plot.idmc_bifurcation_map <- function(x, y, ...) {
-  plot(x$values, ...)
+plot.idmc_bifurcation_map <- function(x, y, main=getModelName(x$model),
+                                      legend=TRUE, palette, ...) {
+  if(!missing(palette))
+    plot(x$values, main=main, legend=legend, palette=palette, ...)
+  else
+    plot(x$values, main=main, legend=legend, ...)
 }
