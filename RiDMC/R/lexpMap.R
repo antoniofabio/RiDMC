@@ -69,7 +69,9 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
   ans$var <- var
   ans$par <- par
   ans$raster <- raster
-  ans$labels <- rownames(lm)
+  labels <- rownames(lm)
+  names(labels) <- seq_len(nrow(lm))
+  ans$labels <- labels
   class(ans) <- 'idmc_lexp_map'
   ans
 }
@@ -164,7 +166,7 @@ as.grob.idmc_lexp_map <- function(x, ...)
 plot.idmc_lexp_map <- function(x, y, main = getModelName(x$model),
                                legend=TRUE, palette, ...) {
   valuesTable <- as.character(sort(unique(as.vector(as.matrix(x)))))
-  labels <- x$labels
+  labels <- x$labels[valuesTable]
   names(labels) <- valuesTable
   if(!missing(palette))
     plot(x$raster, main=main, legend=legend, labels=labels, palette=palette, ...)
