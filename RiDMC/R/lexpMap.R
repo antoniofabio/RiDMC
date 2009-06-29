@@ -50,8 +50,8 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
   }
 
   f <- function(a, b) {
-    par[par.x] <- a
-    par[par.y] <- b
+    par[par.x] <- b
+    par[par.y] <- a
     lexpLocal(par)
   }
 
@@ -63,7 +63,7 @@ LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
                    yName=par.y)
   xSeq <- rasterXvalues(raster)
   ySeq <- rasterYvalues(raster)
-  raster[,] <- outer(xSeq, ySeq, Vectorize(f))
+  raster[,] <- outer(ySeq, xSeq, Vectorize(f))
   ans <- list()
   ans$model <- idmc_model
   ans$var <- var
