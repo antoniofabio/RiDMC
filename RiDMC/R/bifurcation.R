@@ -8,6 +8,7 @@ Bifurcation <- function(idmc_model, which.var.store=1, par, var,
   names(varNames) <- varNames
   par <- .sanitizeNamedVector(par, parNames)
   checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
+  stopifnot(sum(is.finite(par)) == (getModelNPar(m) - 1))
   var <- .sanitizeNamedVector(var, varNames)
   par.values <- seq(par.min, par.max, length=par.howMany)
   checkPositiveScalar(max.period)
