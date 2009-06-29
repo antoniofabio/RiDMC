@@ -114,9 +114,12 @@ editDetails.rasterGrob <- function(x, specs){
   legend <- specs$legend
   if(is.null(legend))
     legend <- getField(x, "legend")
+  ans <- rasterGrob(getField(x, "raster"),
+                    labels=labels,
+                    palette=palette,
+                    legend=legend)
   specs <- specs[setdiff(names(specs), c("labels", "palette", "legend"))]
-  return(.upgrade(rasterGrob(getField(x, "raster"),
-                             labels=labels,
-                             palette=palette,
-                             legend=legend), specs))
+  if(length(specs) > 0)
+    ans <- editDetails.plotGrob(ans, specs)
+  return(ans)
 }
