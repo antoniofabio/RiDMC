@@ -160,43 +160,13 @@ as.matrix.idmc_lexp_map <- function(x, ...)
 as.grob.idmc_lexp_map <- function(x, ...)
   as.grob(x$raster, ...)
 
-plot.idmc_lexp_map <- function(x, y, colors, labels,
-  main = getModelName(x$model),
-  xlab, ylab, axes=TRUE, mar=NULL, legend=TRUE, add=FALSE, ...) {
-  m <- x$model
-  raster <- x$raster
-  levels <- seq_along(x$labels)
-  colors.all <- seq_along(levels)
-  ids <- sort(unique(as.vector(as.matrix(x))))
-  if(missing(colors)) {
-    colors <- colors.all[ids]
-  } else {
-    if(length(colors) < length(ids))
-      stop(length(ids), 'colors must be specified')
-  }
-  colors.all[ids] <- colors
-  cG <- as.grob(x, levels=levels, palette=colors.all)
-  if(missing(xlab))
-    xlab <- rasterXname(raster)
-  if(missing(ylab))
-    ylab <- rasterYname(raster)
-  if(legend) {
-    labels.all <- x$labels
-    if(missing(labels))
-      labels <- labels.all[ids]
-    if(length(labels) < length(ids))
-      stop('wrong number of labels. There are ', length(ids), 'levels to be labelled')
-    cl <- colors.all[ids]
-    lb <- labels
-    clg <- colorLegendGrob(cl, lb, y=unit(0, 'npc'), x=unit(0, 'npc'), name='legend')
-  } else {
-    mar <- NULL
-    clg <- NULL
-  }
-  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab,
-                 axes=axes, mar=mar, legendObj=clg,...)
-  if(!add)
-    grid.newpage()
-  grid.draw(pG)
-  invisible(pG)
+plot.idmc_lexp_map <- function(x, y, main = getModelName(x$model),
+                               legend=TRUE, palette, ...) {
+  valuesTable <- as.character(sort(unique(as.vector(as.matrix(x)))))
+  labels <- x$labels
+  names(labels) <- valuesTable
+  if(!missing(palette))
+    plot(x$raster, main=main, legend=legend, labels=labels, palette=palette, ...)
+  else
+    plot(x$raster, main=main, legend=legend, labels=labels, ...)
 }

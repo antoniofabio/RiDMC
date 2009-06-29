@@ -1,4 +1,5 @@
 0.10-4
+	now lexpMap plot method reuses raster rendering code
 	now bifurcationMap plot method reuses raster rendering code
 	added new raster graphical object, with improved editing capabilities
 	fixed bifurcation plot: xlim,ylim options were ignored
