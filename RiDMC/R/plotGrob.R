@@ -43,7 +43,7 @@ makePlotGrobViewports <- function(xlim, ylim, respect, mar) {
   vpStack(viewport(layout=lyIso, name='plotLayout'),
           viewport(layout.pos.col=1, layout.pos.row=1, layout=ly, name='rootArea', clip=FALSE),
           vpList(viewport(layout.pos.col=2, layout.pos.row=2, name='axesArea', xscale=xlim, yscale=ylim, clip="off"),
-                 viewport(layout.pos.col=2, layout.pos.row=2, name='plotArea', clip="on"),
+                 viewport(layout.pos.col=2, layout.pos.row=2, name='plotArea', xscale=xlim, yscale=ylim, clip="on"),
                  viewport(layout.pos.row=1, layout.pos.col=2, name='titleArea', gp=gpar(cex=par('cex.main'))),
                  viewport(layout.pos.col=2, layout.pos.row=3, name='xlabArea'),
                  viewport(layout.pos.col=1, layout.pos.row=2, name='ylabArea'),

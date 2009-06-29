@@ -1,4 +1,5 @@
 0.10-4
+	fixed bifurcation plot: xlim,ylim options were ignored
 	improved axes apparence in plotGrob
 	fixed plotGrob viewports clipping
 	improved 'Bifurcation' input handling

@@ -118,8 +118,9 @@ function f(i, b, gamma, mu1, mu2, k, Y, Z)
 	e1Z = Z + mu1 * (Z - eq)
 	e2Z = Z + mu2 * (eq - Z)
 
-	wY = 1 / (1 + gamma * devY^2)
-	wZ = 1 / (1 + gamma * devZ^2)
+
+	wY = 1 / (1 + (gamma * devY)^2)
+	wZ = 1 / (1 + (gamma * devZ)^2)
 
 	Y1 = i + b*(1+k) * (wY * e1Y + (1-wY) * e2Y) - k*b*(wZ * e1Z + (1-wZ) * e2Z)
 	Z1 = Y
