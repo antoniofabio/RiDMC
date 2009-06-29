@@ -57,6 +57,7 @@
 \alias{imageGrob}
 \alias{imageMapGrob}
 \alias{imageScaleGrob}
+\alias{rasterGrob}
 \alias{makeBasinsPalette}
 \alias{mkPlotChildsAndViewports}
 \alias{ribbonKids}
