@@ -61,7 +61,11 @@ grid.imageMap <- function(...)
 ############################################
 ##Indexed image plot, with optional legend##
 ############################################
-rasterGrob <- function(raster, labels, palette, legend=FALSE,
+rasterGrob <- function(raster, labels, palette,
+                       xlab=rasterXname(raster),
+                       ylab=rasterYname(raster),
+                       axes=TRUE,
+                       legend=FALSE,
                        ...,
                        name="raster", gp=NULL, vp=NULL) {
   stopifnot(inherits(raster, "Raster"))
@@ -77,16 +81,20 @@ rasterGrob <- function(raster, labels, palette, legend=FALSE,
   dim(colors) <- dim(values)
   cg <- imageGrob(colors,
                   xlim = rasterXlim(raster), ylim = rasterYlim(raster),
-                  respect = respect,
                   name=name, gp=gp, vp=vp)
   if(legend) {
-    stopifnot(!is.null(names(labels)))
+    if(missing(labels))
+      labels <- valuesTable
+    if(is.null(names(labels)))
+      names(labels) <- valuesTable
     legendObj <- colorLegendGrob(palette[valuesTable],
                                  labels[valuesTable],
                                  name="rasterColorLegend")
   } else {
     legendObj <- NULL
   }
-  return(plotGrob(contents=cg, legendObj=legendObj, ...,
+  return(plotGrob(contents=cg, legendObj=legendObj,
+                  xlab=xlab, ylab=ylab, axes=axes,
+                  ...,
                   name=name, gp=gp, vp=vp))
 }
