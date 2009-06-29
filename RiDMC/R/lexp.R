@@ -19,7 +19,16 @@ lexp <- function(idmc_model, par, var, time, eps) {
 
 LyapunovExponents <- function(idmc_model, par, var, time, eps,
   which.par.vary=1, par.min, par.max, par.howMany=100) {
-  checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
+  m <- idmc_model
+  parNames <- getModelParNames(m)
+  names(parNames) <- parNames
+  varNames <- getModelVarNames(m)
+  names(varNames) <- varNames
+  par <- .sanitizeNamedVector(par, parNames)
+  checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
+  stopifnot(sum(is.finite(par)) == (getModelNPar(m) - 1))
+  var <- .sanitizeNamedVector(var, varNames)
+  par.values <- seq(par.min, par.max, length=par.howMany)
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
   if(modelType=='C') {
@@ -29,7 +38,6 @@ LyapunovExponents <- function(idmc_model, par, var, time, eps,
     }
     checkPositiveScalar(eps)
   }
-  m <- idmc_model
   np <- par.howMany
   nv <- length(var)
   parValues <- seq(par.min, par.max, length=np)
@@ -56,7 +64,7 @@ LyapunovExponents <- function(idmc_model, par, var, time, eps,
   ans$par <- par
   ans$values <- val
   ans$par.values <- parValues
-  ans$which.par <- getModelParNames(m)[which.par.vary]
+  ans$which.par <- parNames[which.par.vary]
   class(ans) <- 'idmc_lexp_diagram'
   return(ans)
 }

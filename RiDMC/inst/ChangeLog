@@ -1,4 +1,5 @@
 0.10-4
+	improved lexp diagram input args handling
 	improved basins of attraction rendering: now reuses raster rendering code
 	fixed lexpMap: x and y axes were swapped
 	now lexpMap plot method reuses raster rendering code
