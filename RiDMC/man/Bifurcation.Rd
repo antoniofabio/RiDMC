@@ -33,8 +33,8 @@ BifurcationMap(idmc_model,
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
  \item{which.var.store}{which variable is to be stored?}
- \item{par}{fixed model parameter values}
- \item{var}{starting values}
+ \item{par}{named vector of fixed model parameter values}
+ \item{var}{named vector of starting values}
  \item{which.par.vary}{which parameter is to be varied?}
  \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
  \item{which.par.x, which.par.y}{horiz. and vertical axes parameters}
@@ -72,6 +72,9 @@ Antonio, Fabio Di Narzo
 m <- Model(exModelFile('logistic'))
 bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
 plot(bf, cex=0.3)
+\dontshow{
+stopifnot(inherits(as.matrix(bf), 'matrix'))
+}
 
 #start a new grid plot
 grid.newpage()
@@ -144,8 +147,16 @@ plot(bifMap)
 }
 
 \dontshow{
-m <- Model(exModelFile('logistic'))
-bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0, par.howMany=10, transient=10, max.period=10)
-stopifnot(inherits(as.matrix(bf), 'matrix'))
+bifMap <- BifurcationMap(m,
+                         par=par,
+                         var=c(Y=3500, Z=3500),
+                         which.par.x='k',
+                         par.x.range=k.range, par.x.howMany=5,
+                         which.par.y='mu1',
+                         par.y.range=mu1.range, par.y.howMany=5,
+                         transient=5000,
+                         max.period=28,
+                         eps=0.1)
+plot(bifMap)
 }
 }

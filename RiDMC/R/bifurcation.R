@@ -1,10 +1,25 @@
-
 Bifurcation <- function(idmc_model, which.var.store=1, par, var, 
   which.par.vary=1, par.min, par.max, par.howMany=100, 
   transient=100, max.period=50) {
-  checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
   m <- idmc_model
+  parNames <- getModelParNames(m)
+  names(parNames) <- parNames
+  varNames <- getModelVarNames(m)
+  names(varNames) <- varNames
+  par <- .sanitizeNamedVector(par, parNames)
+  checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
+  var <- .sanitizeNamedVector(var, varNames)
   par.values <- seq(par.min, par.max, length=par.howMany)
+  checkPositiveScalar(max.period)
+  if(transient != 0)
+    checkPositiveScalar(transient)
+  if(!is.numeric(which.var.store)) {
+    which.var.store <- match(which.var.store, varNames)
+    if(!is.finite(which.var.store))
+      stop("'which.var.store' must be one of: ",
+           paste(getModelVarNames(m), collapse=", "))
+  }
+  stopifnot((which.var.store > 0) && which.var.store <= getModelNVar(m))
   values <- .Call('ridmc_bifurcation', m$model, 
     as.integer(which.var.store-1),
     as.double(par), as.double(var), as.integer(which.par.vary-1), 
@@ -13,8 +28,8 @@ Bifurcation <- function(idmc_model, which.var.store=1, par, var,
   ans <- list()
   ans$values <- values
   ans$par.values <- par.values
-  ans$which.par <- getModelParNames(m)[which.par.vary]
-  ans$which.var <- getModelVarNames(m)[which.var.store]
+  ans$which.par <- parNames[which.par.vary]
+  ans$which.var <- varNames[which.var.store]
   ans$max.period <- max.period
   ans$model <- m
   ans$par.range <- c(par.min, par.max)
@@ -26,11 +41,11 @@ Bifurcation <- function(idmc_model, which.var.store=1, par, var,
 }
 
 as.matrix.idmc_bifurcation <- function(x, ...){
-	y <- x$values
+  y <- x$values
   x1 <- rep(x$par.values, each=x$max.period)
   ans <- cbind(x1, y)
-	colnames(ans) <- c(x$which.par, x$which.var)
-	ans
+  colnames(ans) <- c(x$which.par, x$which.var)
+  ans
 }
 
 print.idmc_bifurcation <- function(x, ...) {
@@ -45,23 +60,23 @@ print.idmc_bifurcation <- function(x, ...) {
 }
 
 as.grob.idmc_bifurcation <- function(x, pch=16, cex=0.2, size=unit(cex, 'char'), ...) {
-	xx <- as.matrix(x)
-	x1 <- xx[,1]
-	y <- xx[,2]
+  xx <- as.matrix(x)
+  x1 <- xx[,1]
+  y <- xx[,2]
   pG <- pointsGrob(x1, y, pch=pch, size=size, name='points')
   contentsGrob(pG, xlim=range(x1[is.finite(x1)]), ylim=.fixLim(range(y[is.finite(y)])))
 }
 
 plot.idmc_bifurcation <- function(x, y, pch=16, cex=0.2,
-  size=unit(cex, 'char'),
-  main = getModelName(x$model),
-  xlab = x$which.par,
-  ylab = x$which.var,
-  axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...) {
+                                  size=unit(cex, 'char'),
+                                  main = getModelName(x$model),
+                                  xlab = x$which.par,
+                                  ylab = x$which.var,
+                                  axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...) {
   cG <- as.grob(x, pch=pch, cex=cex, size=size)
   PG <- plotGrob(cG, axes=axes, main=main, xlab=xlab, ylab=ylab, mar=mar)
   if(!add)
     grid.newpage()
   grid.draw(PG)
-	invisible(PG)
+  invisible(PG)
 }
