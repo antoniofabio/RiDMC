@@ -109,7 +109,7 @@ editDetails.rasterGrob <- function(x, specs){
     palette[names(specs$palette)] <- specs$palette
   }
   if(!is.null(specs$labels)) {
-    palette[names(specs$labels)] <- specs$labels
+    labels[names(specs$labels)] <- specs$labels
   }
   legend <- specs$legend
   if(is.null(legend))
