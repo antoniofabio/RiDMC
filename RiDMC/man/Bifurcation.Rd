@@ -161,5 +161,6 @@ bifMap <- BifurcationMap(m,
                          max.period=28,
                          eps=0.1)
 plot(bifMap)
+plot(bifMap, legend=FALSE, palette=rainbow(5))
 }
 }
