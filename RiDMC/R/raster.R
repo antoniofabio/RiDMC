@@ -133,35 +133,12 @@ raster2Pts <- function(raster, value=1) {
         y=rasterYvalues(raster)[xyd[,2]])
 }
 
-as.grob.Raster <- function(x,
-                           levels=-sort(-unique(c(as.vector(as.matrix(x)), 1))),
-                           palette="gray",
-                           respect=FALSE,
-                           name="raster", ...) {
-  mat <- as.matrix(x)
-  levs <- levels
-  palette <- palette[seq_along(levs)]
-  col <- matrix(palette[match(as.vector(mat), levs)], dim(mat)[1], dim(mat)[2])
-  return(imageGrob(col,
-                   xlim=rasterXlim(x),
-                   ylim=rasterYlim(x),
-                   respect=respect,
-                   name=name,
-                   ...))
+as.grob.Raster <- function(x, ...) {
+  rasterGrob(x, ...)
 }
 
-plot.Raster <- function(x, y,
-                        palette=gray.colors(length(unique(c(as.vector(x), 1)))),
-                        xlab=rasterXname(x), ylab=rasterYname(x),
-                        axes=TRUE,
-                        respect=FALSE,
-                        mar=c(4,4,2,2),
-                        ...,
-                        add=FALSE) {
-  pG <- plotGrob(as.grob(x,
-                         palette=palette,
-                         respect=respect),
-                 xlab=xlab, ylab=ylab, axes=axes, mar=mar, ...)
+plot.Raster <- function(x, y, ..., add=FALSE) {
+  pG <- as.grob(x, ...)
   if(!add)
     grid.newpage()
   grid.draw(pG)
