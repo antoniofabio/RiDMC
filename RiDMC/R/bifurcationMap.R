@@ -6,8 +6,10 @@ BifurcationMap <- function(idmc_model,
                            eps=1e-3) {
   m <- idmc_model
   parNames <- getModelParNames(m)
-  par <- .sanitizeNamedVector(par, getModelParNames(m), default.value=0)
+  names(parNames) <- parNames
+  par <- .sanitizeNamedVector(par, parNames)
   checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
+  stopifnot(sum(is.finite(par)) == (getModelNPar(m) - 2))
   var <- .sanitizeNamedVector(var, getModelVarNames(m))
   par.x.values <- seq(par.x.range[1], par.x.range[2], length=par.x.howMany)
   par.y.values <- seq(par.y.range[1], par.y.range[2], length=par.y.howMany)
@@ -22,7 +24,6 @@ BifurcationMap <- function(idmc_model,
                   PACKAGE='RiDMC')
   ans <- list()
 
-  names(parNames) <- parNames
   which.par.x <- parNames[which.par.x]
   which.par.y <- parNames[which.par.y]
   ans$model <- m
