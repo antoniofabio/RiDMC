@@ -68,6 +68,9 @@ as.matrix.idmc_basin <- function(x, ...)
   return(ans)
 }
 
+.getBasinLevels <- function(basin)
+  sort(unique(as.vector(as.matrix(basin$raster))))
+
 print.idmc_basin <- function(x, ...){
   mdl <- getBasinModel(x)
   cat('= iDMC basins of attraction =\n')
@@ -101,7 +104,7 @@ makeBasinsPalette <- function(obj,
   col[1] <- color.infinity
   col[1+seq(1, by=2, length=na)] <- color.attractors[seq_len(na)]
   col[1+seq(2, by=2, length=na)] <- color.basins[seq_len(na)]
-  names(col) <- seq_along(col)
+  names(col) <- union(1, .getBasinLevels(obj))
   return(col)
 }
 
@@ -120,7 +123,7 @@ makeBasinsLabels <- function(obj,
   labels[1] <- label.infinity
   labels[1+seq(1, by=2, length=na)] <- labels.attractors
   labels[1+seq(2, by=2, length=na)] <- labels.basins
-  names(labels) <- seq_along(labels)
+  names(labels) <- union(1, .getBasinLevels(obj))
   return(labels)
 }
 
