@@ -71,9 +71,9 @@ print.idmc_basin <- function(x, ...){
   mdl <- getBasinModel(x)
   cat('= iDMC basins of attraction =\n')
   cat('Model: ', getModelName(mdl), '\n')
-  cat('x-range: ', paste(x$xlim, collapse=', '), '\n')
-  cat('y-range: ', paste(x$ylim, collapse=', '), '\n')
-  cat('resolution: ', x$xres, 'by', x$yres, '\n')
+  cat('x-range: ', paste(rasterXlim(x$raster), collapse=', '), '\n')
+  cat('y-range: ', paste(rasterYlim(x$raster), collapse=', '), '\n')
+  cat('resolution: ', rasterXres(x$raster), 'by', rasterYres(x$raster), '\n')
   cat('transient: ', x$attractorLimit, '\n')
   cat('attractor iterations: ', x$attractorIterations, '\n')
 }
