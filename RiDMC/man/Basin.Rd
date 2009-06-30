@@ -14,7 +14,7 @@ Basin(model, parms, xlim, xres=100, ylim, yres=100,
 }
 \arguments{
  \item{model,x}{iDMC model object}
- \item{parms}{model parameter values}
+ \item{parms}{named vector of model parameter values}
  \item{xlim,ylim}{x and y limits}
  \item{xres, yres}{x and y resolution}
  \item{attractorLimit}{transient}
@@ -65,7 +65,7 @@ m2 <- Model(exModelFile('cremona'))
 b2 <- Basin(m2, 1.33, c(-1.2, 1.2), 300, c(-1.2, 1.2), 300, 1000, 1000, method='slow', ntries=1000, seed=123)
 plot(b2)
 ##A plot with no annotations:
-plot(b2, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
+plot(b2, legend=FALSE, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
 
 ##Customizing
 #A simple case with just 1 attractor:

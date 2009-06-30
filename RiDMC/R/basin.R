@@ -2,6 +2,7 @@ Basin <- function(model, parms, xlim, xres=100, ylim,
                   yres=100, attractorLimit, attractorIterations,
                   method=c("fast", "slow"), ntries, seed) {
   checkModelDiscrete(model, deparse(substitute(model)))
+  parms <- .sanitizeNamedVector(parms, getModelParNames(model))
   checkModelParVar(model, parms, txt=deparse(substitute(model)))
   checkPositiveScalar(xres)
   checkPositiveScalar(yres)
