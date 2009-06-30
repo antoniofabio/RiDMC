@@ -1,4 +1,4 @@
-0.10-4
+0.10-4	30 Jun 2009
 	robustified basins of attraction function input handling
 	improved lexp diagram input args handling
 	improved basins of attraction rendering: now reuses raster rendering code
