@@ -1,4 +1,4 @@
-0.10-5
+0.10-5	1 Jul 2009
 	updated idmclib to latest version (fixes a basin_slow bug)
 	fixed Basin rendering bug, showing sometimes when 'slow' method is used
 
