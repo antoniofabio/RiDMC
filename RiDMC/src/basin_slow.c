@@ -1,7 +1,7 @@
 /*
 iDMC C library
 
-Copyright (C) 2007 Marji Lines and Alfredo Medio.
+Copyright (C) 2007,2009 Marji Lines and Alfredo Medio.
 
 Written by Antonio, Fabio Di Narzo <antonio.fabio@gmail.com>.
 
@@ -14,8 +14,6 @@ This program is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
-
-Last modified: $Date$
 
 SLOW BASINS ALGORITHM
 */
@@ -38,71 +36,70 @@ SLOW BASINS ALGORITHM
 	(p)->parameters, startPoint, iterations, value, p->work)
 
 int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
-	double xmin, double xmax, int xres,
-	double ymin, double ymax, int yres,
-	int attractorLimit, int attractorIterations, int ntries,
-	idmc_basin_slow** out_basin)
-{
-	int i;
-	idmc_basin_slow* ans;
-	idmc_raster* raster;
-	ans = (idmc_basin_slow*) malloc( sizeof(idmc_basin_slow) );
-	if(ans==NULL)
-		return IDMC_EMEM;
-	ans->model = idmc_model_clone(m);
-	if(ans->model==NULL) {
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	ans->parameters = (double*) malloc( m->par_len * sizeof(double));
-	if(ans->parameters==NULL) {
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	memcpy(ans->parameters, parameters, m->par_len * sizeof(double));
-	i = idmc_raster_alloc(xmin, xmax, xres, ymin, ymax, yres, &raster);
-	if(i != IDMC_OK) {
-		idmc_basin_slow_free(ans);
-		return i;
-	}
-	idmc_raster_set(raster, 0);
-	ans->raster = raster;
+			  double xmin, double xmax, int xres,
+			  double ymin, double ymax, int yres,
+			  int attractorLimit, int attractorIterations, int ntries,
+			  idmc_basin_slow** out_basin) {
+  int i;
+  idmc_basin_slow* ans;
+  idmc_raster* raster;
+  ans = (idmc_basin_slow*) malloc( sizeof(idmc_basin_slow) );
+  if(ans==NULL)
+    return IDMC_EMEM;
+  ans->model = idmc_model_clone(m);
+  if(ans->model==NULL) {
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  ans->parameters = (double*) malloc( m->par_len * sizeof(double));
+  if(ans->parameters==NULL) {
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  memcpy(ans->parameters, parameters, m->par_len * sizeof(double));
+  i = idmc_raster_alloc(xmin, xmax, xres, ymin, ymax, yres, &raster);
+  if(i != IDMC_OK) {
+    idmc_basin_slow_free(ans);
+    return i;
+  }
+  idmc_raster_set(raster, 0);
+  ans->raster = raster;
 
-	ans->currentPoint = (double*) malloc(2*sizeof(double));
-	if(ans->currentPoint==NULL) {
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	ans->startPoint = (double*) malloc(2*sizeof(double));
-	if(ans->startPoint==NULL) {
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	ans->work = (double*) malloc(2*sizeof(double));
-	if(ans->work==NULL) {
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	ans->attractorsSamplePoints = (int*) malloc(ntries*sizeof(int));
-	if(ans->attractorsSamplePoints == NULL){
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	ans->attractorsCoincidence = (int*) malloc(ntries*sizeof(int));
-	if(ans->attractorsCoincidence == NULL){
-		idmc_basin_slow_free(ans);
-		return IDMC_EMEM;
-	}
-	ans->nAttractors = 1;
-	ans->dataLength = ans->raster->xres * ans->raster->yres;
-	ans->attractorLimit = attractorLimit;
-	ans->attractorIterations = attractorIterations;
-	ans->ntries = ntries;
-	ans->initialized = 0;
-	ans->currId = 0;
+  ans->currentPoint = (double*) malloc(2*sizeof(double));
+  if(ans->currentPoint==NULL) {
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  ans->startPoint = (double*) malloc(2*sizeof(double));
+  if(ans->startPoint==NULL) {
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  ans->work = (double*) malloc(2*sizeof(double));
+  if(ans->work==NULL) {
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  ans->attractorsSamplePoints = (int*) malloc(ntries*sizeof(int));
+  if(ans->attractorsSamplePoints == NULL){
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  ans->attractorsCoincidence = (int*) malloc(ntries*sizeof(int));
+  if(ans->attractorsCoincidence == NULL){
+    idmc_basin_slow_free(ans);
+    return IDMC_EMEM;
+  }
+  ans->nAttractors = 1;
+  ans->dataLength = ans->raster->xres * ans->raster->yres;
+  ans->attractorLimit = attractorLimit;
+  ans->attractorIterations = attractorIterations;
+  ans->ntries = ntries;
+  ans->initialized = 0;
+  ans->currId = 0;
 
-	*out_basin = ans;
-	return IDMC_OK;
+  *out_basin = ans;
+  return IDMC_OK;
 }
 
 void idmc_basin_slow_free(idmc_basin_slow* p) {
@@ -212,43 +209,45 @@ translated from the iDMC java software
 #define currentPoint (p->currentPoint)
 #define state (p->state)
 int idmc_basin_slow_step(idmc_basin_slow* p) {
-	if( basin_finished(p) ) /*algorithm ended*/
-		return IDMC_OK;
-	if(!(p->initialized)) {
-		return idmc_basin_slow_init(p);
-	}
-	idmc_model *m = MODEL(p);
-	int i;
+  if( basin_finished(p) ) /*algorithm ended*/
+    return IDMC_OK;
+  if(!(p->initialized)) {
+    return idmc_basin_slow_init(p);
+  }
+  idmc_model *m = MODEL(p);
+  int i;
 
-	getCurrPoint(p, startPoint); /*get start point coordinates*/
-	memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
-	
-	for (i = 1; i<attractorLimit+attractorIterations; i++) {
-		if (isPointInfinite(currentPoint)) {
-			fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
-			break;
-		}
-		if (!isPointInsideBounds(p, currentPoint)) {
-			if (i >= attractorLimit) {
-				fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
-				break;
-			}
-			else
-				continue;
-		}
+  getCurrPoint(p, startPoint); /*get start point coordinates*/
+  memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
 
-		state = getValue(p, currentPoint);
+  for (i = 0; i<attractorLimit+attractorIterations; i++) {
+    if (isPointInfinite(currentPoint)) {
+      fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+      break;
+    }
+    if (!isPointInsideBounds(p, currentPoint)) {
+      if (i >= attractorLimit) {
+	fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+	break;
+      }
+      else {
+	STEP(currentPoint);
+	continue;
+      }
+    }
+
+    state = getValue(p, currentPoint);
 		
-		/* attractor encountered */
-		if (isOdd(state) && (state != 0) ) {
-			fillBasinSlowTrack(p, startPoint, i - 1, state+1);
-			break;
-		}
-		STEP(currentPoint);
-	}
-	if(i==(attractorLimit+attractorIterations))
-		fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
-	return IDMC_OK;
+    /* attractor encountered */
+    if (isOdd(state) && (state != 0) ) {
+      fillBasinSlowTrack(p, startPoint, i, state+1);
+      break;
+    }
+    STEP(currentPoint);
+  }
+  if(i==(attractorLimit+attractorIterations))
+    fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+  return IDMC_OK;
 }
 #undef attractorLimit
 #undef attractorIterations

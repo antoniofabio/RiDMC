@@ -22,13 +22,13 @@ void fillRasterTrack(idmc_raster *r, idmc_model *m,
 	double *par, double *startPoint, int iterations, int value, double *workspace);
 
 #define getCurrPoint(p, point) \
-	do { \
-		while ( (p->currId < p->dataLength ) \
-			&& ( (RASTER(p)->data[p->currId]) ) ) \
-				p->currId++; \
-		(point)[0] = idmc_raster_I2x(RASTER(p), p->currId); \
-		(point)[1] = idmc_raster_I2y(RASTER(p), p->currId); \
-	} while(0)
+  do {						     \
+    while ( (p->currId < p->dataLength )		      \
+	    && ( (RASTER(p)->data[p->currId]) ) )	      \
+      p->currId++;						    \
+    (point)[0] = idmc_raster_I2x(RASTER(p), p->currId);		    \
+    (point)[1] = idmc_raster_I2y(RASTER(p), p->currId);		    \
+  } while(0)
 
 #define setValue(p, point, value) \
 		idmc_raster_setxy(RASTER(p), point[0], point[1], value)

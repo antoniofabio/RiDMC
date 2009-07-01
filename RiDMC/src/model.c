@@ -86,11 +86,14 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 	luaL_openlibs(L);
 
 	/*register functions for random numbers generation*/
-	initGslRng(L);
+	int status = initGslRng(L);
+	if(status != 0) {
+	  return IDMC_EMEM;
+	}
 
 	/* load chunk */
 	/* lua_buffer has its error printing functions see lauxlib.c */
-	int status = luaL_loadbuffer(L, buffer, buffer_len, "");
+	status = luaL_loadbuffer(L, buffer, buffer_len, "");
 	if (status == 0) {  /* parse OK? */
 		status = lua_pcall(L, 0, LUA_MULTRET, 0);  /* call main */
 	}
@@ -319,28 +322,28 @@ static int get_labels(lua_State* L, const char *name, char ***labels)
 }
 
 static int get_variable(idmc_model *model, const char *name, char **result) {
-	lua_State* L = model->L;
-	char* tmp;
+  lua_State* L = model->L;
+  char* tmp;
 
-	lua_pushstring(L, name);
-	lua_gettable(L, LUA_GLOBALSINDEX);
+  lua_pushstring(L, name);
+  lua_gettable(L, LUA_GLOBALSINDEX);
 
-	if (lua_type(L, -1) != LUA_TSTRING) {
-		lua_pop(L, 1);
-		lua_pushfstring(L, "No variable '%s' in model.", name);
-		return IDMC_EMODEL;
-	}
+  if (lua_type(L, -1) != LUA_TSTRING) {
+    lua_pop(L, 1);
+    lua_pushfstring(L, "No variable '%s' in model.", name);
+    return IDMC_EMODEL;
+  }
 
-	tmp = (char*) lua_tostring(L, -1);
-	*result = malloc(strlen(tmp) * sizeof(double));
-	strcpy(*result, tmp);
-	lua_pop(L, 1);
+  tmp = (char*) lua_tostring(L, -1);
+  *result = malloc((strlen(tmp) + 1) * sizeof(char));
+  strcpy(*result, tmp);
+  lua_pop(L, 1);
 
-	if (name == NULL) {
-		return IDMC_EMEM;
-	}
+  if (name == NULL) {
+    return IDMC_EMEM;
+  }
 
-	return 0;
+  return IDMC_OK;
 }
 
 /* 
