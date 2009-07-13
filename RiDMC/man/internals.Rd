@@ -77,6 +77,14 @@
 \alias{.signsToLegend}
 \alias{inSet}
 \alias{uniqueSet}
+\alias{as.grob.Raster}
+\alias{editDetails.rasterGrob}
+\alias{makeBasinsLabels}
+\alias{odd}
+\alias{polyContainsPt}
+\alias{polySidesY}
+\alias{segmentVerticalIntersection}
+\alias{sideYCrossesPtY}
 \title{
 RiDMC internal functions
 }
