@@ -1,4 +1,4 @@
-0.10-6
+0.10-6	13 Jul 2009
 	fixed and improved LyapunovExponents input handling
 	fixed and improved Bifurcation input handling
 	updated basin, raster, bifurcation, lyap.exp. map man pages
