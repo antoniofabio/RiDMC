@@ -55,14 +55,7 @@ rasterCheckPoints(raster, pts, value=1)
 rasterSetPoints(raster, pts, value=1)
 raster2Pts(raster, value=1)
 
-\method{plot}{Raster}(x, y,
-                      palette=gray.colors(length(unique(c(as.vector(x),1)))),
-                      xlab=rasterXname(x), ylab=rasterYname(x),
-                      axes=TRUE,
-                      respect=FALSE,
-                      mar=c(4,4,2,2),
-                      ...,
-                      add=FALSE)
+\method{plot}{Raster}(x, y, ..., add=FALSE)
 \method{lines}{Raster}(x, y, ...)
 \method{as.matrix}{Raster}(x, ...)
 \method{as.grob}{Raster}(x,
@@ -82,7 +75,7 @@ raster2Pts(raster, value=1)
   \item{y}{ignored}
   \item{value, outvalue}{reference integer value to be set/to look for into Raster
     cells. It can be safely ignored for standard usage}
-  \item{xlab, ylab, axes, mar, add}{see \code{plotGrob}}
+  \item{add}{see \code{plotGrob}}
   \item{FUN}{for Map, InvMap: map function from R2 to R2. For FillLocus: boolean
                       check function, from R2 to (true, false)}
   \item{polygon}{ordered set of polygon vertices. Polygon is 'closed'
