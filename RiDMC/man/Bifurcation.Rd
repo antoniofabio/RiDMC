@@ -28,9 +28,9 @@ BifurcationMap(idmc_model,
   xlab = x$which.par,
   ylab = x$which.var,
   axes=TRUE, bty=TRUE, mar=NULL, add=FALSE, ...)
-}
 \method{plot}{idmc_bifurcation_map}(x, y, main=getModelName(x$model),
   legend=TRUE, palette, ...)
+}
 \arguments{
  \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
  \item{which.var.store}{which variable is to be stored?}
