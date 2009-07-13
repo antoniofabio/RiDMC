@@ -8,16 +8,21 @@ Bifurcation <- function(idmc_model, which.var.store=1, par, var,
   names(varNames) <- varNames
   par <- .sanitizeNamedVector(par, parNames)
   checkModelParVar(idmc_model, par, var, txt=deparse(substitute(idmc_model)))
-  stopifnot(sum(is.finite(par)) == (getModelNPar(m) - 1))
+  numMissingParms <- sum(!is.finite(par))
+  stopifnot(numMissingParms %in% c(0, 1))
   var <- .sanitizeNamedVector(var, varNames)
   par.values <- seq(par.min, par.max, length=par.howMany)
   checkPositiveScalar(max.period)
   if(transient != 0)
     checkPositiveScalar(transient)
   which.var.store <- .mustMatchString(which.var.store, varNames)
-  if(!missing(which.par.vary))
-    warning("argument 'which.par.vary' is ignored")
-  which.par.vary <- parNames[!is.finite(par)]
+  if(numMissingParms > 1) {
+    stop("you must fix ", getModelNPar(m), " parameters values")
+  } else if(numMissingParms == 1) {
+    if(!missing(which.par.vary))
+      warning("argument 'which.par.vary' is ignored")
+    which.par.vary <- parNames[!is.finite(par)]
+  }
   which.par.vary <- .mustMatchString(which.par.vary, parNames)
   values <- .Call('ridmc_bifurcation', m$model, 
     as.integer(which.var.store-1),
