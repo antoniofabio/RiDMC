@@ -31,7 +31,7 @@ LyapunovExponents(idmc_model, par, var, time, eps,
 \item{var}{model variables values}
 \item{time}{time span}
 \item{eps}{integration step (ignored for discrete time models)}
-\item{which.par.vary}{which parameter is to be varied}
+\item{which.par.vary}{which parameter is to be varied?}
 \item{par.min, par.max, par.howMany}{specification of range of values for the selected parameter}
  \item{x}{a \code{idmc_lexp_diagram} object}
  \item{y}{currently unused}
