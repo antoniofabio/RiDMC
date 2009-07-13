@@ -53,6 +53,7 @@ BifurcationMap(idmc_model,
  \item{axes, bty, mar}{see \code{\link{plotGrob}}}
  \item{add}{add to existing plot}
  \item{palette}{(optional) named vector of image colors}
+ \item{legend}{should a legend be plotted?}
  \item{...}{arguments to and from other methods}
 }
 \description{

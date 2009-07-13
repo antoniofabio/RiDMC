@@ -28,7 +28,6 @@ LyapunovExponentsMap(idmc_model, par, var, time, eps,
   \item{eps.zero}{threshold for discriminating 0-value exponents}
   \item{x}{an \code{idmc_lexp_map} object}
   \item{y}{unused}
-  \item{labels}{(optional) legend labels for each color}
   \item{main}{see \code{\link{plotGrob}}}
   \item{legend}{should a legend be added?}
   \item{palette}{(optional) color palette}
