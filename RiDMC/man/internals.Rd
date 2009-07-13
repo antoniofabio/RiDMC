@@ -77,7 +77,6 @@
 \alias{.signsToLegend}
 \alias{inSet}
 \alias{uniqueSet}
-\alias{as.grob.Raster}
 \alias{editDetails.rasterGrob}
 \alias{makeBasinsLabels}
 \alias{odd}

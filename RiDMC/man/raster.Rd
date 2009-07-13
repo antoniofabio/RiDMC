@@ -26,6 +26,7 @@
 \alias{plot.Raster}
 \alias{lines.Raster}
 \alias{as.matrix.Raster}
+\alias{as.grob.Raster}
 \title{
   Raster data handling
 }
@@ -65,6 +66,7 @@ raster2Pts(raster, value=1)
   \item{xlim, ylim}{ranges}
   \item{xres, yres}{resolutions}
   \item{data}{raw raster matrix data}
+  \item{xName, yName}{(optional) \code{x} and \code{y} variables names}
   \item{x0, y0}{top-left rectangle corner}
   \item{width, height}{rectangle width and height}
   \item{x}{a Raster object}
