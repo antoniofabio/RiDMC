@@ -4,11 +4,13 @@
 Computes basins of attraction for a 2-dim. discrete dynamical system
 }
 \usage{
-\method{plot}{idmc_basin}(x, y, color.attractors, color.basins, 
-  color.infinity, labels.attractors, labels.basins, label.infinity='infinity',
-  main = getModelName(getBasinModel(x)),
-  legend = TRUE, attractorPoints=FALSE,
-  pch=16, cex=0.2, add=FALSE, ...)
+\method{plot}{idmc_basin}(x, y,
+                          color.attractors=NULL, color.basins=NULL, color.infinity='black',
+                          default.palette=rainbow,
+                          labels.attractors=NULL, labels.basins=NULL, label.infinity='infinity',
+                          main = getModelName(getBasinModel(x)),
+                          legend = TRUE, attractorPoints=FALSE,
+                          pch=16, cex=0.2, add=FALSE, ...)
 }
 \arguments{
  \item{x}{iDMC model object}
@@ -16,10 +18,9 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
  \item{color.attractors}{vector of attractor colors}
  \item{color.basins}{vector of basin colors}
  \item{color.infinity}{color for basin of infinity}
- \item{main}{plot title (set to NULL for disabling)}
- \item{xlab, ylab}{x and y axes labels (set to NULL for disabling)}
+ \item{default.palette}{default palette function}
  \item{labels.attr, labels.bas, label.infty}{labels for attractors, basins and infinity (only used in legend)}
- \item{axes}{should axes be showed? (TRUE or FALSE)}
+ \item{main}{plot title (set to NULL for disabling)}
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
  \item{attractorPoints}{should attractor trajectories be superposed on plot?}
  \item{pch, cex}{attractor trajectories point type and relative size. Ignored if \code{attractorPoints==FALSE}}
