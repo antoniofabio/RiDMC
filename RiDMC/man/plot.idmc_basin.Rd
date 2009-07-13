@@ -19,7 +19,7 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
  \item{color.basins}{vector of basin colors}
  \item{color.infinity}{color for basin of infinity}
  \item{default.palette}{default palette function}
- \item{labels.attr, labels.bas, label.infty}{labels for attractors, basins and infinity (only used in legend)}
+ \item{labels.attractors, labels.basins, label.infinity}{labels for attractors, basins and infinity (only used in legend)}
  \item{main}{plot title (set to NULL for disabling)}
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
  \item{attractorPoints}{should attractor trajectories be superposed on plot?}
