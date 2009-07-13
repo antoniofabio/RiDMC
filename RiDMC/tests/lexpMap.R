@@ -21,7 +21,7 @@ m <- Model(text='
      ')
 
 ##Should raise an error
-tryCatch({
+try({
   ly <- LyapunovExponentsMap(m, var=0.8, time=10,
                              par.x = "phi1",
                              par.y = "miao",

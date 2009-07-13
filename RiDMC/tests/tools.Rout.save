@@ -1,6 +1,6 @@
 > library(RiDMC)
 Carico il pacchetto richiesto: grid
-loaded idmclib version 0.10.1
+loaded idmclib version 0.10.3
 > 
 > uniqueSet(list(c(3, 10),
 +                c(3, 21),
@@ -18,6 +18,17 @@ loaded idmclib version 0.10.1
 [1] 4 9
 
 > 
+> ##Check .sanitizeNamedVector
+> stopifnot(identical(.sanitizeNamedVector(1:3, letters[1:3]),
++                     structure(1:3, .Names = c("a", "b", "c"))))
+> stopifnot(identical(.sanitizeNamedVector(c(b=-7), letters[1:3]),
++                     structure(c(NA, -7, NA), .Names = c("a", "b", "c"))))
+> stopifnot(identical(.sanitizeNamedVector(c(b=-7, a=31), letters[1:3]),
++                     structure(c(31, -7, NA), .Names = c("a", "b", "c"))))
+> stopifnot(identical(.sanitizeNamedVector(, letters[1:3]),
++                     structure(c(NA_real_, NA_real_, NA_real_),
++                               .Names = c("a", "b", "c"))))
+> 
 > proc.time()
    user  system elapsed 
-  1.696   0.040   2.506 
+  1.348   0.012   1.566 
