@@ -73,7 +73,7 @@ Antonio, Fabio Di Narzo
 }
 \examples{
 m <- Model(exModelFile('logistic'))
-bf <- Bifurcation(m, par=1, var=0.3, par.min=2.5, par.max=4.0)
+bf <- Bifurcation(m, var=0.3, par.min=2.5, par.max=4.0)
 plot(bf, cex=0.3)
 \dontshow{
 stopifnot(inherits(as.matrix(bf), 'matrix'))
@@ -91,7 +91,7 @@ plot(bf, cex=0.15, main=NULL, add=TRUE)
 popViewport()
 pushViewport(viewport(layout.pos.row=1))
 ##plot Lyap.exp. diagram:
-le <- LyapunovExponents(m, par=1, var=0.3, par.min=2.5, par.max=4.0, time=500)
+le <- LyapunovExponents(m, var=0.3, par.min=2.5, par.max=4.0, time=500)
 plot(le, main='Logistic map', xlab=NULL, add=TRUE)
 ##add horizontal line to main plot area:
 downViewport('plotArea')
