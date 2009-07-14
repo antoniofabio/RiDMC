@@ -1,5 +1,5 @@
 0.10-7
-
+	improved colorLegend graphical object: now can span multiple columns
 
 0.10-6	13 Jul 2009
 	fixed and improved LyapunovExponents input handling
