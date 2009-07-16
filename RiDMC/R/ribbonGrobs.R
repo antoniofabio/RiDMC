@@ -45,17 +45,12 @@ colorLegendGrob <- function(colors, labels,
   nv <- length(colors)
   if(missing(labels))
     labels <- as.character(seq_along(colors))
-  if(numColumns > 1) {
-    numRows <- ceiling(nv / numColumns)
-    ys <- unit(1, 'npc') - unit((seq_len(nv)-1) %% numRows + 2, 'lines')
-    xs0 <- (unit(0.5, 'lines') +
-            .colorLegendColumnWidth(labels=labels) *
-            (seq_len(numColumns) - 1))[rep(seq_len(numColumns),
-                                           each=numRows)][seq_len(nv)]
-  } else {
-    ys <- unit(1, 'npc') - unit(seq_len(nv) + 1, 'lines')
-    xs0 <- unit(0.5, 'lines')
-  }
+  numRows <- ceiling(nv / numColumns)
+  ys <- unit(1, 'npc') - unit((seq_len(nv)-1) %% numRows + 1, 'lines')
+  xs0 <- (unit(0.5, 'lines') +
+          .colorLegendColumnWidth(labels=labels) *
+          (seq_len(numColumns) - 1))[rep(seq_len(numColumns),
+                                         each=numRows)][seq_len(nv)]
   xs1 <- xs0 + unit(1.1, 'lines')
   rg <- rectGrob(x=xs0+x, y=ys-y,
                  width=unit(0.6, 'lines'),
