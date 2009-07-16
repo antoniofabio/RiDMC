@@ -120,9 +120,10 @@ as.grob.idmc_trajectory <- function(x, vars=1:2, type='l', ...) {
   }
 }
 
-plot.idmc_trajectory <- function(x, y, vars=1:2, type='l',
-	main = getModelName(getTrajectoryModel(x)), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, add=FALSE, ...) {
+plot.idmc_trajectory <- function(x, y, vars=1:2,
+                                 type=if(getModelType(x$model) == "C") 'l' else 'p',
+                                 main = getModelName(getTrajectoryModel(x)), xlab, ylab,
+                                 mar = NULL, axes=TRUE, bty=TRUE, add=FALSE, ...) {
   mdl <- getTrajectoryModel(x)
   varNames <- getModelVarNames(mdl)
   names(varNames) <- varNames

@@ -14,7 +14,8 @@ stepTrajectory(idmc_trajectory, time=1)
 setTrajectorySeed(idmc_trajectory, seed)
 \method{as.matrix}{idmc_trajectory}(x, ...)
 \method{as.ts}{idmc_trajectory}(x, ...)
-\method{plot}{idmc_trajectory}(x, y, vars=1:2, type='l',
+\method{plot}{idmc_trajectory}(x, y, vars=1:2,
+  type=if(getModelType(x$model) == "C") 'l' else 'p',
   main = getModelName(getTrajectoryModel(x)), xlab, ylab,
   mar = NULL, axes=TRUE, bty=TRUE, add=FALSE, ...)
 }
