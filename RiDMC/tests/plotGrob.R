@@ -33,4 +33,7 @@ grid.edit("colorLegend", grep=TRUE, numColumns=4)
 clg <- colorLegendGrob(colors=rainbow(7), labels=letters[1:7])
 pG <- plotGrob(as.grob(trajectory), legendObj=clg)
 grid.draw(pG)
-grid.edit("colorLegend", grep=TRUE, numColumns=3) ##FIXME
+clg1 <- pG$legendObj
+grid.edit("plotGrob", grep=TRUE,
+          legendObj=colorLegendGrob(clg1$colors,
+            clg1$labels, numColumns=2))
