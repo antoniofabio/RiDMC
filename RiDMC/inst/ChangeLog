@@ -1,4 +1,5 @@
 0.10-7
+	default trajectory plot type depends on model type
 	improved colorLegend graphical object: now can span multiple columns
 
 0.10-6	13 Jul 2009

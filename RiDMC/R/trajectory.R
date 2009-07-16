@@ -173,9 +173,11 @@ as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, pch=1, ..
                ylim=.fixLim(c(ymin, ymax)), respect=FALSE)
 }
 
-plot.idmc_trajectoryList <- function(x, y, vars=1:2, type='l', colors, pch=1,
-  main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
-  mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, add=FALSE, ...) {
+plot.idmc_trajectoryList <- function(x, y, vars=1:2,
+                                     type=if(getModelType(x[[1]]$model) == "C") 'l' else 'p',
+                                     colors, pch=1,
+                                     main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
+                                     mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, add=FALSE, ...) {
   if(missing(colors))
     colors <- seq_along(x)
   mdl <- getTrajectoryModel(x[[1]])

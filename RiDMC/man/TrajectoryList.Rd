@@ -7,7 +7,9 @@ List of trajectories from one model
 \usage{
 TrajectoryList(idmc_model, n=2, par, var, time=1, transient=0,
   seed, eps=getOption("ts.eps"), integrator=2)
-\method{plot}{idmc_trajectoryList}(x, y, vars=1:2, type='l', colors, pch=1,
+\method{plot}{idmc_trajectoryList}(x, y, vars=1:2,
+  type=if(getModelType(x[[1]]$model) == "C") 'l' else 'p',
+  colors, pch=1,
   main = getModelName(getTrajectoryModel(x[[1]])), xlab, ylab,
   mar = NULL, axes=TRUE, bty=TRUE, legend=FALSE, labels, add=FALSE, ...)
 }
