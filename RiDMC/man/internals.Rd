@@ -21,7 +21,6 @@
 \alias{getTrajectoryModel}
 \alias{getTrajectoryValues}
 \alias{idmclibVersion}
-\alias{colorLegendGrob}
 \alias{contentsGrob}
 \alias{editDetails.colorLegendGrob}
 \alias{editDetails.image}
