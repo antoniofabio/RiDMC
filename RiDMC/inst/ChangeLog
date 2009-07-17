@@ -1,4 +1,5 @@
 0.10-7
+	added the modified multiplier-accelerator model to package models archive
 	improved 'Model' API: now the use of 'exModelFile' is implicit
 	added colorLegendGrob manpage
 	improved colorLegend: now can be 'safely' edited from within a plotGrob
