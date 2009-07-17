@@ -35,4 +35,9 @@ Antonio, Fabio Di Narzo
 model <- Model(exModelFile('logistic'))
 model
 summary(model)
+
+##The use of 'exModelFile' is implicit if the filename does not have a
+# '.lua' extension, and the file cannot be found in the current working
+# directory:
+Model('logistic')
 }

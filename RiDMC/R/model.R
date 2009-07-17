@@ -1,4 +1,3 @@
-
 Model <- function(filename=NULL, text = readLines(filename)) {
   ans <- list()
   if(missing(filename) && missing(text)) {
@@ -8,6 +7,9 @@ Model <- function(filename=NULL, text = readLines(filename)) {
     filename <- tclvalue(tkgetOpenFile(initialdir=modDir))
     if(filename=='')
       stop('you must supply model filename or model text')
+  } else if(length(grep("\\.lua$", filename)) == 0) {
+    if(!file.exists(filename))
+      filename <- exModelFile(filename)
   }
   text1 <- paste(text, collapse="\n")
   pointer <- .Call("ridmc_model_alloc", text1, PACKAGE='RiDMC')
