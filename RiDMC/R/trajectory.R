@@ -205,10 +205,11 @@ plot.idmc_trajectoryList <- function(x, y, vars=1:2,
   }
   if(length(pch) == 1)
     pch <- rep(pch, length(colors))
-  cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), pch=as.list(pch), ...)
+  cG <- as.grob(x, vars=vars, type=type, colors=as.list(colors), pch=as.list(pch))
   if(!add)
     grid.newpage()
-  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab, axes=axes, mar=mar, bty=bty)
+  pG <- plotGrob(cG, main=main, xlab=xlab, ylab=ylab,
+                 axes=axes, mar=mar, bty=bty, ...)
   grid.draw(pG)
   if(legend) {
     depth <- downViewport('rightMarginArea')

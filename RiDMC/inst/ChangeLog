@@ -1,4 +1,6 @@
 0.10-7
+	added plot customization example to cycles manpage
+	fixed plotGrob options passing plot.idmc_trajectoryList
 	robustified Cycles input handling
 	added the modified multiplier-accelerator model to package models archive
 	improved 'Model' API: now the use of 'exModelFile' is implicit
