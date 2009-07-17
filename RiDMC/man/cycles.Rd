@@ -69,4 +69,10 @@ Cycles(model, 3.25, period=2, varMin=0, varMax=1)
 model <- Model('henon')
 cyc <- Cycles(model, par=c(a=1, b=0.3), period=4, varMin=-2, varMax=2)
 plot(cyc)
+
+##Customizing the plot
+plot(cyc, pch=16, legend=FALSE,
+     xlim=c(-2, 2), ylim=c(-2, 2),
+     main=NULL, mar=c(4,4,2,2))
+grid.edit("xy.points", gp=gpar(col="black", cex=0.6))
 }
