@@ -31,12 +31,14 @@ grid.colorLegend <- function(...){
 }
 editDetails.colorLegendGrob <- function(x, specs) {
   if(any(c('x','y') %in% names(specs))) {
-    x <- colorLegendGrob(x$colors, x$labels, 
-                         if(!is.null(specs$x)) specs$x else x$x,
-                         if(!is.null(specs$y)) specs$y else x$y)
+    clg <- colorLegendGrob(x$colors, x$labels,
+                           if(!is.null(specs$x)) specs$x else x$x,
+                           if(!is.null(specs$y)) specs$y else x$y)
+    x <- Reduce(addGrob, clg$children, x)
   }
   if('numColumns' %in% names(specs)) {
-    x <- colorLegendGrob(x$colors, x$labels, x$x, x$y, numColumns=specs$numColumns)
+    clg <- colorLegendGrob(x$colors, x$labels, x$x, x$y, numColumns=specs$numColumns)
+    x <- Reduce(addGrob, clg$children, x)
   }
   if('colors' %in% names(specs)) {
     x <- editGrob(x, 'rect', gp=gpar(fill=specs$colors))

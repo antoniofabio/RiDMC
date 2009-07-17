@@ -30,10 +30,9 @@ grid.edit("colorLegend", grep=TRUE, numColumns=3)
 grid.edit("colorLegend", grep=TRUE, numColumns=4)
 
 ##Test editing color legend in a plotGrob:
+grid.newpage()
 clg <- colorLegendGrob(colors=rainbow(7), labels=letters[1:7])
 pG <- plotGrob(as.grob(trajectory), legendObj=clg)
 grid.draw(pG)
-clg1 <- pG$legendObj
-grid.edit("plotGrob", grep=TRUE,
-          legendObj=colorLegendGrob(clg1$colors,
-            clg1$labels, numColumns=2))
+grid.edit("plotGrob", grep=TRUE, mar=c(0,0,0,6))
+grid.edit("colorLegend", grep=TRUE, numColumns=2)
