@@ -132,7 +132,14 @@ Cycles <- function(idmc_model, par, period=1,
     warning("ignoring 'ntries' option: a list of starting values has already been specified")
   }
 
+  stopifnot(is.matrix(varList))
+  stopifnot(NCOL(varList) == getModelNVar(idmc_model))
+  if(!is.null(colnames(varList))) {
+    stopifnot(all(colnames(varList) %in% getModelVarNames(idmc_model)))
+    varList <- varList[, getModelVarNames(idmc_model), drop=FALSE]
+  }
   var <- varList
+  par <- .sanitizeNamedVector(par, getModelParNames(idmc_model))
 
   cycles <- apply(var, 1, function(start)
                   cycles_find(idmc_model=idmc_model,

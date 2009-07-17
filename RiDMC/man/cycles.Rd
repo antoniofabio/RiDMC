@@ -35,7 +35,7 @@ Cycles(idmc_model, par, period=1,
   \item{max.iter}{max number of iterations}
   \item{ntries}{number of starting points to try}
   \item{varMin, varMax}{model variables ranges}
-  \item{varList}{optional: explicit list of starting points to try}
+  \item{varList}{optional: explicit 'vertical' matrix of starting points to try}
   \item{x}{an idmc\_cycle object}
   \item{y}{ignored}
   \item{legend}{should a legend be added to the plot?}
@@ -63,11 +63,10 @@ Antonio, Fabio Di Narzo
 \code{\link{Model}}
 }
 \examples{
-model <- Model(exModelFile('logistic'))
+model <- Model('logistic')
 Cycles(model, 3.25, period=2, varMin=0, varMax=1)
 
-model <- Model(exModelFile('henon'))
+model <- Model('henon')
 cyc <- Cycles(model, par=c(a=1, b=0.3), period=4, varMin=-2, varMax=2)
 plot(cyc)
-
 }
