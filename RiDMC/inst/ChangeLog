@@ -1,4 +1,5 @@
-0.10-7
+0.10-7	20 Jul 2009
+	added explicit 'gp' argument to plot.idmc_trajectoryList
 	added plot customization example to cycles manpage
 	fixed plotGrob options passing plot.idmc_trajectoryList
 	robustified Cycles input handling

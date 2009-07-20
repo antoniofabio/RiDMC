@@ -36,7 +36,7 @@ setTrajectorySeed(idmc_trajectory, seed)
  \item{mar, axes, bty}{see \code{\link{plotGrob}}}
  \item{add}{add to existing plot}
  \item{...}{arguments to and from other methods.
-		For \code{plot.idmc_trajectory}, arguments to \code{\link[grid]{gpar}}}
+   For \code{plot.idmc_trajectory}, arguments to \code{\link[grid]{gpar}}}
 }
 \description{
 Computes continuous and discrete trajectories from given model (\code{idmc_model}),
