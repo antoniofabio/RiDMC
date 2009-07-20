@@ -156,7 +156,7 @@ TrajectoryList <- function(idmc_model, n=2, par, var, time=1, transient=0,
   trList
 }
 
-as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, pch, gp) {
+as.grob.idmc_trajectoryList <- function(x, vars=1:2, type='l', colors, pch, gp, ...) {
   as.grob2 <- function(obj, color, pch) {
     gpi <- gp
     gpi$col <- color
