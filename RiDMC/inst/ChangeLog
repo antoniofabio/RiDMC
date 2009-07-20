@@ -1,3 +1,6 @@
+0.10-8
+
+
 0.10-7	20 Jul 2009
 	added explicit 'gp' argument to plot.idmc_trajectoryList
 	added plot customization example to cycles manpage
