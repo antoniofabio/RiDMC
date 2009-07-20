@@ -3,7 +3,7 @@
 	fixed plotGrob options passing plot.idmc_trajectoryList
 	robustified Cycles input handling
 	added the modified multiplier-accelerator model to package models archive
-	improved 'Model' API: now the use of 'exModelFile' is implicit
+	improved 'Model' input handling: now the use of 'exModelFile' is implicit
 	added colorLegendGrob manpage
 	improved colorLegend: now can be 'safely' edited from within a plotGrob
 	improved trajList plot: possibility to set pch per-trajectory
