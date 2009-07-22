@@ -1,5 +1,6 @@
 0.10-8
-
+	fixed bug in basins rendering code: basin-attractor color pairs correspondence
+	  was not respected
 
 0.10-7	20 Jul 2009
 	added explicit 'gp' argument to plot.idmc_trajectoryList

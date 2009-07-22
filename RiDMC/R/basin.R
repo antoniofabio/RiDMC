@@ -57,7 +57,7 @@ as.matrix.idmc_basin <- function(x, ...)
   as.matrix(x$raster)
 .getBasinAttractors <- function(obj, ...) UseMethod(".getBasinAttractors")
 .getBasinAttractors.idmc_basin <- function(obj, ...) {
-  vals <- unique(as.vector(as.matrix(obj)))
+  vals <- sort(unique(as.vector(as.matrix(obj))))
   vals <- vals[vals>1]
   attrCodes <- vals[(vals %% 2) == 0]
   na <- length(attrCodes)
@@ -87,7 +87,8 @@ makeBasinsPalette <- function(obj,
                               color.basins=NULL,
                               color.infinity='black',
                               default.palette=rainbow) {
-  values <- unique(as.vector(as.matrix(obj)))
+  values <- sort(unique(as.vector(as.matrix(obj))))
+  values <- values[values != 0]
   attrCodes <- values[(values %% 2)==0] ##attractor codes
   nl <- length(values) ##number of levels
   na <- length(attrCodes) ##number of attractors
