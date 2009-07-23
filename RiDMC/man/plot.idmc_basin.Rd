@@ -1,16 +1,25 @@
 \name{plot.idmc_basin}
 \alias{plot.idmc_basin}
+\alias{basinGrob}
 \title{
 Computes basins of attraction for a 2-dim. discrete dynamical system
 }
 \usage{
-\method{plot}{idmc_basin}(x, y,
-                          color.attractors=NULL, color.basins=NULL, color.infinity='black',
-                          default.palette=rainbow,
-                          labels.attractors=NULL, labels.basins=NULL, label.infinity='infinity',
-                          main = getModelName(getBasinModel(x)),
-                          legend = TRUE, attractorPoints=FALSE,
-                          pch=16, cex=0.2, add=FALSE, ...)
+\method{plot}{idmc_basin}(x, y, ..., add=FALSE)
+
+basinGrob(idmc_basin,
+  rasterObj=idmc_basin$raster,
+  color.attractors=NULL, color.basins=NULL,
+  color.infinity="black",
+  labels.attractors=NULL, labels.basins=NULL,
+  label.infinity="infinity",
+  legend=TRUE,
+  attractorPoints=TRUE,
+  pch=1, cex=1,
+  main=getModelName(idmc_basin$model),
+  xlab=rasterXname(rasterObj),
+  ylab=rasterYname(rasterObj),
+  axes=TRUE, mar=NULL, bty=FALSE, ...)
 }
 \arguments{
  \item{x}{iDMC model object}
@@ -20,12 +29,13 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
  \item{color.infinity}{color for basin of infinity}
  \item{default.palette}{default palette function}
  \item{labels.attractors, labels.basins, label.infinity}{labels for attractors, basins and infinity (only used in legend)}
- \item{main}{plot title (set to NULL for disabling)}
+ \item{main, xlab, ylab, axes, mar, bty}{see \code{\link{plotGrob}}}
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
  \item{attractorPoints}{should attractor trajectories be superposed on plot?}
  \item{pch, cex}{attractor trajectories point type and relative size. Ignored if \code{attractorPoints==FALSE}}
  \item{add}{add to existing plot}
- \item{...}{arguments to and from other methods}
+ \item{...}{In \code{plot}: arguments passed to \code{basinGrob}. In
+  \code{basinGrob}: arguments passed to \code{\link[grid]{grob}}}
 }
 \description{
 Plots basins of attraction of 2-dim. discrete dynamical system
@@ -37,7 +47,7 @@ You can optionally add a colors legend (\code{legend=TRUE}) and superpose attrac
 (attractorPoints=TRUE).
 }
 \value{
-none. As a side effect, a (grid) plot is produced on current graphical device
+A \code{basinGrob} object. For \code{plot}, as a side effect, a (grid) plot is produced on current graphical device
 }
 \author{
 Antonio, Fabio Di Narzo
@@ -46,8 +56,19 @@ Antonio, Fabio Di Narzo
 \code{\link{Basin}}
 }
 \examples{
+m1 <- Model(exModelFile('henon'))
+b1 <- Basin(m1, c(1.42,0.3), c(-2,2), 50, c(-2, 2), 50, 100, 100)
+plot(b1)
+
 ##
-##See 'Basin' examples
+##ex-post plot editing
 ##
+grid.edit("basinGrob", grep=TRUE,
+  color.infinity="violet",
+  color.attractors="black",
+  color.basins="white")
+
+grid.edit("basinGrob", grep=TRUE,
+  attractorPoints=FALSE)
 }
 \keyword{hplot}

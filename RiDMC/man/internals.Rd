@@ -83,6 +83,7 @@
 \alias{polySidesY}
 \alias{segmentVerticalIntersection}
 \alias{sideYCrossesPtY}
+\alias{as.grob.idmc_basin}
 \title{
 RiDMC internal functions
 }
