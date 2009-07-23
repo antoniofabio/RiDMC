@@ -61,7 +61,7 @@ as.matrix.idmc_basin <- function(x, ...)
   na <- length(attrCodes)
   ans <- list()
   for(i in seq_along(attrCodes)) { ##for each attractor
-    ans[[i]] <- raster2Pts(obj, value=attrCodes[i])
+    ans[[as.character(attrCodes[i])]] <- raster2Pts(obj, value=attrCodes[i])
   }
   return(ans)
 }
