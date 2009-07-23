@@ -137,8 +137,9 @@ as.grob.Raster <- function(x, ...) {
   rasterGrob(x, ...)
 }
 
-plot.Raster <- function(x, y, ..., add=FALSE) {
-  pG <- as.grob(x, ...)
+plot.Raster <- function(x, y, main=getModelName(x$model),
+                        ..., add=FALSE) {
+  pG <- as.grob(x, main=main, ...)
   if(!add)
     grid.newpage()
   grid.draw(pG)
