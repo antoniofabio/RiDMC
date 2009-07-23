@@ -22,12 +22,12 @@ basinGrob(idmc_basin,
   axes=TRUE, mar=NULL, bty=FALSE, ...)
 }
 \arguments{
- \item{x}{iDMC model object}
+ \item{x, idmc_basin}{iDMC basin object}
  \item{y}{unused}
+ \item{rasterObj}{a \code{\link{Raster}} object, typically obtained from \code{\link{Basin}}}
  \item{color.attractors}{vector of attractor colors}
  \item{color.basins}{vector of basin colors}
  \item{color.infinity}{color for basin of infinity}
- \item{default.palette}{default palette function}
  \item{labels.attractors, labels.basins, label.infinity}{labels for attractors, basins and infinity (only used in legend)}
  \item{main, xlab, ylab, axes, mar, bty}{see \code{\link{plotGrob}}}
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
