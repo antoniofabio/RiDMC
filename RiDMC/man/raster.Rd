@@ -57,7 +57,7 @@ rasterCheckPoints(raster, pts, value=1)
 rasterSetPoints(raster, pts, value=1)
 raster2Pts(raster, value=1)
 
-\method{print}{Raster}(x, labels=NULL, ...)
+\method{print}{Raster}(x, labels=NULL, showContents=TRUE, ...)
 \method{plot}{Raster}(x, y, ..., add=FALSE)
 \method{lines}{Raster}(x, y, ...)
 \method{as.matrix}{Raster}(x, ...)
@@ -73,6 +73,7 @@ raster2Pts(raster, value=1)
   \item{width, height}{rectangle width and height}
   \item{x}{a Raster object}
   \item{labels}{labels for the raster numerical values}
+  \item{showContents}{should raster contents table be printed on screen?}
   \item{y}{ignored}
   \item{value, outvalue}{reference integer value to be set/to look for into Raster
     cells. It can be safely ignored for standard usage}

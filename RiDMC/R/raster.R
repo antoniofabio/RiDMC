@@ -118,22 +118,24 @@ rasterSetPoints <- function(raster, pts, value=1) {
   raster
 }
 
-print.Raster <- function(x, labels=NULL, ...) {
+print.Raster <- function(x, labels=NULL, showContents=TRUE, ...) {
   cat(rasterXname(x), ': [', paste(rasterXlim(x), collapse="; "), ']\n', sep='')
   cat(rasterYname(x), ': [', paste(rasterYlim(x), collapse="; "), ']\n', sep='')
   cat('resolution: ', rasterXres(x), ' x ', rasterYres(x), '\n', sep='')
-  cat('contents (%):')
-  freqs <- table(as.vector(x))
-  freqs <- freqs * 100 / sum(freqs)
-  if(!is.null(labels)) {
-    if(is.null(names(labels))) {
-      names(freqs) <- labels
-    } else {
-      names(freqs) <- labels[names(freqs)]
+  if(showContents) {
+    cat('contents (%):')
+    freqs <- table(as.vector(x))
+    freqs <- freqs * 100 / sum(freqs)
+    if(!is.null(labels)) {
+      if(is.null(names(labels))) {
+        names(freqs) <- labels
+      } else {
+        names(freqs) <- labels[names(freqs)]
+      }
+      cat('\n')
     }
-    cat('\n')
+    print(freqs, ...)
   }
-  print(freqs, ...)
 }
 
 lines.Raster <- function(x, y, ...) {

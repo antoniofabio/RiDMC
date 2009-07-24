@@ -76,11 +76,16 @@ print.idmc_basin <- function(x, ...){
   mdl <- getBasinModel(x)
   cat('= iDMC basins of attraction =\n')
   cat('Model: ', getModelName(mdl), '\n')
-  cat('x-range: ', paste(rasterXlim(x$raster), collapse=', '), '\n')
-  cat('y-range: ', paste(rasterYlim(x$raster), collapse=', '), '\n')
-  cat('resolution: ', rasterXres(x$raster), 'by', rasterYres(x$raster), '\n')
   cat('transient: ', x$attractorLimit, '\n')
   cat('attractor iterations: ', x$attractorIterations, '\n')
+  print(x$raster, showContents=FALSE)
+  freqs <- table(as.vector(x$raster))
+  freqs <- freqs * 100 / sum(freqs)
+  freqs <- freqs[(as.numeric(names(freqs)) %% 2) == 1]
+  labels <- makeBasinsLabels(x)
+  names(freqs) <- labels[names(freqs)]
+  cat('contents (%):\n')
+  print(freqs)
 }
 
 .basinRasterAttractorLevels <- function(rasterObj) {
