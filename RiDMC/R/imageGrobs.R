@@ -58,6 +58,11 @@ imageMapGrob <- function(values, breaks, palette, xlim=0:1, ylim=0:1, axes=TRUE,
 grid.imageMap <- function(...)
   grid.draw(imageMapGrob(...))
 
+.defaultPalette <- function(n) {
+  pp <- palette()
+  pp[((seq_len(n) - 1) %% length(pp)) + 1]
+}
+
 ############################################
 ##Indexed image plot, with optional legend##
 ############################################
@@ -72,7 +77,7 @@ rasterGrob <- function(raster, labels, palette,
   values <- as.matrix(raster)
   valuesTable <- as.character(sort(unique(as.vector(values))))
   if(missing(palette)) {
-    palette <- gray.colors(length(valuesTable))
+    palette <- .defaultPalette(length(valuesTable))
     names(palette) <- valuesTable
   }
   if(is.null(names(palette)))
