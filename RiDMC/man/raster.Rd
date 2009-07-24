@@ -23,6 +23,7 @@
 \alias{rasterCheckPoints}
 \alias{rasterSetPoints}
 \alias{raster2Pts}
+\alias{print.Raster}
 \alias{plot.Raster}
 \alias{lines.Raster}
 \alias{as.matrix.Raster}
@@ -56,6 +57,7 @@ rasterCheckPoints(raster, pts, value=1)
 rasterSetPoints(raster, pts, value=1)
 raster2Pts(raster, value=1)
 
+\method{print}{Raster}(x, ...)
 \method{plot}{Raster}(x, y, ..., add=FALSE)
 \method{lines}{Raster}(x, y, ...)
 \method{as.matrix}{Raster}(x, ...)
@@ -97,6 +99,7 @@ Antonio, Fabio Di Narzo
 \examples{
 A <- Raster(xlim=c(0, 100), ylim=c(0, 100), xres=100, yres=100)
 B <- rasterFillRect(A, x0=25, y0=75, width=50)
+B
 plot(B)
 
 F <- function(xy) xy + 10
