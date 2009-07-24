@@ -158,51 +158,44 @@ basinGrob <- function(idmc_basin,
                       ylab=rasterYname(rasterObj),
                       axes=TRUE, mar=NULL, bty=FALSE,
                       ...) {
-  grob(rasterObj=rasterObj,
-       color.attractors=color.attractors,
-       color.basins=color.basins,
-       color.infinity=color.infinity,
-       labels.attractors=labels.attractors,
-       labels.basins=labels.basins,
-       label.infinity=label.infinity,
-       legend=legend,
-       attractorPoints=attractorPoints,
-       pch=pch, cex=cex,
-       main=main, xlab=xlab, ylab=ylab, axes=axes,
-       mar=mar, bty=bty,
-       ...,
-       cl="basinGrob")
-}
-
-drawDetails.basinGrob <- function(x, recording) {
-  palette <- makeBasinsPalette(x$rasterObj,
-                               color.basins=x$color.basins,
-                               color.attractors=x$color.attractors,
-                               color.infinity=x$color.infinity)
-  rasterGrob <- rasterGrob(x$rasterObj,
-                           palette=palette,
-                           labels=makeBasinsLabels(x$rasterObj,
-                             labels.attractors=x$labels.attractors,
-                             labels.basins=x$labels.basins,
-                             label.infinity=x$label.infinity),
-                           legend=x$legend,
-                           main=x$main,
-                           xlab=x$xlab, ylab=x$ylab,
-                           axes=x$axes, mar=x$mar, bty=x$bty)
-  grid.draw(rasterGrob)
-  if(x$attractorPoints) {
-    depth <- downViewport('plotArea')
-    attractors <- .getBasinAttractors(x$rasterObj)
-    attractorLevels <- .basinRasterAttractorLevels(x$rasterObj)
+  palette <- makeBasinsPalette(rasterObj,
+                               color.basins=color.basins,
+                               color.attractors=color.attractors,
+                               color.infinity=color.infinity)
+  rG <- rasterGrob(rasterObj,
+                   palette=palette,
+                   labels=makeBasinsLabels(rasterObj,
+                     labels.attractors=labels.attractors,
+                     labels.basins=labels.basins,
+                     label.infinity=label.infinity),
+                   legend=legend,
+                   main=main,
+                   xlab=xlab, ylab=ylab,
+                   axes=axes, mar=mar, bty=bty)
+  if(attractorPoints) {
+    attractors <- .getBasinAttractors(rasterObj)
+    attractorLevels <- .basinRasterAttractorLevels(rasterObj)
     for(i in seq_along(attractors)) { ##for each attractor
       xx <- attractors[[i]]
-      grid.points(xx[,1], xx[,2], pch=x$pch, size=unit(x$cex, 'char'),
-                  name=paste("attractor", i),
-                  default.unit='native',
-                  gp=gpar(col=palette[as.character(attractorLevels[i])]))
+      ptGr <- pointsGrob(xx[,1], xx[,2], pch=pch, size=unit(cex, 'char'),
+                         name=paste("attractor", i),
+                         default.unit='native',
+                         gp=gpar(col=palette[as.character(attractorLevels[i])]),
+                         vp=vpPath("plotLayout", "rootArea", "plotArea"))
+      rG <- addGrob(rG, ptGr)
     }
-    upViewport(depth)
   }
+  gTree(color.attractors=color.attractors,
+        color.basins=color.basins,
+        color.infinity=color.infinity,
+        labels.attractors=labels.attractors,
+        labels.basins=labels.basins,
+        label.infinity=label.infinity,
+        attractorPoints=attractorPoints,
+        pch=pch, cex=cex,
+        children=gList(rG),
+        ...,
+        name="basinGrob", cl="basinGrob")
 }
 
 as.grob.idmc_basin <- function(x, ...) {
