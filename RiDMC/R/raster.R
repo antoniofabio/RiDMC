@@ -126,7 +126,11 @@ print.Raster <- function(x, labels=NULL, ...) {
   freqs <- table(as.vector(x))
   freqs <- freqs * 100 / sum(freqs)
   if(!is.null(labels)) {
-    names(freqs) <- labels
+    if(is.null(names(labels))) {
+      names(freqs) <- labels
+    } else {
+      names(freqs) <- labels[names(freqs)]
+    }
     cat('\n')
   }
   print(freqs, ...)
