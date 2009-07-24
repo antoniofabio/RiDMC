@@ -120,6 +120,14 @@ editDetails.rasterGrob <- function(x, specs){
   if(is.null(legend))
     legend <- getField(x, "legend")
   ans <- rasterGrob(getField(x, "raster"),
+                    main=getField(x, "main"),
+                    mar=getField(x, "mar"),
+                    xlab=getField(x, "xlab"),
+                    ylab=getField(x, "ylab"),
+                    xlim=getField(x, "xlim"),
+                    ylim=getField(x, "ylim"),
+                    axes=getField(x, "axes"),
+                    bty=getField(x, "bty"),
                     labels=labels,
                     palette=palette,
                     legend=legend)
