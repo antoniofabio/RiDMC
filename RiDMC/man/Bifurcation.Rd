@@ -102,35 +102,7 @@ popViewport(0)
 ##
 ##Bifurcation map
 ##
-m <- Model(text='
-name = "multiplier accelerator model"
-description = "Samuelson model with heterogeneous expectations, Jacobian available"
-type = "D"
-parameters = {"i", "b", "gamma", "mu1", "mu2", "k"}
-variables = {"Y", "Z"}
-
-function f(i, b, gamma, mu1, mu2, k, Y, Z)
-	eq = i/(1-b)
-
-	devY = (Y - eq)/eq
-	devZ = (Z - eq)/eq
-
-	e1Y = Y + mu1 * (Y - eq)
-	e2Y = Y + mu2 * (eq - Y)
-
-	e1Z = Z + mu1 * (Z - eq)
-	e2Z = Z + mu2 * (eq - Z)
-
-
-	wY = 1 / (1 + (gamma * devY)^2)
-	wZ = 1 / (1 + (gamma * devZ)^2)
-
-	Y1 = i + b*(1+k) * (wY * e1Y + (1-wY) * e2Y) - k*b*(wZ * e1Z + (1-wZ) * e2Z)
-	Z1 = Y
-
-	return  Y1, Z1
-end
-')
+m <- Model('Economic/multacc')
 par <- c(b=0.8, gamma=10, mu2=0.5, i=1000)
 k.range <- c(1, 2.3)
 mu1.range <- c(0, 1.6)

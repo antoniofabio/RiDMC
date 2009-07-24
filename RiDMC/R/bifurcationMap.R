@@ -51,8 +51,7 @@ as.matrix.idmc_bifurcation_map <- function(x, ...){
 print.idmc_bifurcation_map <- function(x, ...) {
   cat('= iDMC bifurcation map =\n')
   cat('Model: ', getModelName(x$model), '\n')
-  cat('varying parameters: (', x$which.par.x, ';', x$which.par.y, ')\n')
-  cat('resolution: ', rasterXres(x$values), 'x', rasterYres(x$values), '\n')
+  print(x$values)
 }
 
 plot.idmc_bifurcation_map <- function(x, y, main=getModelName(x$model),
