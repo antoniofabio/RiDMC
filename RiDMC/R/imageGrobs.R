@@ -68,6 +68,18 @@ grid.imageMap <- function(...)
   topo.colors(n)
 }
 
+makePalette <- function(values, howMany=7, paletteFun=topo.colors) {
+  if(!inherits(values, "matrix"))
+    values <- as.matrix(values)
+  allValues <- table(values)
+  topValues <- -sort(-allValues)[seq_len(howMany)]
+  palette <- paletteFun(howMany)
+  names(palette) <- names(topValues)
+  if(!all(allValues %in% topValues))
+    palette <- c(palette, other="white")
+  return(palette)
+}
+
 ############################################
 ##Indexed image plot, with optional legend##
 ############################################
