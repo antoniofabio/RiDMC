@@ -109,8 +109,12 @@ rasterGrob <- function(raster, labels, palette,
   if(legend) {
     if(is.null(names(labels)))
       names(labels) <- valuesTable
-    legendObj <- colorLegendGrob(palette[valuesTable],
-                                 labels[valuesTable],
+    order.A <- valuesTable %in% names(palette)
+    order.B <- !(names(palette) %in% valuesTable)
+    order <- c(valuesTable[order.A], names(palette)[order.B])
+    labels[names(palette)[order.B]] <- names(palette)[order.B]
+    legendObj <- colorLegendGrob(palette[order],
+                                 labels[order],
                                  name="rasterColorLegend")
   } else {
     legendObj <- NULL
