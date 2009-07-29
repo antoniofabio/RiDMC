@@ -136,8 +136,8 @@ print.Raster <- function(x, labels=NULL, showContents=TRUE, ...) {
     freqs <- -sort(-freqs)
     print(freqs[freqs >= 1], ...)
     if(sum(freqs < 1) > 0) {
-      cat('less than 1%: ', paste(names(freqs[freqs < 1]), collapse=", "),
-          "\n", sep="")
+      cat('less than 1%:\n')
+      print(names(freqs[freqs < 1]))
     }
   }
 }
