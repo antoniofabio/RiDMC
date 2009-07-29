@@ -59,8 +59,13 @@ grid.imageMap <- function(...)
   grid.draw(imageMapGrob(...))
 
 .defaultPalette <- function(n) {
-  pp <- palette()
-  pp[((seq_len(n) - 1) %% length(pp)) + 1]
+  if(FALSE) {
+    pp <- palette()
+    if(length(pp) < n)
+      pp[(length(pp)+1):n] <- "white"
+    return(pp)
+  }
+  topo.colors(n)
 }
 
 ############################################
