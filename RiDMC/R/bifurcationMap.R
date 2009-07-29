@@ -43,7 +43,12 @@ BifurcationMap <- function(idmc_model,
   class(ans) <- 'idmc_bifurcation_map'
   return(ans)
 }
-
+.getBifurcationMapLabels <- function(x) {
+  labels <- sort(unique(as.vector(as.matrix(x))))
+  names(labels) <- labels
+  labels[labels>x$max.period] <- "unknown"
+  labels
+}
 as.matrix.idmc_bifurcation_map <- function(x, ...){
   return(as.matrix(x$values))
 }
@@ -51,15 +56,15 @@ as.matrix.idmc_bifurcation_map <- function(x, ...){
 print.idmc_bifurcation_map <- function(x, ...) {
   cat('= iDMC bifurcation map =\n')
   cat('Model: ', getModelName(x$model), '\n')
-  labels <- sort(unique(as.vector(x$values)))
-  labels[labels>x$max.period] <- "unknown"
-  print(x$values, labels=labels, ...)
+  print(x$values, labels=.getBifurcationMapLabels(x), ...)
 }
 
 plot.idmc_bifurcation_map <- function(x, y, main=getModelName(x$model),
                                       legend=TRUE, palette, ...) {
   if(!missing(palette))
-    plot(x$values, main=main, legend=legend, palette=palette, ...)
+    plot(x$values, main=main, legend=legend, palette=palette,
+         labels=.getBifurcationMapLabels(x), ...)
   else
-    plot(x$values, main=main, legend=legend, ...)
+    plot(x$values, main=main, legend=legend,
+         labels=.getBifurcationMapLabels(x), ...)
 }

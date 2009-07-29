@@ -1,4 +1,5 @@
 0.10-8
+	improved bifurcation map labels
 	fixed some annoyances in rasterGrob editing
 	basins of attraction print method now shows raster contents on screen
 	lyap. exp. map print method now reuses raster print method
