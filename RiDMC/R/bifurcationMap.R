@@ -51,7 +51,9 @@ as.matrix.idmc_bifurcation_map <- function(x, ...){
 print.idmc_bifurcation_map <- function(x, ...) {
   cat('= iDMC bifurcation map =\n')
   cat('Model: ', getModelName(x$model), '\n')
-  print(x$values)
+  labels <- sort(unique(as.vector(x$values)))
+  labels[labels>x$max.period] <- "unknown"
+  print(x$values, labels=labels, ...)
 }
 
 plot.idmc_bifurcation_map <- function(x, y, main=getModelName(x$model),
