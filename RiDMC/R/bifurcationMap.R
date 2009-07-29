@@ -61,10 +61,11 @@ print.idmc_bifurcation_map <- function(x, ...) {
 
 plot.idmc_bifurcation_map <- function(x, y, main=getModelName(x$model),
                                       legend=TRUE, palette, ...) {
-  if(!missing(palette))
+  allLabels <- .getBifurcationMapLabels(x)
+  if(!missing(palette)) {
     plot(x$values, main=main, legend=legend, palette=palette,
-         labels=.getBifurcationMapLabels(x), ...)
-  else
-    plot(x$values, main=main, legend=legend,
-         labels=.getBifurcationMapLabels(x), ...)
+         labels=allLabels, ...)
+  } else {
+    plot(x$values, main=main, legend=legend, labels=allLabels, ...)
+  }
 }
