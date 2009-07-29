@@ -123,7 +123,7 @@ print.Raster <- function(x, labels=NULL, showContents=TRUE, ...) {
   cat(rasterYname(x), ': [', paste(rasterYlim(x), collapse="; "), ']\n', sep='')
   cat('resolution: ', rasterXres(x), ' x ', rasterYres(x), '\n', sep='')
   if(showContents) {
-    cat('contents (%):')
+    cat('contents (%):\n')
     freqs <- table(as.vector(x))
     freqs <- freqs * 100 / sum(freqs)
     if(!is.null(labels)) {
@@ -132,9 +132,13 @@ print.Raster <- function(x, labels=NULL, showContents=TRUE, ...) {
       } else {
         names(freqs) <- labels[names(freqs)]
       }
-      cat('\n')
     }
-    print(freqs, ...)
+    freqs <- -sort(-freqs)
+    print(freqs[freqs >= 1], ...)
+    if(sum(freqs < 1) > 0) {
+      cat('less than 1%: ', paste(names(freqs[freqs < 1]), collapse=", "),
+          "\n", sep="")
+    }
   }
 }
 
