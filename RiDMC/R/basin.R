@@ -119,7 +119,8 @@ makeBasinsPalette <- function(rasterObj,
   if(length(color.basins)<nb)
     color.basins <- c(color.basins, default.palette[seq(2, by=2, length=nb)])
   col <- numeric(0)
-  col["1"] <- color.infinity
+  if(any(1 == as.vector(as.matrix(rasterObj))))
+    col["1"] <- color.infinity
   col[as.character(attrCodes)] <- color.attractors[seq_len(na)]
   col[as.character(basCodes)] <- color.basins[seq_len(nb)]
   return(col)
