@@ -1,4 +1,4 @@
-0.10-8
+0.10-8	30 Jul 2009
 	improved palette specification in basins plot: now smarter and more flexible
 	improved palette specification in bifurcation maps: now smarter and more flexible
 	improved bifurcation map labels
