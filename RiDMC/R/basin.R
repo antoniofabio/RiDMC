@@ -102,12 +102,14 @@ makeBasinsPalette <- function(rasterObj,
                               color.attractors=NULL,
                               color.basins=NULL,
                               color.infinity='black',
-                              default.palette=rainbow) {
+                              paletteFun=rainbow) {
+  if(inherits(rasterObj, "idmc_basin"))
+    rasterObj <- rasterObj$raster
   attrCodes <- .basinRasterAttractorLevels(rasterObj)
   basCodes <- .basinRasterBasinLevels(rasterObj)
   na <- length(attrCodes)
   nb <- length(basCodes)
-  default.palette <- default.palette(na*2)
+  default.palette <- paletteFun(na*2)
   if(is.null(color.attractors))
     color.attractors <- default.palette[seq(1, by=2, length=na)]
   if(is.null(color.basins))
@@ -146,8 +148,7 @@ makeBasinsLabels <- function(rasterObj,
 
 basinGrob <- function(idmc_basin,
                       rasterObj=idmc_basin$raster,
-                      color.attractors=NULL, color.basins=NULL,
-                      color.infinity="black",
+                      palette=makeBasinsPalette(idmc_basin),
                       labels.attractors=NULL, labels.basins=NULL,
                       label.infinity="infinity",
                       legend=TRUE,
@@ -158,10 +159,6 @@ basinGrob <- function(idmc_basin,
                       ylab=rasterYname(rasterObj),
                       axes=TRUE, mar=NULL, bty=FALSE,
                       ...) {
-  palette <- makeBasinsPalette(rasterObj,
-                               color.basins=color.basins,
-                               color.attractors=color.attractors,
-                               color.infinity=color.infinity)
   rG <- rasterGrob(rasterObj,
                    palette=palette,
                    labels=makeBasinsLabels(rasterObj,
@@ -185,9 +182,7 @@ basinGrob <- function(idmc_basin,
       rG <- addGrob(rG, ptGr)
     }
   }
-  gTree(color.attractors=color.attractors,
-        color.basins=color.basins,
-        color.infinity=color.infinity,
+  gTree(palette=palette,
         labels.attractors=labels.attractors,
         labels.basins=labels.basins,
         label.infinity=label.infinity,

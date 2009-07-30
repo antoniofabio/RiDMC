@@ -1,4 +1,6 @@
 0.10-8
+	improved palette specification in basins plot: now smarter and more flexible
+	improved palette specification in bifurcation maps: now smarter and more flexible
 	improved bifurcation map labels
 	fixed some annoyances in rasterGrob editing
 	basins of attraction print method now shows raster contents on screen

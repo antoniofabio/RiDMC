@@ -1,6 +1,7 @@
 \name{plot.idmc_basin}
 \alias{plot.idmc_basin}
 \alias{basinGrob}
+\alias{makeBasinsPalette}
 \title{
 Computes basins of attraction for a 2-dim. discrete dynamical system
 }
@@ -9,8 +10,7 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
 
 basinGrob(idmc_basin,
   rasterObj=idmc_basin$raster,
-  color.attractors=NULL, color.basins=NULL,
-  color.infinity="black",
+  palette=makeBasinsPalette(idmc_basin),
   labels.attractors=NULL, labels.basins=NULL,
   label.infinity="infinity",
   legend=TRUE,
@@ -20,14 +20,19 @@ basinGrob(idmc_basin,
   xlab=rasterXname(rasterObj),
   ylab=rasterYname(rasterObj),
   axes=TRUE, mar=NULL, bty=FALSE, ...)
+
+makeBasinsPalette(rasterObj,
+  color.attractors=NULL,
+  color.basins=NULL,
+  color.infinity='black',
+  paletteFun=rainbow)
 }
 \arguments{
  \item{x, idmc_basin}{iDMC basin object}
  \item{y}{unused}
- \item{rasterObj}{a \code{\link{Raster}} object, typically obtained from \code{\link{Basin}}}
- \item{color.attractors}{vector of attractor colors}
- \item{color.basins}{vector of basin colors}
- \item{color.infinity}{color for basin of infinity}
+ \item{rasterObj}{a \code{\link{Raster}} object, typically obtained from
+   \code{\link{Basin}}}
+ \item{palette}{raster image palette}
  \item{labels.attractors, labels.basins, label.infinity}{labels for attractors, basins and infinity (only used in legend)}
  \item{main, xlab, ylab, axes, mar, bty}{see \code{\link{plotGrob}}}
  \item{legend}{should a legend be showed? (TRUE or FALSE)}
@@ -35,7 +40,11 @@ basinGrob(idmc_basin,
  \item{pch, cex}{attractor trajectories point type and relative size. Ignored if \code{attractorPoints==FALSE}}
  \item{add}{add to existing plot}
  \item{...}{In \code{plot}: arguments passed to \code{basinGrob}. In
-  \code{basinGrob}: arguments passed to \code{\link[grid]{grob}}}
+   \code{basinGrob}: arguments passed to \code{\link[grid]{grob}}}
+ \item{color.attractors}{vector of attractor colors}
+ \item{color.basins}{vector of basin colors}
+ \item{color.infinity}{color for basin of infinity}
+ \item{paletteFun}{default palette function}
 }
 \description{
 Plots basins of attraction of 2-dim. discrete dynamical system
