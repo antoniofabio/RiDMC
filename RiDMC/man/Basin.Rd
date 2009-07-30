@@ -62,7 +62,18 @@ plot(b1)
 
 ##Using the slow algorithm for a more complex model:
 m2 <- Model('cremona')
-b2 <- Basin(m2, 1.33, c(-1.2, 1.2), 300, c(-1.2, 1.2), 300, 1000, 1000, method='slow', ntries=1000, seed=123)
+\dontrun{
+b2 <- Basin(m2, 1.33, xlim=c(-1.2, 1.2), xres=300,
+  ylim=c(-1.2, 1.2), yres=300,
+  attractorLimit=1000, attractorIterations=1000,
+  method='slow', ntries=1000, seed=123)
+}
+\dontshow{
+b2 <- Basin(m2, 1.33, xlim=c(-1.2, 1.2), xres=50,
+  ylim=c(-1.2, 1.2), yres=50,
+  attractorLimit=1000, attractorIterations=1000,
+  method='slow', ntries=1000, seed=123)
+}
 plot(b2)
 ##A plot with no annotations:
 plot(b2, legend=FALSE, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
@@ -71,7 +82,9 @@ plot(b2, legend=FALSE, axes=FALSE, xlab=NULL, ylab=NULL, main=NULL)
 #A simple case with just 1 attractor:
 plot(b1, color.attractors='blue', color.basins='green', color.infinity='white')
 #Improve plot resolution, then add trajectory points:
+\dontrun{
 b1 <- Basin(m1, c(1.42,0.3), c(-2,2), 500, c(-2, 2), 500, 100, 100)
+}
 plot(b1, legend=TRUE, attractorPoints=TRUE, pch=1, cex=1)
 
 \dontshow{
