@@ -16,8 +16,8 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
 
 BifurcationMap(idmc_model,
   par, var,
-  which.par.x=1, par.x.range, par.x.howMany=100,
-  which.par.y=2, par.y.range, par.y.howMany=100,
+  which.par.x, par.x.range, par.x.howMany=100,
+  which.par.y, par.y.range, par.y.howMany=100,
   transient=100, max.period=50,
   eps=1e-3)
 \method{as.matrix}{idmc_bifurcation}(x, ...)
