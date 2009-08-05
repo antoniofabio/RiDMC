@@ -8,7 +8,7 @@ Lyapunov exponents map in parameter space for continuous and discrete-time dynam
 }
 \usage{
 LyapunovExponentsMap(idmc_model, par, var, time, eps,
-  par.x = 1, par.x.range, par.x.howMany=100, par.y = 2, par.y.range, par.y.howMany=100,
+  par.x, par.x.range, par.x.howMany=100, par.y, par.y.range, par.y.howMany=100,
   eps.zero=sqrt(.Machine$double.eps))
 \method{print}{idmc_lexp_map}(x, ...)
 \method{as.matrix}{idmc_lexp_map}(x, ...)

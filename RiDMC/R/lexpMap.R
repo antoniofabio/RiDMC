@@ -1,21 +1,25 @@
 LyapunovExponentsMap <- function(idmc_model, par, var, time, eps,
-                                 par.x = 1, par.x.range, par.x.howMany=100,
-                                 par.y = 2, par.y.range, par.y.howMany=100,
+                                 par.x, par.x.range, par.x.howMany=100,
+                                 par.y, par.y.range, par.y.howMany=100,
                                  eps.zero=sqrt(.Machine$double.eps)) {
   stopifnot(getModelNPar(idmc_model) >= 2)
   var <- .sanitizeNamedVector(var, getModelVarNames(idmc_model))
   npar <- getModelNPar(idmc_model)
+  if(npar > 2) {
+    stopifnot(sum(is.finite(par)) >= (npar - 2))
+  }
+  var <- .sanitizeNamedVector(var, getModelVarNames(m))
   parNames <- getModelParNames(idmc_model)
   names(parNames) <- parNames
+  par <- .sanitizeNamedVector(par, parNames)
+  stopifnot(sum(is.finite(par)) >= (getModelNPar(m) - 2))
+  if(missing(par.x))
+    par.x <- which(!is.finite(par))[1]
+  if(missing(par.y))
+    par.y <- which(!is.finite(par))[2]
   par.x <- parNames[par.x]
   par.y <- parNames[par.y]
   stopifnot(par.x != par.y)
-  if(npar > 2) {
-    stopifnot(!missing(par))
-    stopifnot(!(par.x %in% names(par)))
-    stopifnot(!(par.y %in% names(par)))
-  }
-  par <- .sanitizeNamedVector(par, parNames)
   checkModelParVar(idmc_model, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
   modelType <- getModelType(idmc_model)
