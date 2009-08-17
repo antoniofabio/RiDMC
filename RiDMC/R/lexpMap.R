@@ -148,8 +148,8 @@ print.idmc_lexp_map <- function(x, ...) {
   cat('=iDMC Lyapunov exponents map=\n')
   cat('Model: ', getModelName(m), '\n')
   cat('Starting point: ')
-    tmp <- getModelVarNames(m)
-    cat(paste(tmp, signif(x$var), sep=' = ', collapse=', '), '\n')
+  tmp <- getModelVarNames(m)
+  cat(paste(tmp, signif(x$var), sep=' = ', collapse=', '), '\n')
   if(getModelNPar(m) > 2){
     cat('Fixed parameter values: ')
     tmp <- names(x$par)
