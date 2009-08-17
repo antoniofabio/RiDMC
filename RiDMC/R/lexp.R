@@ -2,6 +2,8 @@ lexp <- function(idmc_model, par, var, time, eps) {
   m <- idmc_model
   checkModelParVar(m, par, var, deparse(substitute(idmc_model)))
   checkPositiveScalar(time)
+  par <- .sanitizeNamedVector(par, getModelParNames(m))
+  var <- .sanitizeNamedVector(var, getModelVarNames(m))
   if(getModelType(m)=='C') {
     if(missing(eps)) {
       eps <- getOption('ts.eps')
