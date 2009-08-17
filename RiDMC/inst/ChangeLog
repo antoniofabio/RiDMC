@@ -1,4 +1,5 @@
-0.10-9
+0.10-9	17 Aug 2009
+	added 'makePalette' utility fun. manpage
 	improved lexp input par and var args handling
 	improved LyapunovExponentsMap and BifurcationMap input handling for 2-parms models
 
