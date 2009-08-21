@@ -1,4 +1,5 @@
 0.10-10
+	improved getModelMap function: now can handle matrix input
 
 0.10-9	17 Aug 2009
 	added 'makePalette' utility fun. manpage

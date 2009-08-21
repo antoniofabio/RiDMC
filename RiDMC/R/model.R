@@ -115,8 +115,12 @@ getModelF <- function(model) {
 }
 
 getModelMap <- function(model, par) {
-  F <- model$f
+  numVariables <- getModelNVar(model)
+  f <- function(var) model$f(var=var, par=par)
   return(function(var) {
-         F(var, par=par)
-       })
+    if(!is.matrix(var))
+      return(f(var))
+    stopifnot(NCOL(var) == numVariables)
+    return(t(apply(var, 1, f)))
+  })
 }
