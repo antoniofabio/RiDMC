@@ -107,3 +107,12 @@ uniqueSet <- function(lst, compfun) {
   stopifnot(x > 0 && x <= length(values))
   return(x)
 }
+
+makeFunPower <- function(fun, k=2) {
+  fun <- match.fun(fun)
+  return(function(x) {
+    for(i in seq_len(k))
+      x <- fun(x)
+    return(x)
+  })
+}
