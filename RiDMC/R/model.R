@@ -115,6 +115,8 @@ getModelF <- function(model) {
 }
 
 getModelMap <- function(model, par) {
+  par <- .sanitizeNamedVector(par, getModelParNames(model))
+  stopifnot(all(is.finite(par)))
   numVariables <- getModelNVar(model)
   f <- function(var) model$f(var=var, par=par)
   return(function(var) {
