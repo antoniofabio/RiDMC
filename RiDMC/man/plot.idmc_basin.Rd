@@ -40,7 +40,7 @@ makeBasinsPalette(rasterObj,
  \item{pch, cex}{attractor trajectories point type and relative size. Ignored if \code{attractorPoints==FALSE}}
  \item{add}{add to existing plot}
  \item{...}{In \code{plot}: arguments passed to \code{basinGrob}. In
-   \code{basinGrob}: arguments passed to \code{\link[grid]{grob}}}
+   \code{basinGrob}: arguments passed to \code{\link{grob}}}
  \item{color.attractors}{vector of attractor colors}
  \item{color.basins}{vector of basin colors}
  \item{color.infinity}{color for basin of infinity}

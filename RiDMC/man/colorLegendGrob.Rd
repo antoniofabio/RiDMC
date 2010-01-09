@@ -14,7 +14,7 @@ colorLegendGrob(colors, labels,
   \item{labels}{vector of labels}
   \item{x, y}{top-left corner legend position}
   \item{numColumns}{the legend will span that many columns}
-  \item{name, gp, vp}{see \code{\link[grid]{grob}}}
+  \item{name, gp, vp}{see \code{\link{grob}}}
 }
 \description{
 A classic color legend graphical object.

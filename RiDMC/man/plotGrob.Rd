@@ -20,7 +20,7 @@ plotGrob(contents=NULL, main=NULL, xlab=NULL, ylab=NULL,
  \item{mar}{plot margins in 'number of lines' (see \code{\link{par}})}
  \item{legendObj}{a graphical object to be rendered on the right margin
    (usually a legend)}
- \item{name, gp, vp}{see \code{\link[grid]{grob}}}
+ \item{name, gp, vp}{see \code{\link{grob}}}
 }
 \description{
 Stadard annotated plot graphical object
