@@ -79,7 +79,7 @@ print.idmc_model <- function(x, ...){
   cat('Parameters: ', paste(getModelParNames(x), collapse=", "),'\n')
   cat('Variables: ', paste(getModelVarNames(x), collapse=", "),'\n')
   cat('Has inverse: ', getModelHasInverse(x)!=0,'\n')
-  cat('Has jacobian: ', getModelHasJacobian(x)!=0,'\n')
+  cat('Has Jacobian: ', getModelHasJacobian(x)!=0,'\n')
 }
 
 summary.idmc_model <- function(object, ...)
