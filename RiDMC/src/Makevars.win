@@ -1,2 +1,13 @@
-PKG_LIBS=-L../winbin -llua -lgsl -lgslcblas -llua
-PKG_CPPFLAGS=-I../winbin/include -I../winbin/include/lua5.1 -I./idmclib -I.
+PKG_CPPFLAGS=-I$(LIB_GSL)/include -I./lua-5.1.4/src -I./idmclib -I.
+PKG_LIBS=-L$(LIB_GSL)/lib -lgsl -lgslcblas -L./lua-5.1.4/src -llua
+
+.PHONY: all lua clean
+     
+all: $(SHLIB)
+$(SHLIB): lua
+     
+lua:
+	(cd lua-5.1.4; make mingw)
+
+clean:
+	(cd lua-5.1.4; make clean)
