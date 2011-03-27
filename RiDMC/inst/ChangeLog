@@ -1,3 +1,5 @@
+0.10-12
+
 0.10-11 27 Apr 2010
 	fix configure script: add lua5.1 include folder to cflags via pkg-config
 
