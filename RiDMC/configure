@@ -558,6 +558,7 @@ ac_subst_vars='LTLIBOBJS
 LIBOBJS
 GSL_LIBS
 GSL_CFLAGS
+LUA_CFLAGS
 OBJEXT
 EXEEXT
 ac_ct_CC
@@ -2729,8 +2730,10 @@ else
   as_fn_error "Cannot find lua library" "$LINENO" 5
 fi
 
+LUA_CFLAGS=`pkg-config --cflags lua5.1`
 
 # Now substitute these variables in src/Makevars.in to create src/Makevars
+
 
 
 

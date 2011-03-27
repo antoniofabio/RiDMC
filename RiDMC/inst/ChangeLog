@@ -1,4 +1,5 @@
-0.10-11
+0.10-11 27 Apr 2010
+	fix configure script: add lua5.1 include folder to cflags via pkg-config
 
 0.10-10 26 Dec 2010
 	rm windows binaries from the source distrib: now include full lua-5.1.4 sources

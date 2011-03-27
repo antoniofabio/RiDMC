@@ -42,11 +42,13 @@ else
 fi
 
 AC_SEARCH_LIBS(luaL_newstate, lua lua5.1,,[AC_MSG_ERROR([Cannot find lua library])])
+LUA_CFLAGS=`pkg-config --cflags lua5.1`
 
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 AC_SUBST(LIBS)
+AC_SUBST(LUA_CFLAGS)
 AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
 AC_OUTPUT(src/Makevars)
