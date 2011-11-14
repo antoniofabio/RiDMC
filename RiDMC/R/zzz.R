@@ -1,3 +1,3 @@
 .onAttach <- function(libname, pkgname) {
-  message('using idmclib version ', paste(idmclibVersion(), collapse='.'))
+  packageStartupMessage('using idmclib version ', paste(idmclibVersion(), collapse='.'))
 }
