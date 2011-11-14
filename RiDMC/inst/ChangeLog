@@ -1,4 +1,5 @@
 0.10-14 14 Nov 2011
+	rm unused debugging C code (flagged as suspicious by R CMD check)
 	fix Makevars.win, as suggested by B. Ripley: now it works on Win64 too
 
 0.10-13 03 Aug 2011
