@@ -24,42 +24,6 @@ Last modified: $Date$
 #include <gsl/gsl_linalg.h>
 #include "matrices.h"
 
-void vector_out(gsl_vector* v){
-	int i;
-	int d=(*v).size;
-	printf("(");
-	for (i=0;i<d;i++){
-		printf("%.5e ",gsl_vector_get(v,i));
-	}	
-	printf(")\n");
-}
-
-void matrix_out(gsl_matrix* m){
-	printf("[");
-	int i,j;
-	int d1=(*m).size1;
-	int d2=(*m).size2;
-	for (i=0;i<d1;i++){
-		for (j=0;j<d2;j++){
-			printf("%.5e ",gsl_matrix_get(m,i,j));
-		}
-		if (i<d1-1) 
-			printf("\n");
-		else
-			printf("]\n");
-	}	
-}
-
-void vector_arr_out(double* v,int n){
-	gsl_vector_view vv=gsl_vector_view_array(v,n);
-	vector_out(&vv.vector);
-}
-
-void matrix_arr_out(double* v,int m,int n){
-	gsl_matrix_view mv=gsl_matrix_view_array(v,m,n);
-	matrix_out(&mv.matrix);
-}
-
 /*only matrices in the heap may be cloned (and then freed) */
 gsl_matrix* clone_matrix(gsl_matrix* m){
 	gsl_matrix* m1=gsl_matrix_alloc((*m).size1,(*m).size2);
