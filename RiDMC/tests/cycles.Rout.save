@@ -1,9 +1,36 @@
+
+R version 2.14.0 Patched (2011-11-07 r57600)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-unknown-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
 > ##
 > ##Periodic cycles scanning
 > ##
 > library(RiDMC)
-Carico il pacchetto richiesto: grid
-loaded idmclib version 0.10.1
+Loading required package: grid
+using idmclib version 0.10.3
+
+Attaching package: ‘RiDMC’
+
+The following object(s) are masked from ‘package:grid’:
+
+    rasterGrob
+
 > 
 > model <- Model(exModelFile('logistic'))
 > cyc <- cycles_find(model, 3.25, 0.5, 2, 1e-6)
@@ -57,10 +84,10 @@ Cycle of period  2
 Classification:  stable 
 Trajectory:
           x
-[1,] 0.4953
-[2,] 0.8124
+[1,] 0.8124
+[2,] 0.4953
 
 > 
 > proc.time()
    user  system elapsed 
-  2.156   0.048   3.267 
+  0.460   0.050   0.548 

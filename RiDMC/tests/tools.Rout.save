@@ -1,6 +1,33 @@
+
+R version 2.14.0 Patched (2011-11-07 r57600)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-unknown-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
 > library(RiDMC)
-Carico il pacchetto richiesto: grid
-loaded idmclib version 0.10.3
+Loading required package: grid
+using idmclib version 0.10.3
+
+Attaching package: ‘RiDMC’
+
+The following object(s) are masked from ‘package:grid’:
+
+    rasterGrob
+
 > 
 > uniqueSet(list(c(3, 10),
 +                c(3, 21),
@@ -31,4 +58,4 @@ loaded idmclib version 0.10.3
 > 
 > proc.time()
    user  system elapsed 
-  1.348   0.012   1.566 
+  0.380   0.030   0.372 
