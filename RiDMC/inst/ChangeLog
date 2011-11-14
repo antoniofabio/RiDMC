@@ -1,3 +1,5 @@
+0.10-15
+
 0.10-14 14 Nov 2011
 	better guidelines complying startup message
 	rm unused debugging C code (flagged as suspicious by R CMD check)
