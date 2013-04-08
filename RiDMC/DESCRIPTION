@@ -9,4 +9,4 @@ Depends: grid
 Suggests: tcltk
 Description: R interface to the idmclib library
 License: GPL-2
-SystemRequirements: Lua version 5.1
+SystemRequirements: Lua version 5.1, Gnu Scientific Library version >= 1.12
