@@ -5,6 +5,7 @@ Version: 0.10-16
 Date: 2013-04-08
 Author: Antonio, Fabio Di Narzo
 Maintainer: Antonio Fabio Di Narzo <antonio.fabio@gmail.com>
+URL: https://github.com/antoniofabio/RiDMC
 Depends: grid
 Suggests: tcltk
 Description: R interface to the idmclib library
