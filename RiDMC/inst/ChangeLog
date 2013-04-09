@@ -1,4 +1,5 @@
-0.10-15
+0.10-15 21 Dec 2011
+	fix Makevars.win, as suggested by B. Ripley: now it handles with-spaces macros correctly
 
 0.10-14 14 Nov 2011
 	better guidelines complying startup message
