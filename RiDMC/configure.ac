@@ -42,7 +42,32 @@ else
 fi
 
 AC_SEARCH_LIBS(luaL_newstate, lua lua5.1,,[AC_MSG_ERROR([Cannot find lua library])])
-LUA_CFLAGS=`pkg-config --cflags lua5.1`
+LUA_CFLAGS=`pkg-config --cflags lua  2> /dev/null || pkg-config --cflags lua5.1 2> /dev/null`
+CPPFLAGS="$CPPFLAGS $LUA_CFLAGS"
+AC_CHECK_HEADERS([lua.h])
+AC_MSG_CHECKING([if Lua version = 5.1.x])
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <lua.h>
+int main() {
+#ifdef LUA_VERSION_NUM
+  if (LUA_VERSION_NUM == 501) {
+    exit(0);
+  } else {
+    exit(1);
+  }
+#else
+  exit(1);
+#endif
+}
+]])],
+[lua_version_ok=yes],
+[lua_version_ok=no],
+[lua_version_ok=yes])
+if test "${lua_version_ok}" = no; then
+  AC_MSG_ERROR([Need Lua version 5.1])
+else
+  AC_MSG_RESULT([yes])
+fi
 
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(CPPFLAGS)
