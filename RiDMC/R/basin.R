@@ -177,7 +177,7 @@ basinGrob <- function(idmc_basin,
       xx <- attractors[[i]]
       ptGr <- pointsGrob(xx[,1], xx[,2], pch=pch, size=unit(cex, 'char'),
                          name=paste("attractor", i),
-                         default.unit='native',
+                         default.units='native',
                          gp=gpar(col=palette[as.character(attractorLevels[i])]),
                          vp=vpPath("plotLayout", "rootArea", "plotArea"))
       rG <- addGrob(rG, ptGr)

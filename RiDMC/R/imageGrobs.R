@@ -53,7 +53,7 @@ imageMapGrob <- function(values, breaks, palette, xlim=0:1, ylim=0:1, axes=TRUE,
     lg <- NULL
   }
   return(plotGrob(cg, axes=axes, mar=c(2,2,2,6), xlim=xlim, ylim=ylim,
-                  respect=respect, legend=lg))
+                  respect=respect, legendObj=lg))
 }
 grid.imageMap <- function(...)
   grid.draw(imageMapGrob(...))

@@ -1,3 +1,6 @@
+0.10-16 April 9, 2013
+	fix partial args matching in basingGrob and imageMapGrob
+
 0.10-15
 
 0.10-14 14 Nov 2011
