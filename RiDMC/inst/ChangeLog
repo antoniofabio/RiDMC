@@ -1,4 +1,9 @@
 0.10-16 April 9, 2013
+	configure script checks for lua version in a more robust way:
+	   pkg-config tries for both 'lua' and 'lua5.1' as a package name;
+	   lua version is verified by looking at the header files.
+	   looks to be working as expected on ubuntu-12.04 and fedora-17.
+	fix Description: add lua and gsl system requirements
 	fix partial args matching in basingGrob and imageMapGrob
 
 0.10-15 21 Dec 2011
