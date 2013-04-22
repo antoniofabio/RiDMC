@@ -2902,7 +2902,7 @@ return luaL_newstate ();
   return 0;
 }
 _ACEOF
-for ac_lib in '' lua lua5.1; do
+for ac_lib in '' lua5.1 lua; do
   if test -z "$ac_lib"; then
     ac_res="none required"
   else

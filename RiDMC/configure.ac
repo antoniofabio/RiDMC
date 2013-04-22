@@ -41,7 +41,7 @@ else
   AC_MSG_RESULT([yes])
 fi
 
-AC_SEARCH_LIBS(luaL_newstate, lua lua5.1,,[AC_MSG_ERROR([Cannot find lua library])])
+AC_SEARCH_LIBS(luaL_newstate, lua5.1 lua,,[AC_MSG_ERROR([Cannot find lua library])])
 LUA_CFLAGS=`pkg-config --cflags lua  2> /dev/null || pkg-config --cflags lua5.1 2> /dev/null`
 CPPFLAGS="$CPPFLAGS $LUA_CFLAGS"
 AC_CHECK_HEADERS([lua.h])
