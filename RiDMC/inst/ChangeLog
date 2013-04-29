@@ -1,3 +1,6 @@
+0.10-17 April 29, 2013
+	drop spurious '.gitignore' file from package boundle
+
 0.10-16 April 9, 2013
 	configure script checks for lua version in a more robust way:
 	   pkg-config tries for both 'lua' and 'lua5.1' as a package name;
