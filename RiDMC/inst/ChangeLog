@@ -1,3 +1,8 @@
+0.10-18 April 29, 2013
+	configure script: use pkg-config to determine lua LDFLAGS more reliably;
+	  use 'R CMD config' to determine the right compiler and flags, as per
+	  R manual.
+
 0.10-17 April 29, 2013
 	drop spurious '.gitignore' file from package boundle
 

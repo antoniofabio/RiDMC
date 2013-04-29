@@ -1,6 +1,15 @@
 # largely copied/adapted from the gsl R package
 AC_INIT([src/ridmc.c])
 
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+   echo "could not determine R_HOME"
+   exit 1
+fi
+CC=`"${R_HOME}/bin/R" CMD config CC`
+CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`
+
 # Following lines kindly supplied by Dirk Eddelbuettel
 ## Use gsl-config to find arguments for compiler and linker flags
 ##
@@ -41,12 +50,17 @@ else
   AC_MSG_RESULT([yes])
 fi
 
-AC_SEARCH_LIBS(luaL_newstate, lua5.1 lua,,[AC_MSG_ERROR([Cannot find lua library])])
-LUA_CFLAGS=`pkg-config --cflags lua  2> /dev/null || pkg-config --cflags lua5.1 2> /dev/null`
+PKG_PROG_PKG_CONFIG
+
+PKG_CHECK_MODULES([LUA], [lua > 5.1 lua < 5.2],,
+   [PKG_CHECK_MODULES([LUA], [lua5.1],,)])
+
 CPPFLAGS="$CPPFLAGS $LUA_CFLAGS"
+LDFLAGS="$LDFLAGS $LUA_LIBS"
 AC_CHECK_HEADERS([lua.h])
 AC_MSG_CHECKING([if Lua version = 5.1.x])
 AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <stdlib.h>
 #include <lua.h>
 int main() {
 #ifdef LUA_VERSION_NUM
@@ -70,10 +84,8 @@ else
 fi
 
 # Now substitute these variables in src/Makevars.in to create src/Makevars
-AC_SUBST(CPPFLAGS)
-AC_SUBST(LDFLAGS)
-AC_SUBST(LIBS)
-AC_SUBST(LUA_CFLAGS)
 AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
+AC_SUBST(LUA_CFLAGS)
+AC_SUBST(LUA_LIBS)
 AC_OUTPUT(src/Makevars)
